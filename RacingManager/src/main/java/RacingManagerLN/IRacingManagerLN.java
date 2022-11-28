@@ -1,6 +1,10 @@
 package RacingManagerLN;
 
 import RacingManagerLN.SubGestaoCC.Campeonato;
+import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
+import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
+import RacingManagerLN.SubGestaoCC.Circuito.Curva;
+import RacingManagerLN.SubGestaoCC.Circuito.Reta;
 import RacingManagerLN.SubGestaoCP.Carro.Carro;
 import RacingManagerLN.SubGestaoCP.Piloto;
 import RacingManagerLN.SubGestaoUsers.User;
@@ -11,9 +15,9 @@ public interface IRacingManagerLN {
 
     public boolean efetuaLogin(String aUsername, String aPassword);
 
-    public void logout();
+    public boolean existeUser(String username);
 
-    public void registaUser(String aUsername, String aPassword);
+    public boolean registaUser(String aUsername, String aPassword, boolean isAdmin);
 
     public void adicionarC1(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac);
 
@@ -39,7 +43,13 @@ public interface IRacingManagerLN {
 
     public List<String> getCampeonatos();
 
-    public void adicionarCampeonato(String aNomeCampeonato, int aNjogadores);
+    public List<String> getCircuitos();
+
+    public Circuito getCircuito(String nomeCircuito);
+
+    public boolean adicionarCampeonato(String aNomeCampeonato, int aNjogadores, List<Circuito> l);
+
+    public boolean adicionaCircuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numCurvas, int numChicanes, List<Reta> allRetas, List<Curva> allCurvas, List<Chicane> allChicanes);
 
     public int getTipoCarro(String aNomeCampeonato, String aUsername);
 
@@ -53,7 +63,13 @@ public interface IRacingManagerLN {
 
     public void setUserAtual(String aUsername);
 
+    public String getCurrentUser();
+
+    public User getUser(String username);
+
     public void removerCarro(String aIdCarro);
 
     public void adicionaInscricao(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto);
+
+    public String consultaCampeonato(String nomeCampeonato);
 }

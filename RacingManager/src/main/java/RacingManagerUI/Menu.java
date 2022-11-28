@@ -1,11 +1,13 @@
 package RacingManagerUI;
+import RacingManagerLN.Exceptions.SintaxeIncorretaException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
     public interface Handler {
-        public void execute();
+        public void execute() throws SintaxeIncorretaException;
     }
 
 
@@ -76,8 +78,13 @@ public interface PreCondition {
 
             if (option > 0 && !this.preC.get(option - 1).validate())
                 System.out.print("\nOpção indisponível!");
-            else if (option > 0)
-                this.handlers.get(option - 1).execute();
+            else if (option > 0) {
+                try {
+                    this.handlers.get(option - 1).execute();
+                } catch (SintaxeIncorretaException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         } while (this.exit == false);
     }
 
@@ -99,7 +106,7 @@ public interface PreCondition {
                 System.out.print(i + 1);
                 System.out.print(" -");
                 System.out.print(this.options.get(i));
-                System.out.print("\u001B[33m"+"__________________________________________________________________________________________\n"+"\u001B[33m");
+                System.out.print("\u001B[33m"+"\n__________________________________________________________________________________________"+"\u001B[33m");
             }
         }
     }

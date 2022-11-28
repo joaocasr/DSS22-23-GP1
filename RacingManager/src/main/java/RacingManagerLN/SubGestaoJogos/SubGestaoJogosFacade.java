@@ -6,11 +6,16 @@ import RacingManagerLN.SubGestaoCP.Piloto;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SubGestaoJogosFacade {
     private Map<String, List<Inscricao>> allInscricoes;
+
+    public SubGestaoJogosFacade(){
+        this.allInscricoes = new HashMap<>();
+    }
 
     public void guardaEscolhasUser(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto) {
         Inscricao inscricao = new Inscricao(aUser,aCampeonato,aCarro,aPiloto);

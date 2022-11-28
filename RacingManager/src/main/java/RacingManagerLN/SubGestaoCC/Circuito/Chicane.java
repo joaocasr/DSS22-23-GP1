@@ -24,4 +24,12 @@ public class Chicane {
     public void setGdu(int gdu) {
         this.gdu = gdu;
     }
+
+    @Override
+    public String toString() {
+        return "Chicane{" +
+                "idChicane='" + idChicane + '\'' +
+                ", gdu=" + gdu +
+                '}';
+    }
 }

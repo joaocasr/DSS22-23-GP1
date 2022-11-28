@@ -2,8 +2,11 @@ package RacingManagerLN.SubGestaoCC;
 
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Campeonato {
     private String nomeCampeonato;
@@ -12,20 +15,41 @@ public class Campeonato {
     private List<Integer> pontuacoes;
     private List<Circuito> circuitosCampeonato;
 
+    public Campeonato(String nomeCampeonato, int participantes, Map<String, Integer> classificacaoCampeonato, List<Integer> pontuacoes, List<Circuito> circuitosCampeonato) {
+        this.nomeCampeonato = nomeCampeonato;
+        this.participantes = participantes;
+        this.classificacaoCampeonato = classificacaoCampeonato;
+        this.pontuacoes = pontuacoes;
+        this.circuitosCampeonato = circuitosCampeonato;
+    }
+
+    public Campeonato(String nomeCampeonato, int participantes, List<Circuito> circuitosCampeonato) {
+        this.nomeCampeonato = nomeCampeonato;
+        this.participantes = participantes;
+        setCircuitos(circuitosCampeonato);
+    }
+
+    public Campeonato(Campeonato c){
+        this.nomeCampeonato = c.getNomeCampeonato();
+        this.participantes = c.getParticipantes();
+        this.classificacaoCampeonato = c.getClasssificacaoCamp();
+        this.circuitosCampeonato = c.getCircuitos();
+    }
+
     public List<Circuito> getCircuitos() {
-        throw new UnsupportedOperationException();
+        return this.circuitosCampeonato.stream().map(Circuito::clone).collect(Collectors.toList());
     }
 
     public void setCircuitos(List<Circuito> aCircuitos) {
-        throw new UnsupportedOperationException();
+        this.circuitosCampeonato = aCircuitos.stream().map(Circuito::clone).collect(Collectors.toList());
     }
 
     public void addCircuito(Circuito aCircuito) {
-        throw new UnsupportedOperationException();
+        this.circuitosCampeonato.add(aCircuito);
     }
 
     public void removeCircuito(String aCircNome) {
-        throw new UnsupportedOperationException();
+        this.circuitosCampeonato=this.circuitosCampeonato.stream().filter(x->!x.getNomeCircuito().equals(aCircNome)).collect(Collectors.toList());
     }
 
     public int getParticipantes() {
@@ -33,19 +57,19 @@ public class Campeonato {
     }
 
     public void setParticipantes(int aParticipantes) {
-        throw new UnsupportedOperationException();
+        this.participantes = aParticipantes;
     }
 
-    public Campeonato() {
-        throw new UnsupportedOperationException();
-    }
 
     public Campeonato(String aNomeCampeonato, int aParticipantes) {
-        throw new UnsupportedOperationException();
+        this.nomeCampeonato = aNomeCampeonato;
+        this.participantes = aParticipantes;
+        this.circuitosCampeonato = new ArrayList<>();
     }
 
     public Campeonato(Map<String, Integer> aClassificacao) {
-        throw new UnsupportedOperationException();
+        this.classificacaoCampeonato = new HashMap<>();
+        aClassificacao.forEach((String,Integer)->this.classificacaoCampeonato.put(String,Integer));
     }
 
     public void atualizaClassificacao() {
@@ -57,7 +81,7 @@ public class Campeonato {
     }
 
     public Map<String, Integer> getClasssificacaoCamp() {
-        throw new UnsupportedOperationException();
+        return new HashMap<>();
     }
 
     public String getNomeCampeonato() {
@@ -65,7 +89,7 @@ public class Campeonato {
     }
 
     public void setNomeCampeonato(String aNomeCampeonato) {
-        throw new UnsupportedOperationException();
+        this.nomeCampeonato = aNomeCampeonato;
     }
 
     public void adicionaPontuacoes(Map<String, Integer> aPontuacoesJogo) {
@@ -76,11 +100,16 @@ public class Campeonato {
         throw new UnsupportedOperationException();
     }
 
-    public RacingManagerLN.SubGestaoCC.Campeonato clone() {
-        throw new UnsupportedOperationException();
+    public Campeonato clone() {
+        return new Campeonato(this);
     }
 
+    @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        return "Campeonato{" +
+                "nomeCampeonato='" + nomeCampeonato + '\'' +
+                ",\n participantes=" + participantes +
+                ",\n circuitosCampeonato=" + circuitosCampeonato +",\n"+
+                '}';
     }
 }

@@ -3,6 +3,7 @@ package RacingManagerLN.SubGestaoCP;
 
 import RacingManagerLN.SubGestaoCP.Carro.Carro;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     private Map<String,Piloto> allPilotos;
 
     public SubGestaoCPFacade() {
+        this.allCarros = new HashMap<>();
+        this.allPilotos = new HashMap<>();
     }
 
     public boolean existeCarro(String aIdCarro) {

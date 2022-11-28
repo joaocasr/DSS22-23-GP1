@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Circuito {
     private String nomeCircuito;
-    private Double distancia;
+    private double distancia;
     private int voltas;
     private int numRetas;
     private int numCurvas;
@@ -12,6 +12,30 @@ public class Circuito {
     private List<Reta> allRetas;
     private List<Curva> allCurvas;
     private List<Chicane> allChicanes;
+
+    public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numCurvas, int numChicanes, List<Reta> allRetas, List<Curva> allCurvas, List<Chicane> allChicanes) {
+        this.nomeCircuito = nomeCircuito;
+        this.distancia = distancia;
+        this.voltas = voltas;
+        this.numRetas = numRetas;
+        this.numCurvas = numCurvas;
+        this.numChicanes = numChicanes;
+        this.allRetas = allRetas;
+        this.allCurvas = allCurvas;
+        this.allChicanes = allChicanes;
+    }
+
+    public Circuito(Circuito c){
+        this.nomeCircuito = c.getNomeCircuito();
+        this.distancia = c.getDistancia();
+        this.voltas = c.getVoltas();
+        this.numRetas = c.numRetas;
+        this.numCurvas = c.numCurvas;
+        this.numChicanes = c.numChicanes;
+        this.allRetas = c.allRetas;
+        this.allCurvas = c.allCurvas;
+        this.allChicanes = c.allChicanes;
+    }
 
     public String getNomeCircuito() {
         return nomeCircuito;
@@ -21,11 +45,11 @@ public class Circuito {
         this.nomeCircuito = nomeCircuito;
     }
 
-    public Double getDistancia() {
+    public double getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(Double distancia) {
+    public void setDistancia(double distancia) {
         this.distancia = distancia;
     }
 
@@ -85,20 +109,24 @@ public class Circuito {
         this.allChicanes = allChicanes;
     }
 
-    public boolean equals(Object aO) {
-        throw new UnsupportedOperationException();
+    //public boolean equals(Object aO) {}
+
+    public Circuito clone(){
+        return new Circuito(this);
     }
 
-    public Circuito clone() {
-        throw new UnsupportedOperationException();
-    }
-
+    @Override
     public String toString() {
-        throw new UnsupportedOperationException();
-    }
-
-
-    public Circuito(String aNomeCircuito, int aDistancia, int aVoltas, int aNumRetas, int aNumChicanes, int aNumCurvas, List<Curva> aCurvas) {
-        throw new UnsupportedOperationException();
+        return "Circuito{" +
+                "nomeCircuito='" + nomeCircuito + '\'' +
+                ", distancia=" + distancia +
+                ", voltas=" + voltas +
+                ", numRetas=" + numRetas +
+                ", numCurvas=" + numCurvas +
+                ", numChicanes=" + numChicanes +
+                ", allRetas=" + allRetas +
+                ", allCurvas=" + allCurvas +
+                ", allChicanes=" + allChicanes +
+                '}';
     }
 }

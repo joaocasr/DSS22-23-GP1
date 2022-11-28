@@ -20,7 +20,16 @@ public class Curva {
         throw new UnsupportedOperationException();
     }
 
-    public Curva(String aId) {
-        throw new UnsupportedOperationException();
+    public Curva(String aId,int gdu) {
+        this._idCurva=aId;
+        this._gdu=gdu;
+    }
+
+    @Override
+    public String toString() {
+        return "Curva{" +
+                "_idCurva='" + _idCurva + '\'' +
+                ", _gdu=" + _gdu +
+                '}';
     }
 }

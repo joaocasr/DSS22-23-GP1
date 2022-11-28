@@ -8,7 +8,7 @@ public interface ISubGestaoUsersFacade {
 
     public boolean efetuaLogin(String aUsername, String aPassword);
 
-    public void registaUser(String aUsername, String aPassword, boolean aIsAdmin);
+    public boolean registaUser(String aUsername, String aPassword, boolean aIsAdmin);
 
     public void logout();
 

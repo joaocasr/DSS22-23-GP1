@@ -20,7 +20,16 @@ public class Reta {
         throw new UnsupportedOperationException();
     }
 
-    public Reta(String aId) {
-        throw new UnsupportedOperationException();
+    public Reta(String aId,int gdu) {
+        this.idReta=aId;
+        this.gdu = gdu;
+    }
+
+    @Override
+    public String toString() {
+        return "Reta{" +
+                "idReta='" + idReta + '\'' +
+                ", gdu=" + gdu +
+                '}';
     }
 }
