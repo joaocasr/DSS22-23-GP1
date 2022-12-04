@@ -32,18 +32,28 @@ public class SubGestaoJogosFacade {
     }
 
     public List<Inscricao> getInscricaoCampeonato(String aNomeCampeonato) {
-        throw new UnsupportedOperationException();
+        return allInscricoes.get(aNomeCampeonato);
     }
 
     public void removeInscricoesCampeonato(String aNomeCampeonato) {
-        throw new UnsupportedOperationException();
+        allInscricoes.remove(aNomeCampeonato);
+
     }
 
-    public int getTipoCarro(String aNomeCampeonato, String aUsername) {
-        throw new UnsupportedOperationException();
+    public String getTipoCarro(String aNomeCampeonato, String aUsername) {
+        List<Inscricao> inscricoes = allInscricoes.get(aNomeCampeonato);
+        String s="";
+        for (Inscricao insc:inscricoes) {
+            if(insc.getUser().getUsername().equals(aUsername)){
+                s=insc.getCarro().getModelo();
+            }
+
+        }
+        return  s;
+
     }
 
     public boolean validaNumeroInscricoes(String aNomeCampeonato) {
-        throw new UnsupportedOperationException();
+        return allInscricoes.get(aNomeCampeonato).size() >= 2;
     }
 }

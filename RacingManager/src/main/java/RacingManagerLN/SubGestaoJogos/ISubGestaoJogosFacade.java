@@ -15,7 +15,7 @@ public interface ISubGestaoJogosFacade {
 
         public void removeInscricoesCampeonato(String aNomeCampeonato);
 
-        public int getTipoCarro(String aNomeCampeonato, String aUsername);
+        public String getTipoCarro(String aNomeCampeonato, String aUsername);
 
         public boolean validaNumeroInscricoes(String aNomeCampeonato);
 }
