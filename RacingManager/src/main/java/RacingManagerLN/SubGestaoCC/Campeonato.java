@@ -73,7 +73,7 @@ public class Campeonato {
     }
 
     public void atualizaClassificacao() {
-        throw new UnsupportedOperationException();
+
     }
 
     public void atualizaClassificacaoCategoria() {
@@ -81,7 +81,7 @@ public class Campeonato {
     }
 
     public Map<String, Integer> getClasssificacaoCamp() {
-        return new HashMap<>();
+        return this.classificacaoCampeonato;
     }
 
     public String getNomeCampeonato() {
@@ -93,11 +93,29 @@ public class Campeonato {
     }
 
     public void adicionaPontuacoes(Map<String, Integer> aPontuacoesJogo) {
-        throw new UnsupportedOperationException();
+        //Não sei se vai adicionar pela ordem certa??
+        this.pontuacoes = aPontuacoesJogo.values().stream().toList();
     }
 
-    public boolean equals(Object aO) {
-        throw new UnsupportedOperationException();
+    @Override
+    public boolean equals(Object obj) {
+        // check if the "addresses" of o and this object are the same
+        if (this == obj)
+            return true;
+            // check if o is of instance Campeonato
+        else if (obj instanceof Campeonato)
+        {
+            Campeonato camp = (Campeonato)obj;
+            // compare fields of o with fields of this instance
+            if (    (this.nomeCampeonato.equals(camp.nomeCampeonato))
+                &&  (this.circuitosCampeonato.equals(camp.circuitosCampeonato))
+                &&  (this.classificacaoCampeonato.equals(camp.classificacaoCampeonato))
+                &&  (this.participantes == camp.participantes)
+                &&  (this.pontuacoes.equals(camp.pontuacoes))
+            )
+            return true;
+        }
+        return false;
     }
 
     public Campeonato clone() {

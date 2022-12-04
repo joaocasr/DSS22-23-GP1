@@ -26,6 +26,24 @@ public class Chicane {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        // check if the "addresses" of o and this object are the same
+        if (this == obj)
+            return true;
+            // check if o is of instance Chicane
+        else if (obj instanceof Chicane)
+        {
+            Chicane chi = (Chicane)obj;
+            // compare fields of o with fields of this instance
+            if (     (this.idChicane.equals(chi.idChicane))
+                 &&  (this.gdu == chi.gdu)
+            )
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Chicane{" +
                 "idChicane='" + idChicane + '\'' +

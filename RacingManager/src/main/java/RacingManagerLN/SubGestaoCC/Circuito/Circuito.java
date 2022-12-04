@@ -1,5 +1,7 @@
 package RacingManagerLN.SubGestaoCC.Circuito;
 
+import RacingManagerLN.SubGestaoCC.Campeonato;
+
 import java.util.List;
 
 public class Circuito {
@@ -109,7 +111,31 @@ public class Circuito {
         this.allChicanes = allChicanes;
     }
 
-    //public boolean equals(Object aO) {}
+
+    @Override
+    public boolean equals(Object obj) {
+        // check if the "addresses" of o and this object are the same
+        if (this == obj)
+            return true;
+            // check if o is of instance Circuito
+        else if (obj instanceof Circuito)
+        {
+            Circuito cir = (Circuito)obj;
+            // compare fields of o with fields of this instance
+            if (     (this.nomeCircuito.equals(cir.nomeCircuito))
+                 &&  (this.distancia == cir.distancia)
+                 &&  (this.voltas == cir.voltas)
+                 &&  (this.numChicanes == cir.numChicanes)
+                 &&  (this.numCurvas == cir.numCurvas)
+                 &&  (this.numRetas == cir.numRetas)
+                 &&  (this.allChicanes.equals(cir.allChicanes))
+                 &&  (this.allCurvas.equals(cir.allCurvas))
+                 &&  (this.allRetas.equals(cir.allRetas))
+            )
+                return true;
+        }
+        return false;
+    }
 
     public Circuito clone(){
         return new Circuito(this);

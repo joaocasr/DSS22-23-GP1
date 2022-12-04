@@ -26,6 +26,24 @@ public class Curva {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        // check if the "addresses" of o and this object are the same
+        if (this == obj)
+            return true;
+            // check if o is of instance Curva
+        else if (obj instanceof Curva)
+        {
+            Curva cur = (Curva)obj;
+            // compare fields of o with fields of this instance
+            if (     (this._idCurva.equals(cur._idCurva))
+                 &&  (this._gdu == cur._gdu)
+            )
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Curva{" +
                 "_idCurva='" + _idCurva + '\'' +

@@ -26,6 +26,24 @@ public class Reta {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        // check if the "addresses" of o and this object are the same
+        if (this == obj)
+            return true;
+            // check if o is of instance Reta
+        else if (obj instanceof Reta)
+        {
+            Reta ret = (Reta)obj;
+            // compare fields of o with fields of this instance
+            if (     (this.idReta.equals(ret.idReta))
+                 &&  (this.gdu == ret.gdu)
+            )
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Reta{" +
                 "idReta='" + idReta + '\'' +
