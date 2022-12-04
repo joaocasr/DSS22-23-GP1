@@ -29,7 +29,7 @@ public interface ISubGestaoCCFacade {
 
     public List<Campeonato> getCampeonatos();
 
-    public boolean existeCircuitoemCampeonato(String aNomeCircuito);
+    public boolean existeCircuitoEmCampeonato(String aNomeCircuito);
 
     public boolean existeCircuito(String aNomeCircuito);
 

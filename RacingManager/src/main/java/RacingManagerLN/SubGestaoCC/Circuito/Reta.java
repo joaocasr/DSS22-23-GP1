@@ -31,14 +31,11 @@ public class Reta {
         if (this == obj)
             return true;
             // check if o is of instance Reta
-        else if (obj instanceof Reta)
+        else if (obj instanceof Reta ret)
         {
-            Reta ret = (Reta)obj;
             // compare fields of o with fields of this instance
-            if (     (this.idReta.equals(ret.idReta))
-                 &&  (this.gdu == ret.gdu)
-            )
-                return true;
+            return (this.idReta.equals(ret.idReta))
+                    && (this.gdu == ret.gdu);
         }
         return false;
     }

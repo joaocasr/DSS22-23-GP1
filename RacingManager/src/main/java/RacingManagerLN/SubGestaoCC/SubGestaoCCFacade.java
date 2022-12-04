@@ -44,31 +44,47 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
     }
 
     public List<Circuito> getCircuitosDoCampeonato(String aCampNome) {
-        throw new UnsupportedOperationException();
+        Campeonato camp =  this.allCampeonatos.get(aCampNome);
+        if(camp == null) return null;
+        return camp.getCircuitos();
     }
 
     public boolean updateCircuitoCampeonato(String aNomeCamp, String aCircNomeAntigo, String aCircNomeNovo) {
-        return false;
+        Campeonato camp = this.allCampeonatos.get(aNomeCamp);
+        if(camp == null) return false;
+
+        if(camp.removeCircuito(aCircNomeAntigo) == null) return false;
+
+        Circuito cir = this.allCircuitos.get(aCircNomeNovo);
+        if(cir == null) return false;
+        camp.addCircuito(cir);
+
+        return true;
     }
 
     public boolean apagaCircuitoDoCampeonato(String aCampNome, String aCircNome) {
-        return false;
+        Campeonato camp = this.allCampeonatos.get(aCampNome);
+        if(camp == null) return false;
+
+        return camp.removeCircuito(aCircNome) != null;
     }
 
     public void apagaCampeonato(String aCampNome) {
+        this.allCampeonatos.remove(aCampNome);
     }
 
     public Campeonato getCampeonato(String aNomeCampeonato) {
-
-        return null;
+        return this.allCampeonatos.get(aNomeCampeonato);
     }
 
     public List<Campeonato> getCampeonatos() {
-        return new ArrayList<>();
+        return this.allCampeonatos.values().stream().toList();
     }
 
-    public boolean existeCircuitoemCampeonato(String aNomeCircuito) {
-        return false;
+    public boolean existeCircuitoEmCampeonato(String aNomeCircuito) {
+        //Primeiro buscamos a lista de campeonatos
+        //depois percorremos todos os campeonatos e verificamos se algum deles contem o circuito
+        return  this.getCampeonatos().stream().anyMatch((camp) -> camp.circuitoExiste(aNomeCircuito));
     }
 
     public boolean existeCircuito(String aNomeCircuito) {
@@ -89,16 +105,16 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
         return b;
     }
 
-
     public Circuito getCircuito(String aNomeCircuito) {
         return this.allCircuitos.get(aNomeCircuito);
     }
 
     public void modificaCircuito(String aAntigoCircuito, Circuito aCircuito) {
+        this.allCircuitos.put(aAntigoCircuito, aCircuito);
     }
 
     public void removeCIrcuito(String aNomeCircuito) {
-
+        this.allCircuitos.remove(aNomeCircuito);
     }
 
     public String consultaCampeonato(String nomeCampeonato){

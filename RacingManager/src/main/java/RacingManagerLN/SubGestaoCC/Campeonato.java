@@ -13,9 +13,9 @@ public class Campeonato {
     private int participantes;
     private Map<String, Integer> classificacaoCampeonato;
     private List<Integer> pontuacoes;
-    private List<Circuito> circuitosCampeonato;
+    private Map<String, Circuito> circuitosCampeonato;
 
-    public Campeonato(String nomeCampeonato, int participantes, Map<String, Integer> classificacaoCampeonato, List<Integer> pontuacoes, List<Circuito> circuitosCampeonato) {
+    public Campeonato(String nomeCampeonato, int participantes, Map<String, Integer> classificacaoCampeonato, List<Integer> pontuacoes, Map<String, Circuito> circuitosCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
         this.participantes = participantes;
         this.classificacaoCampeonato = classificacaoCampeonato;
@@ -30,26 +30,34 @@ public class Campeonato {
     }
 
     public Campeonato(Campeonato c){
-        this.nomeCampeonato = c.getNomeCampeonato();
-        this.participantes = c.getParticipantes();
-        this.classificacaoCampeonato = c.getClasssificacaoCamp();
-        this.circuitosCampeonato = c.getCircuitos();
+        this.nomeCampeonato = c.nomeCampeonato;
+        this.circuitosCampeonato = c.circuitosCampeonato;
+        this.participantes = c.participantes;
+        this.classificacaoCampeonato = c.classificacaoCampeonato;
+        this.pontuacoes = c.pontuacoes;
     }
 
-    public List<Circuito> getCircuitos() {
-        return this.circuitosCampeonato.stream().map(Circuito::clone).collect(Collectors.toList());
+    public List <Circuito> getCircuitos() {
+        return this.circuitosCampeonato.values().stream().toList();
+    }
+
+    //ACRESCENTEI ESTA
+    public boolean circuitoExiste(String aNomeCirc){
+        return this.circuitosCampeonato.containsKey(aNomeCirc);
     }
 
     public void setCircuitos(List<Circuito> aCircuitos) {
-        this.circuitosCampeonato = aCircuitos.stream().map(Circuito::clone).collect(Collectors.toList());
+        this.circuitosCampeonato =
+                aCircuitos.stream().collect(Collectors.toMap(Circuito::getNomeCircuito, item -> item));
     }
 
     public void addCircuito(Circuito aCircuito) {
-        this.circuitosCampeonato.add(aCircuito);
+        this.circuitosCampeonato.put(aCircuito.getNomeCircuito(), aCircuito);
     }
 
-    public void removeCircuito(String aCircNome) {
-        this.circuitosCampeonato=this.circuitosCampeonato.stream().filter(x->!x.getNomeCircuito().equals(aCircNome)).collect(Collectors.toList());
+    //Retorna o circuito removido
+    public Circuito removeCircuito(String aCircNome) {
+        return this.circuitosCampeonato.remove(aCircNome);
     }
 
     public int getParticipantes() {
@@ -64,7 +72,7 @@ public class Campeonato {
     public Campeonato(String aNomeCampeonato, int aParticipantes) {
         this.nomeCampeonato = aNomeCampeonato;
         this.participantes = aParticipantes;
-        this.circuitosCampeonato = new ArrayList<>();
+        this.circuitosCampeonato = new HashMap<String, Circuito>();
     }
 
     public Campeonato(Map<String, Integer> aClassificacao) {
@@ -103,17 +111,14 @@ public class Campeonato {
         if (this == obj)
             return true;
             // check if o is of instance Campeonato
-        else if (obj instanceof Campeonato)
+        else if (obj instanceof Campeonato camp)
         {
-            Campeonato camp = (Campeonato)obj;
             // compare fields of o with fields of this instance
-            if (    (this.nomeCampeonato.equals(camp.nomeCampeonato))
-                &&  (this.circuitosCampeonato.equals(camp.circuitosCampeonato))
-                &&  (this.classificacaoCampeonato.equals(camp.classificacaoCampeonato))
-                &&  (this.participantes == camp.participantes)
-                &&  (this.pontuacoes.equals(camp.pontuacoes))
-            )
-            return true;
+            return (this.nomeCampeonato.equals(camp.nomeCampeonato))
+                    && (this.circuitosCampeonato.equals(camp.circuitosCampeonato))
+                    && (this.classificacaoCampeonato.equals(camp.classificacaoCampeonato))
+                    && (this.participantes == camp.participantes)
+                    && (this.pontuacoes.equals(camp.pontuacoes));
         }
         return false;
     }

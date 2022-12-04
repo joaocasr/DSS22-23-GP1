@@ -31,14 +31,11 @@ public class Curva {
         if (this == obj)
             return true;
             // check if o is of instance Curva
-        else if (obj instanceof Curva)
+        else if (obj instanceof Curva cur)
         {
-            Curva cur = (Curva)obj;
             // compare fields of o with fields of this instance
-            if (     (this._idCurva.equals(cur._idCurva))
-                 &&  (this._gdu == cur._gdu)
-            )
-                return true;
+            return (this._idCurva.equals(cur._idCurva))
+                    && (this._gdu == cur._gdu);
         }
         return false;
     }

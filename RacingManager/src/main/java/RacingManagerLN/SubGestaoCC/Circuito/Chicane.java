@@ -31,14 +31,11 @@ public class Chicane {
         if (this == obj)
             return true;
             // check if o is of instance Chicane
-        else if (obj instanceof Chicane)
+        else if (obj instanceof Chicane chi)
         {
-            Chicane chi = (Chicane)obj;
             // compare fields of o with fields of this instance
-            if (     (this.idChicane.equals(chi.idChicane))
-                 &&  (this.gdu == chi.gdu)
-            )
-                return true;
+            return (this.idChicane.equals(chi.idChicane))
+                    && (this.gdu == chi.gdu);
         }
         return false;
     }
