@@ -8,13 +8,13 @@ public class Carro {
     private int potenciaCombustao;
     private int pac;
     private tipoPneu tipopneu;
-    private int downforce;
+    private double downforce;
     private modoMotor motor;
 
     public enum modoMotor {
+        Conservador,
         Normal,
-        Macio,
-        Chuva;
+        Agressivo
     }
 
     public enum tipoPneu {
@@ -23,7 +23,7 @@ public class Carro {
         Chuva;
     }
 
-    public Carro(String idCarro,String marca,String modelo,int cilindrada,int potenciaCombustao,int pac,tipoPneu tipoPneu,int downforce,modoMotor modoMotor){
+    public Carro(String idCarro,String marca,String modelo,int cilindrada,int potenciaCombustao,int pac,tipoPneu tipoPneu,double downforce,modoMotor modoMotor){
         this.idCarro=idCarro;
         this.marca=marca;
         this.modelo=modelo;
@@ -95,30 +95,40 @@ public class Carro {
         this.pac=aPac;
     }
 
-    public int getDownforce() {
+    public double getDownforce() {
         return this.downforce;
     }
 
-    public void setDownforce(int aDownforce) {
+    public void setDownforce(double aDownforce) {
         this.downforce=aDownforce;
     }
 
-    public tipoPneu converteStringPneu(String aTipo) {
+    public static tipoPneu converteStringPneu(String aTipo) {
         Carro.tipoPneu t = null;
-        if(aTipo.equals("macio")||aTipo.equals("Macio")){
+        if(aTipo.equalsIgnoreCase("macio")){
             t=tipoPneu.Macio;
         }
-        if(aTipo.equals("duro")||aTipo.equals("Duro")){
+        if(aTipo.equalsIgnoreCase("duro")){
             t=tipoPneu.Duro;
         }
-        if(aTipo.equals("chuva")||aTipo.equals("Chuva")){
+        if(aTipo.equalsIgnoreCase("chuva")){
             t= tipoPneu.Chuva;
         }
         return t;
     }
 
-    public modoMotor converteStringMotor(String aModo) {
-        return this.motor;
+    public static modoMotor converteStringMotor(String aModo) {
+        Carro.modoMotor m = null;
+        if(aModo.equalsIgnoreCase("conservador")){
+            m=modoMotor.Conservador;
+        }
+        if(aModo.equalsIgnoreCase("normal")){
+            m=modoMotor.Normal;
+        }
+        if(aModo.equalsIgnoreCase("agressivo")){
+            m=modoMotor.Agressivo;
+        }
+        return m;
     }
 
     public tipoPneu getTipoPneu() {

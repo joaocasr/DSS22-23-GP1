@@ -1,9 +1,9 @@
 package RacingManagerLN.SubGestaoJogos;
 
 import RacingManagerLN.SubGestaoCC.Campeonato;
+import RacingManagerLN.SubGestaoCP.Carro.C2;
 import RacingManagerLN.SubGestaoCP.Carro.Carro;
 import RacingManagerLN.SubGestaoCP.Piloto;
-import RacingManagerLN.SubGestaoJogos.Simulacao.Configuracao;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SubGestaoJogosFacade {
+public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
     private Map<String, List<Inscricao>> allInscricoes;
 
     public SubGestaoJogosFacade(){
@@ -39,6 +39,10 @@ public class SubGestaoJogosFacade {
 
     public List<String> getJogadoresASimular(String nomeCampeonato){
         return allInscricoes.get(nomeCampeonato).stream().map(x->x.getUser().getUsername()).collect(Collectors.toList());
+    }
+
+    public boolean hasCarroC2(String campeonato,String username){
+        return (this.allInscricoes.get(campeonato).stream().anyMatch(x -> x.getUser().getUsername().equals(username) && x.getCarro() instanceof C2));
     }
 
     public void removeInscricoesCampeonato(String aNomeCampeonato) {

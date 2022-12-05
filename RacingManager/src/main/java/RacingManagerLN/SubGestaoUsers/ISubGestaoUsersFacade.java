@@ -1,5 +1,6 @@
 package RacingManagerLN.SubGestaoUsers;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ISubGestaoUsersFacade {
@@ -22,7 +23,7 @@ public interface ISubGestaoUsersFacade {
 
     public String getCurrentUser();
 
-    public void atualizaScore(Map<String, Integer> aJogadoresOrdenados, String aPassword);
+    public void atualizaScore(Map<String,Integer> aJogadoresOrdenados);
 
-    public Map<String, Integer> orderByScore();
+    public List<Map.Entry<String,Integer>> orderByScore(Map<String, Integer> s);
 }

@@ -8,17 +8,9 @@ import java.util.stream.Collectors;
 public class Campeonato {
     private String nomeCampeonato;
     private int participantes;
+    private Map<String, Integer> classificacaoCampeonato;
     private List<Circuito> circuitosCampeonato;
 
-    //Before adding circuits
-    public Campeonato(String aNomeCampeonato, int aParticipantes) {
-        this.nomeCampeonato = aNomeCampeonato;
-        this.participantes = aParticipantes;
-        this.circuitosCampeonato = null;
-
-    }
-
-    //When we have all the information
     public Campeonato(String nomeCampeonato, int participantes, List<Circuito> circuitosCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
         this.participantes = participantes;
@@ -26,11 +18,12 @@ public class Campeonato {
         setCircuitos(circuitosCampeonato);
     }
 
-    //Cloning?
     public Campeonato(Campeonato c){
-        this.nomeCampeonato = c.nomeCampeonato;
-        this.participantes = c.participantes;
-        this.circuitosCampeonato = c.circuitosCampeonato;
+        this.nomeCampeonato = c.getNomeCampeonato();
+        this.circuitosCampeonato = c.getCircuitos();
+        this.participantes = c.getParticipantes();
+        this.classificacaoCampeonato = new HashMap<>();
+        //this.pontuacoes = c.pontuacoes;
     }
 
 
@@ -64,6 +57,10 @@ public class Campeonato {
         this.participantes = aParticipantes;
     }
 
+    public Map<String, Integer> getClasssificacaoCamp() {
+        return this.classificacaoCampeonato;
+    }
+
     public String getNomeCampeonato() {
         return this.nomeCampeonato;
     }
@@ -76,6 +73,21 @@ public class Campeonato {
         this.nomeCampeonato = aNomeCampeonato;
     }
 
+    public void atualizaClassificacao(Map<String,Integer> pontuacoes) {
+        if(this.classificacaoCampeonato.size()==0){
+            pontuacoes.forEach((String,Integer)->this.classificacaoCampeonato.put(String,Integer));
+        }else{
+            for(Map.Entry<String,Integer> p: pontuacoes.entrySet()){
+                for(Map.Entry<String,Integer> c: this.classificacaoCampeonato.entrySet()){
+                    if(c.getKey().equals(p.getKey())){
+                        int oldScore = this.classificacaoCampeonato.get(c.getKey());
+                        int newScore = oldScore + p.getValue();
+                        this.classificacaoCampeonato.put(c.getKey(),newScore);
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public boolean equals(Object obj) {

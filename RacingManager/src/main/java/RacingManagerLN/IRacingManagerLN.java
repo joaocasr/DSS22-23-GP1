@@ -11,6 +11,7 @@ import RacingManagerLN.SubGestaoJogos.Inscricao;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IRacingManagerLN {
 
@@ -79,4 +80,9 @@ public interface IRacingManagerLN {
     public List<Inscricao> getInscricoes(String nomeCampeonato);
 
     public List<String> getJogadoresASimular(String nomeCampeonato);
+
+    public boolean hasCarroC2(String campeonato,String jogador);
+
+    public void atualizaScore(Map<String,Integer> classificacao);
+
 }

@@ -232,6 +232,7 @@ public class TextUI {
         String nome = scanner.nextLine();
         Campeonato campeonato =  iRacingManagerLN.getCampeonato(nome);
         int NCorridas = campeonato.getNumeroCorridas();
+        Configuracao conf=null;
         List<Configuracao> configuracoes= new ArrayList<>();
         Map<String,Integer> numeroConfiguracoes = new HashMap<>();
         List<String> jogadores = iRacingManagerLN.getJogadoresASimular(nome);
@@ -243,13 +244,38 @@ public class TextUI {
             Simulacao simulacao = new Simulacao(c,iRacingManagerLN.getInscricoes(nome),configuracoes);
             pontuacoes=simulacao.getScore();
             campeonato.atualizaClassificacao(pontuacoes);
+            int nj=0;
             for(String j : jogadores) {
+                nj++;
                 if (numeroConfiguracoes.get(j) < ((2 * NCorridas) / 3)) {
-                    System.out.println("*** BOX 1 - jogador =" + j + " ***");
-                    // a completar
+                    System.out.println("*** PARAGEM- BOX "+nj+" - jogador =" + j + " ***");
+                    System.out.println("Downforce");
+                    System.out.print(">>>");
+                    double downforce= scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.println("Tipo Pneu: [Macio] [Duro] [Chuva]");
+                    System.out.print(">>>");
+                    String tipo=scanner.nextLine();
+                    System.out.println("Modo do Motor: [Conservador] [Normal] [Agressivo]");
+                    System.out.print(">>>");
+                    String modo = scanner.nextLine();
+                    if(iRacingManagerLN.hasCarroC2(nome,j)){
+                        System.out.println("Afinação : [Freio] [Motor] [Suspensao] [Corpo] [Salao]");
+                        System.out.print(">>>");
+                        String afinacao = scanner.nextLine();
+                        conf = new Configuracao(j,downforce,tipo,modo,afinacao);
+                    }else{
+                        conf = new Configuracao(j,downforce,tipo,modo);
+                    }
+                    int n=numeroConfiguracoes.get(j);
+                    numeroConfiguracoes.put(j,n+1);
                 }
+                if(configuracoes.size()!=0) configuracoes = new ArrayList<>();
+                configuracoes.add(conf);
             }
         }
+        Map<String,Integer> classsificacao = campeonato.getClasssificacaoCamp();
+        iRacingManagerLN.atualizaScore(classsificacao);
     }
 
 

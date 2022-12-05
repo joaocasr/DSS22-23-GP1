@@ -15,6 +15,7 @@ import RacingManagerLN.SubGestaoUsers.SubGestaoUsersFacade;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.util.List;
+import java.util.Map;
 
 public class RacingManagerLN implements IRacingManagerLN{
     private SubGestaoUsersFacade subGestaoUsersFacade;
@@ -184,6 +185,14 @@ public class RacingManagerLN implements IRacingManagerLN{
 
     public List<String> getJogadoresASimular(String nomeCampeonato){
         return this.subGestaoJogosFacade.getJogadoresASimular(nomeCampeonato);
+    }
+
+    public boolean hasCarroC2(String campeonato,String jogador){
+        return this.subGestaoJogosFacade.hasCarroC2(campeonato,jogador);
+    }
+
+    public void atualizaScore(Map<String,Integer> classificacao){
+        this.subGestaoUsersFacade.atualizaScore(classificacao);
     }
 
 }

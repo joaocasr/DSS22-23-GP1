@@ -1,8 +1,6 @@
 package RacingManagerLN.SubGestaoUsers;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
     private String currentUser;
@@ -71,12 +69,26 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
     }
 
     @Override
-    public void atualizaScore(Map<String, Integer> aJogadoresOrdenados, String aPassword) {
-
+    public void atualizaScore(Map<String, Integer> classificacao) {
+        List<Map.Entry<String,Integer>> aJogadoresOrdenados= this.orderByScore(classificacao);
+        List<Integer> pontuacoes = Arrays.asList(12,10,8,7,6,5,4,3,2,1,0);
+        int i=0;
+        for(Map.Entry<String,Integer> m : aJogadoresOrdenados){
+            if(i>=pontuacoes.size()) this.allUsers.get(m.getKey()).setScore(0);
+            this.allUsers.get(m.getKey()).setScore(pontuacoes.get(i));
+            i++;
+        }
     }
 
     @Override
-    public Map<String, Integer> orderByScore() {
-        return null;
+    public List<Map.Entry<String,Integer>> orderByScore(Map<String, Integer> s) {
+        List<Map.Entry<String, Integer>> entradas = new ArrayList<>(s.entrySet());
+        Collections.sort(entradas, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> j1, Map.Entry<String, Integer> j2)
+            {
+                return j2.getValue()-j1.getValue();
+            }
+        });
+        return entradas;
     }
 }

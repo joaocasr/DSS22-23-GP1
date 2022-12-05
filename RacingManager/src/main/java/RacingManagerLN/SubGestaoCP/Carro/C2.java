@@ -46,8 +46,24 @@ public class C2 extends Carro {
         throw new UnsupportedOperationException();
     }
 
-    public Afinacao converteStringAfinacao(String aAfinacao) {
-        throw new UnsupportedOperationException();
+    public static Afinacao converteStringAfinacao(String aAfinacao) {
+        C2.Afinacao a = null;
+        if(aAfinacao.equalsIgnoreCase("freio")){
+            a = Afinacao.Freio;
+        }
+        if(aAfinacao.equalsIgnoreCase("motor")){
+            a = Afinacao.Motor;
+        }
+        if(aAfinacao.equalsIgnoreCase("suspensão") || aAfinacao.equalsIgnoreCase("suspensao") ){
+            a = Afinacao.Suspensao;
+        }
+        if(aAfinacao.equalsIgnoreCase("corpo")){
+            a = Afinacao.Corpo;
+        }
+        if(aAfinacao.equalsIgnoreCase("salao") || aAfinacao.equalsIgnoreCase("salão") ){
+            a = Afinacao.Salao;
+        }
+        return a;
     }
 
     public C2 clone() {
