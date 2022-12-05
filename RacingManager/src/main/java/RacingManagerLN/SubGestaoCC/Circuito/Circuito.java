@@ -2,7 +2,11 @@ package RacingManagerLN.SubGestaoCC.Circuito;
 
 import RacingManagerLN.SubGestaoCC.Campeonato;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Circuito {
     private String nomeCircuito;
@@ -14,6 +18,7 @@ public class Circuito {
     private List<Reta> allRetas;
     private List<Curva> allCurvas;
     private List<Chicane> allChicanes;
+    private Map<Integer,String> classificacaoCircuito;
 
     public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numCurvas, int numChicanes, List<Reta> allRetas, List<Curva> allCurvas, List<Chicane> allChicanes) {
         this.nomeCircuito = nomeCircuito;
@@ -25,6 +30,7 @@ public class Circuito {
         this.allRetas = allRetas;
         this.allCurvas = allCurvas;
         this.allChicanes = allChicanes;
+        this.classificacaoCircuito=new HashMap<>();
     }
 
     public Circuito(Circuito c){
@@ -61,6 +67,29 @@ public class Circuito {
 
     public void setVoltas(int voltas) {
         this.voltas = voltas;
+    }
+
+    public Curva getCurva(String id){
+        Curva curva =null;
+        for(Curva c : this.allCurvas){
+            if(c.getId().equals(id)) curva=c;
+        }
+        return curva;
+    }
+
+    public Reta getReta(String id){
+        Reta reta =null;
+        for(Reta r : this.allRetas){
+            if(r.getId().equals(id)) reta=r;
+        }
+        return reta;
+    }
+    public Chicane getChicane(String id){
+        Chicane chicane=null;
+        for(Chicane c : this.allChicanes){
+            if(c.getIdChicane().equals(id)) chicane=c;
+        }
+        return chicane;
     }
 
     public int getNumRetas() {
@@ -111,6 +140,22 @@ public class Circuito {
         this.allChicanes = allChicanes;
     }
 
+    public List<String> constroiPercurso(){
+        List<String> percurso=this.allRetas.stream().map(Reta::getId).collect(Collectors.toList());
+        this.allCurvas.stream().map(Curva::getId).collect(Collectors.toList()).forEach(x->percurso.add(x));
+        this.allChicanes.stream().map(Chicane::getIdChicane).collect(Collectors.toList()).forEach(x->percurso.add(x));
+        Collections.shuffle(percurso);
+        return percurso;
+    }
+
+    public Map<Integer,String> posicionaJogadores(List<String> jogadores){
+        int N = jogadores.size();
+        int i;
+        for(i=1;i<=N;i++){
+            this.classificacaoCircuito.put(i,jogadores.get(i));
+        }
+        return this.classificacaoCircuito;
+    }
 
     @Override
     public boolean equals(Object obj) {

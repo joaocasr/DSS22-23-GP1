@@ -6,8 +6,11 @@ public class SC extends Carro {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
-    public double calculaFiabilidade(int aCilindrada, int aClima) {
-        throw new UnsupportedOperationException();
+    public double getfiabilidade(double sva,double cts) {
+        double d =0.5;
+        int m = -1;
+        if(sva<0.5) m=1;
+        return ((d*0.75*(sva+cts))+d*0.25*getCilindrada())/10;
     }
 
     public boolean equals(Object aO) {
