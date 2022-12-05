@@ -39,6 +39,9 @@ public class C2 extends Carro {
         throw new UnsupportedOperationException();
     }
 
+    public void setAfinacao(Afinacao a){
+        this.afinacao=a;
+    }
     public void alteraAfinacao(String aAfinacao) {
         throw new UnsupportedOperationException();
     }

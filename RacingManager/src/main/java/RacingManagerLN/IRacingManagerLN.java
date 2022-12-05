@@ -7,6 +7,7 @@ import RacingManagerLN.SubGestaoCC.Circuito.Curva;
 import RacingManagerLN.SubGestaoCC.Circuito.Reta;
 import RacingManagerLN.SubGestaoCP.Carro.Carro;
 import RacingManagerLN.SubGestaoCP.Piloto;
+import RacingManagerLN.SubGestaoJogos.Inscricao;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.util.List;
@@ -72,4 +73,10 @@ public interface IRacingManagerLN {
     public void adicionaInscricao(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto);
 
     public String consultaCampeonato(String nomeCampeonato);
+
+    public Campeonato getCampeonato(String nomeCampeonato);
+
+    public List<Inscricao> getInscricoes(String nomeCampeonato);
+
+    public List<String> getJogadoresASimular(String nomeCampeonato);
 }

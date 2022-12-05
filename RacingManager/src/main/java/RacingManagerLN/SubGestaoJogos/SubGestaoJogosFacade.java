@@ -3,12 +3,14 @@ package RacingManagerLN.SubGestaoJogos;
 import RacingManagerLN.SubGestaoCC.Campeonato;
 import RacingManagerLN.SubGestaoCP.Carro.Carro;
 import RacingManagerLN.SubGestaoCP.Piloto;
+import RacingManagerLN.SubGestaoJogos.Simulacao.Configuracao;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SubGestaoJogosFacade {
     private Map<String, List<Inscricao>> allInscricoes;
@@ -20,7 +22,7 @@ public class SubGestaoJogosFacade {
     public void guardaEscolhasUser(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto) {
         Inscricao inscricao = new Inscricao(aUser,aCampeonato,aCarro,aPiloto);
         String nomeCampeonato= aCampeonato.getNomeCampeonato();
-        if(getInscricaoCampeonato(nomeCampeonato)!=null) {
+        if(getInscricoesCampeonato(nomeCampeonato)!=null) {
             List<Inscricao> l = new ArrayList<>();
             l.add(inscricao);
             allInscricoes.put(nomeCampeonato, l);
@@ -31,13 +33,16 @@ public class SubGestaoJogosFacade {
         }
     }
 
-    public List<Inscricao> getInscricaoCampeonato(String aNomeCampeonato) {
+    public List<Inscricao> getInscricoesCampeonato(String aNomeCampeonato) {
         return allInscricoes.get(aNomeCampeonato);
+    }
+
+    public List<String> getJogadoresASimular(String nomeCampeonato){
+        return allInscricoes.get(nomeCampeonato).stream().map(x->x.getUser().getUsername()).collect(Collectors.toList());
     }
 
     public void removeInscricoesCampeonato(String aNomeCampeonato) {
         allInscricoes.remove(aNomeCampeonato);
-
     }
 
     public String getTipoCarro(String aNomeCampeonato, String aUsername) {
@@ -47,10 +52,8 @@ public class SubGestaoJogosFacade {
             if(insc.getUser().getUsername().equals(aUsername)){
                 s=insc.getCarro().getModelo();
             }
-
         }
         return  s;
-
     }
 
     public boolean validaNumeroInscricoes(String aNomeCampeonato) {

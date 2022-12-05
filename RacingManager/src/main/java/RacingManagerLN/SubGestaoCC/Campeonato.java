@@ -12,20 +12,19 @@ public class Campeonato {
     private String nomeCampeonato;
     private int participantes;
     private Map<String, Integer> classificacaoCampeonato;
-    private List<Integer> pontuacoes;
     private Map<String, Circuito> circuitosCampeonato;
 
-    public Campeonato(String nomeCampeonato, int participantes, Map<String, Integer> classificacaoCampeonato, List<Integer> pontuacoes, Map<String, Circuito> circuitosCampeonato) {
+    public Campeonato(String nomeCampeonato, int participantes, Map<String, Circuito> circuitosCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
         this.participantes = participantes;
-        this.classificacaoCampeonato = classificacaoCampeonato;
-        this.pontuacoes = pontuacoes;
+        this.classificacaoCampeonato = new HashMap<>();
         this.circuitosCampeonato = circuitosCampeonato;
     }
 
     public Campeonato(String nomeCampeonato, int participantes, List<Circuito> circuitosCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
         this.participantes = participantes;
+        this.classificacaoCampeonato=new HashMap<>();
         setCircuitos(circuitosCampeonato);
     }
 
@@ -33,8 +32,8 @@ public class Campeonato {
         this.nomeCampeonato = c.nomeCampeonato;
         this.circuitosCampeonato = c.circuitosCampeonato;
         this.participantes = c.participantes;
-        this.classificacaoCampeonato = c.classificacaoCampeonato;
-        this.pontuacoes = c.pontuacoes;
+        this.classificacaoCampeonato = new HashMap<>();
+        //this.pontuacoes = c.pontuacoes;
     }
 
     public List <Circuito> getCircuitos() {
@@ -80,13 +79,23 @@ public class Campeonato {
         aClassificacao.forEach((String,Integer)->this.classificacaoCampeonato.put(String,Integer));
     }
 
-    public void atualizaClassificacao() {
-
+    public void atualizaClassificacao(Map<String,Integer> pontuacoes) {
+        if(this.classificacaoCampeonato.size()==0){
+            pontuacoes.forEach((String,Integer)->this.classificacaoCampeonato.put(String,Integer));
+        }else{
+            for(Map.Entry<String,Integer> p: pontuacoes.entrySet()){
+                for(Map.Entry<String,Integer> c: this.classificacaoCampeonato.entrySet()){
+                    if(c.getKey().equals(p.getKey())){
+                        int oldScore = this.classificacaoCampeonato.get(c.getKey());
+                        int newScore = oldScore + p.getValue();
+                        this.classificacaoCampeonato.put(c.getKey(),newScore);
+                    }
+                }
+            }
+        }
     }
 
-    public void atualizaClassificacaoCategoria() {
-        throw new UnsupportedOperationException();
-    }
+    //public void atualizaClassificacaoCategoria() {throw new UnsupportedOperationException();}
 
     public Map<String, Integer> getClasssificacaoCamp() {
         return this.classificacaoCampeonato;
@@ -96,14 +105,14 @@ public class Campeonato {
         return this.nomeCampeonato;
     }
 
+    public int getNumeroCorridas() {
+        return this.circuitosCampeonato.size();
+    }
+
     public void setNomeCampeonato(String aNomeCampeonato) {
         this.nomeCampeonato = aNomeCampeonato;
     }
 
-    public void adicionaPontuacoes(Map<String, Integer> aPontuacoesJogo) {
-        //Não sei se vai adicionar pela ordem certa??
-        this.pontuacoes = aPontuacoesJogo.values().stream().toList();
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -117,8 +126,8 @@ public class Campeonato {
             return (this.nomeCampeonato.equals(camp.nomeCampeonato))
                     && (this.circuitosCampeonato.equals(camp.circuitosCampeonato))
                     && (this.classificacaoCampeonato.equals(camp.classificacaoCampeonato))
-                    && (this.participantes == camp.participantes)
-                    && (this.pontuacoes.equals(camp.pontuacoes));
+                    && (this.participantes == camp.participantes);
+                    //&& (this.pontuacoes.equals(camp.pontuacoes));
         }
         return false;
     }

@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 
 public class Simulacao implements Clima {
     private Map<String, Integer> numConf;
-    private Map<String, Integer> pontuacoes;
-    private Configuracao allConfiguracoes;
+    private Map<String, Integer> score; //username - pontuacao
+    private Map<Integer,String> ordemPilotos; //posicao-piloto(username)
+    private final List<Integer> pontuacoes = Arrays.asList(12,10,8,7,6,5,4,3,2,1,0);
+    private Map<String,Configuracao> allConfiguracoes;
     private List<Inscricao> inscricoesCampeonato;
 
     @Override
@@ -29,10 +31,15 @@ public class Simulacao implements Clima {
         return clima;
     }
 
-    public Simulacao(Circuito c, List<Inscricao> allInscricoes){//simulacao base
+    public Simulacao(Circuito c, List<Inscricao> allInscricoes,List<Configuracao> allConfiguracoes){//simulacao base
+        if(allConfiguracoes.size()!=0){
+            allInscricoes=alteraConfiguracoes(allInscricoes,allConfiguracoes);
+        }
+        this.ordemPilotos = new HashMap<>();
+        this.score=new HashMap<>();
         int numVoltas = c.getVoltas();
         int clima = this.clima();
-        this.showPartida(c.posicionaJogadores(allInscricoes.stream().map(x->x.getPiloto().getNome()+"-"+x.getUser().getUsername()).collect(Collectors.toList())),clima,c.getNomeCircuito());
+        this.showPartida(posicionaJogadores(allInscricoes.stream().map(x->x.getPiloto().getNome()+"-"+x.getUser().getUsername()).collect(Collectors.toList())),clima,c.getNomeCircuito());
         //circuito GDU:GRAU DIFICULDADE DE ULTRAPASSAGEM
         //PILOTO : CTS-melhor desempenho em tempo seco > 0.5 SVA-arrica pouco quando <0.5
         //CARRO: fiabilidade
@@ -100,9 +107,22 @@ public class Simulacao implements Clima {
                 }
             }
         }
-        c.posicionaJogadores(posicoes);
-
+        int jscore;
+        for(jscore=0;jscore<posicoes.size();jscore++){
+            this.score.put(posicoes.get(jscore).split("-")[1],pontuacoes.get(jscore));
+        }
+        showResultados(posicoes);
     }
+
+    public Map<Integer,String> posicionaJogadores(List<String> jogadores){
+        int N = jogadores.size();
+        int i;
+        for(i=1;i<=N;i++){
+            this.ordemPilotos.put(i,jogadores.get(i));
+        }
+        return this.ordemPilotos;
+    }
+
 
     public boolean consegueEfetuarPercurso(int gdu,Carro carro,Piloto piloto,int clima){
         //  GDU: Possível=0 Difícil=1 Impossível=2
@@ -138,30 +158,39 @@ public class Simulacao implements Clima {
         System.out.println("David Croft (comentador): WOW! Acabámos de assistir a uma incrível ultrapassagem do "+piloto1+"."+piloto2+" está a perder terreno e fica atrás do "+piloto1);
     }
 
-
-
-    public Map<String, Integer> getnumConf() {
-        return numConf;
+    public void showResultados(List<String> posicoes){
+        System.out.println("David Croft (comentador): Que incrivel corrida! Passo a mostrar os resultados:");
+        int lugar=1;
+        for(String p : posicoes){
+            System.out.println(lugar+"º -"+p);
+        }
+        System.out.println("David Croft (comentador): Daqui David Croft. Esperemos encontra-lo na proxima corrida.");
     }
 
-    public void setnumConf(Map<String, Integer> numConf) {
-        this.numConf = numConf;
+    public Map<String,Integer> getScore(){
+        return this.score;
     }
 
-    public Map<String, Integer> getpontuacoes() {
-        return pontuacoes;
-    }
-
-    public void setpontuacoes(Map<String, Integer> pontuacoes) {
-        this.pontuacoes = pontuacoes;
-    }
-
-    public Configuracao getallConfiguracoes() {
-        return allConfiguracoes;
+    public List<Inscricao> alteraConfiguracoes(List<Inscricao> inscricoes,List<Configuracao> configuracoes) {
+        for(Configuracao c: configuracoes){
+            for(Inscricao i : inscricoes){
+                if(c.getUsername().equals(i.getUser().getUsername()) && i.getCarro() instanceof C2){
+                    i.getCarro().setDownforce(c.getDownforce());
+                    i.getCarro().setModoMotor(c.getModomotor());
+                    i.getCarro().setTipopneu(c.getTipopneu());
+                    ((C2) i.getCarro()).setAfinacao(c.getAfinacao());
+                }
+                else{
+                    i.getCarro().setDownforce(c.getDownforce());
+                    i.getCarro().setModoMotor(c.getModomotor());
+                    i.getCarro().setTipopneu(c.getTipopneu());
+                }
+            }
+        }
+        return inscricoes;
     }
 
     public void setallConfiguracoes(Configuracao allConfiguracoes) {
-        this.allConfiguracoes = allConfiguracoes;
     }
 
     public List<Inscricao> getinscricoesCampeonato() {

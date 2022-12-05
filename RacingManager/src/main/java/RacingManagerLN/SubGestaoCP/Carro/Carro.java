@@ -130,9 +130,18 @@ public class Carro {
     }
 
     public void alteraModo(String aModo) {
+
     }
 
     public void alteraTipoPneu(String aTipo) {
+    }
+
+    public void setTipopneu(tipoPneu t){
+        this.tipopneu=t;
+    }
+
+    public void setModoMotor(modoMotor m){
+        this.motor=m;
     }
 
 

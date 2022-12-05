@@ -18,7 +18,6 @@ public class Circuito {
     private List<Reta> allRetas;
     private List<Curva> allCurvas;
     private List<Chicane> allChicanes;
-    private Map<Integer,String> classificacaoCircuito;
 
     public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numCurvas, int numChicanes, List<Reta> allRetas, List<Curva> allCurvas, List<Chicane> allChicanes) {
         this.nomeCircuito = nomeCircuito;
@@ -30,7 +29,6 @@ public class Circuito {
         this.allRetas = allRetas;
         this.allCurvas = allCurvas;
         this.allChicanes = allChicanes;
-        this.classificacaoCircuito=new HashMap<>();
     }
 
     public Circuito(Circuito c){
@@ -146,15 +144,6 @@ public class Circuito {
         this.allChicanes.stream().map(Chicane::getIdChicane).collect(Collectors.toList()).forEach(x->percurso.add(x));
         Collections.shuffle(percurso);
         return percurso;
-    }
-
-    public Map<Integer,String> posicionaJogadores(List<String> jogadores){
-        int N = jogadores.size();
-        int i;
-        for(i=1;i<=N;i++){
-            this.classificacaoCircuito.put(i,jogadores.get(i));
-        }
-        return this.classificacaoCircuito;
     }
 
     @Override

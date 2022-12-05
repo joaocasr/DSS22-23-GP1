@@ -9,6 +9,7 @@ import RacingManagerLN.SubGestaoCC.SubGestaoCCFacade;
 import RacingManagerLN.SubGestaoCP.Carro.Carro;
 import RacingManagerLN.SubGestaoCP.Piloto;
 import RacingManagerLN.SubGestaoCP.SubGestaoCPFacade;
+import RacingManagerLN.SubGestaoJogos.Inscricao;
 import RacingManagerLN.SubGestaoJogos.SubGestaoJogosFacade;
 import RacingManagerLN.SubGestaoUsers.SubGestaoUsersFacade;
 import RacingManagerLN.SubGestaoUsers.User;
@@ -171,4 +172,18 @@ public class RacingManagerLN implements IRacingManagerLN{
     public String consultaCampeonato(String nomeCampeonato){
         return this.subGestaoCCFacade.consultaCampeonato(nomeCampeonato);
     }
+
+    @Override
+    public Campeonato getCampeonato(String nomeCampeonato) {
+        return this.subGestaoCCFacade.getCampeonato(nomeCampeonato);
+    }
+
+    public List<Inscricao> getInscricoes(String nomeCampeonato){
+        return this.subGestaoJogosFacade.getInscricoesCampeonato(nomeCampeonato);
+    }
+
+    public List<String> getJogadoresASimular(String nomeCampeonato){
+        return this.subGestaoJogosFacade.getJogadoresASimular(nomeCampeonato);
+    }
+
 }
