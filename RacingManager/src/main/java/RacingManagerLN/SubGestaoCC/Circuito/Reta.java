@@ -5,19 +5,19 @@ public class Reta {
     private int gdu;
 
     public String getId() {
-        throw new UnsupportedOperationException();
+        return this.idReta;
     }
 
     public void setId(String aId) {
-        throw new UnsupportedOperationException();
+        this.idReta=aId;
     }
 
-    public void getGdu() {
-        throw new UnsupportedOperationException();
+    public int getGdu() {
+        return this.gdu;
     }
 
     public void setGdu(int aGdu) {
-        throw new UnsupportedOperationException();
+        this.gdu=aGdu;
     }
 
     public Reta(String aId,int gdu) {

@@ -2,7 +2,11 @@ package RacingManagerLN.SubGestaoCC.Circuito;
 
 import RacingManagerLN.SubGestaoCC.Campeonato;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Circuito {
     private String nomeCircuito;
@@ -63,6 +67,29 @@ public class Circuito {
         this.voltas = voltas;
     }
 
+    public Curva getCurva(String id){
+        Curva curva =null;
+        for(Curva c : this.allCurvas){
+            if(c.getId().equals(id)) curva=c;
+        }
+        return curva;
+    }
+
+    public Reta getReta(String id){
+        Reta reta =null;
+        for(Reta r : this.allRetas){
+            if(r.getId().equals(id)) reta=r;
+        }
+        return reta;
+    }
+    public Chicane getChicane(String id){
+        Chicane chicane=null;
+        for(Chicane c : this.allChicanes){
+            if(c.getIdChicane().equals(id)) chicane=c;
+        }
+        return chicane;
+    }
+
     public int getNumRetas() {
         return numRetas;
     }
@@ -111,6 +138,13 @@ public class Circuito {
         this.allChicanes = allChicanes;
     }
 
+    public List<String> constroiPercurso(){
+        List<String> percurso=this.allRetas.stream().map(Reta::getId).collect(Collectors.toList());
+        this.allCurvas.stream().map(Curva::getId).collect(Collectors.toList()).forEach(x->percurso.add(x));
+        this.allChicanes.stream().map(Chicane::getIdChicane).collect(Collectors.toList()).forEach(x->percurso.add(x));
+        Collections.shuffle(percurso);
+        return percurso;
+    }
 
     @Override
     public boolean equals(Object obj) {

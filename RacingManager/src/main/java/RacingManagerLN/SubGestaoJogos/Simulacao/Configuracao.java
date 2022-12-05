@@ -4,11 +4,19 @@ import RacingManagerLN.SubGestaoCP.Carro.C2;
 import RacingManagerLN.SubGestaoCP.Carro.Carro;
 
 public class Configuracao {
-        private String username;
-        private int downforce;
-        private Carro.tipoPneu tipopneu;
-        private Carro.modoMotor modomotor;
-        private C2.Afinacao afinacao;
+    private String username;
+    private int downforce;
+    private Carro.tipoPneu tipopneu; // Carro
+    private Carro.modoMotor modomotor;// Carro
+    private C2.Afinacao afinacao;// categoria C2
+
+    public Configuracao(String username, int downforce, Carro.tipoPneu tipopneu, Carro.modoMotor modomotor, C2.Afinacao afinacao) {
+        this.username = username;
+        this.downforce = downforce;
+        this.tipopneu = tipopneu;
+        this.modomotor = modomotor;
+        this.afinacao = afinacao;
+    }
 
     public String getUsername() {
         return username;

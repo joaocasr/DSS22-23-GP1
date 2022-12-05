@@ -1,16 +1,15 @@
 package RacingManagerUI;
 
 import RacingManagerLN.Exceptions.SintaxeIncorretaException;
-import RacingManagerLN.IRacingManagerLN;
-import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
-import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
-import RacingManagerLN.SubGestaoCC.Circuito.Curva;
-import RacingManagerLN.SubGestaoCC.Circuito.Reta;
-import RacingManagerLN.SubGestaoUsers.User;
+import RacingManagerLN.*;
+import RacingManagerLN.SubGestaoJogos.Simulacao.Configuracao;
+import RacingManagerLN.SubGestaoJogos.Simulacao.Simulacao;
+import RacingManagerLN.SubGestaoUsers.*;
+import RacingManagerLN.SubGestaoCC.Circuito.*;
+import RacingManagerLN.SubGestaoCC.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+
+import java.util.*;
 
 public class TextUI {
     private static Menu menu = new Menu();
@@ -227,9 +226,35 @@ public class TextUI {
         System.out.println(iRacingManagerLN.consultaCampeonato(nome));
     }
 
+    public void trataSimularCampeonato(){
+        System.out.println("Digite o campeonato que pretende simular:");
+        Scanner scanner = new Scanner(System.in);
+        String nome = scanner.nextLine();
+        Campeonato campeonato =  iRacingManagerLN.getCampeonato(nome);
+        int NCorridas = campeonato.getNumeroCorridas();
+        List<Configuracao> configuracoes= new ArrayList<>();
+        Map<String,Integer> numeroConfiguracoes = new HashMap<>();
+        List<String> jogadores = iRacingManagerLN.getJogadoresASimular(nome);
+        for(String jogador: jogadores){
+            numeroConfiguracoes.put(jogador,0);
+        }
+        Map<String,Integer> pontuacoes = new HashMap<>();
+        for(Circuito c: campeonato.getCircuitos()){
+            Simulacao simulacao = new Simulacao(c,iRacingManagerLN.getInscricoes(nome),configuracoes);
+            pontuacoes=simulacao.getScore();
+            campeonato.atualizaClassificacao(pontuacoes);
+            for(String j : jogadores) {
+                if (numeroConfiguracoes.get(j) < ((2 * NCorridas) / 3)) {
+                    System.out.println("*** BOX 1 - jogador =" + j + " ***");
+                    // a completar
+                }
+            }
+        }
+    }
+
+
     public void trataRemoverCircuito(){}
     public void trataRemoverCampeonato(){}
-    public void trataSimularCampeonato(){}
     public void trataGerirCampeonatos(){}
     public void trataGerirCircuitos(){}
     public void trataGerirCarros(){}

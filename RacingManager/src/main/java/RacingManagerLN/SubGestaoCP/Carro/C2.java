@@ -1,7 +1,7 @@
 package RacingManagerLN.SubGestaoCP.Carro;
 
 public class C2 extends Carro {
-    private double fiabilidadeTeorica;
+    private final double fiabilidadeTeorica = 0.8;
     private Afinacao afinacao;
 
     public enum Afinacao {
@@ -21,6 +21,16 @@ public class C2 extends Carro {
         return this.fiabilidadeTeorica;
     }
 
+    public double getFiabilidade(){
+        double extra=0;
+        if(this.afinacao.equals(Afinacao.Salao)) extra=1;
+        if(this.afinacao.equals(Afinacao.Corpo)) extra=2;
+        if(this.afinacao.equals(Afinacao.Suspensao)) extra=3;
+        if(this.afinacao.equals(Afinacao.Motor)) extra=4;
+        if(this.afinacao.equals(Afinacao.Freio)) extra=5;
+        return this.fiabilidadeTeorica+ (double)(getCilindrada()/1000) +extra;
+    }
+
     public void setFiabilidadeTeorica(double aFiabilidadeTeorica) {
         throw new UnsupportedOperationException();
     }
@@ -29,6 +39,9 @@ public class C2 extends Carro {
         throw new UnsupportedOperationException();
     }
 
+    public void setAfinacao(Afinacao a){
+        this.afinacao=a;
+    }
     public void alteraAfinacao(String aAfinacao) {
         throw new UnsupportedOperationException();
     }

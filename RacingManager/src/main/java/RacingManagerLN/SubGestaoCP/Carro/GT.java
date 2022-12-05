@@ -6,8 +6,9 @@ public class GT extends Carro {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
-    public double calculaFiabilidade(int aVolta, int aTotalVoltas, int aCilindrada) {
-        throw new UnsupportedOperationException();
+    public double getFiabilidade(int voltas){
+        double d =(double) (getCilindrada()/1000);
+        return (0.85/d)- 0.2*voltas;
     }
 
     public boolean equals(Object aO) {

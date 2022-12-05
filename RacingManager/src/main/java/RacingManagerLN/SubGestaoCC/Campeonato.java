@@ -15,12 +15,14 @@ public class Campeonato {
         this.nomeCampeonato = aNomeCampeonato;
         this.participantes = aParticipantes;
         this.circuitosCampeonato = null;
+
     }
 
     //When we have all the information
     public Campeonato(String nomeCampeonato, int participantes, List<Circuito> circuitosCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
         this.participantes = participantes;
+        this.classificacaoCampeonato=new HashMap<>();
         setCircuitos(circuitosCampeonato);
     }
 
@@ -66,9 +68,14 @@ public class Campeonato {
         return this.nomeCampeonato;
     }
 
+    public int getNumeroCorridas() {
+        return this.circuitosCampeonato.size();
+    }
+
     public void setNomeCampeonato(String aNomeCampeonato) {
         this.nomeCampeonato = aNomeCampeonato;
     }
+
 
     @Override
     public boolean equals(Object obj) {
