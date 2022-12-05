@@ -53,8 +53,9 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
         Campeonato camp = this.allCampeonatos.get(aNomeCamp);
         if(camp == null) return false;
 
-        if(camp.removeCircuito(aCircNomeAntigo) == null) return false;
+        if(!camp.circuitoExiste(aCircNomeAntigo)) return false;
 
+        camp.removeCircuito(aCircNomeAntigo);
         Circuito cir = this.allCircuitos.get(aCircNomeNovo);
         if(cir == null) return false;
         camp.addCircuito(cir);
@@ -65,8 +66,11 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
     public boolean apagaCircuitoDoCampeonato(String aCampNome, String aCircNome) {
         Campeonato camp = this.allCampeonatos.get(aCampNome);
         if(camp == null) return false;
+        if(!camp.circuitoExiste(aCircNome)) return false;
 
-        return camp.removeCircuito(aCircNome) != null;
+        camp.removeCircuito(aCircNome);
+
+        return true;
     }
 
     public void apagaCampeonato(String aCampNome) {

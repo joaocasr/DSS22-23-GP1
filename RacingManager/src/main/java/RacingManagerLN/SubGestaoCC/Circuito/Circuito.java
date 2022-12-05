@@ -134,22 +134,39 @@ public class Circuito {
         return false;
     }
 
-    public Circuito clone(){
-        return new Circuito(this);
+    @Override
+    public Circuito clone() {
+        final Circuito clone;
+        try {
+            clone = (Circuito) super.clone();
+        }
+        catch (CloneNotSupportedException ex) {
+            throw new RuntimeException("superclass messed up", ex);
+        }
+        clone.nomeCircuito = this.nomeCircuito;
+        clone.distancia = this.distancia ;
+        clone.voltas = this.voltas;
+        clone.numRetas = this.numRetas;
+        clone.numCurvas = this.numCurvas;
+        clone.numChicanes = this.numChicanes;
+        clone.allRetas = this.allRetas;
+        clone.allCurvas = this.allCurvas;
+        clone.allChicanes = this.allChicanes;
+        return clone;
     }
 
     @Override
     public String toString() {
-        return "Circuito{" +
-                "nomeCircuito='" + nomeCircuito + '\'' +
-                ", distancia=" + distancia +
-                ", voltas=" + voltas +
-                ", numRetas=" + numRetas +
-                ", numCurvas=" + numCurvas +
-                ", numChicanes=" + numChicanes +
-                ", allRetas=" + allRetas +
-                ", allCurvas=" + allCurvas +
-                ", allChicanes=" + allChicanes +
+        return "Circuito{\n" +
+                "    nomeCircuito= '" + nomeCircuito + "',\n" +
+                "    distancia= " + distancia + ",\n" +
+                "    voltas= " + voltas + ",\n" +
+                "    numRetas= " + numRetas + ",\n" +
+                "    numCurvas= " + numCurvas + ",\n" +
+                "    numChicanes= " + numChicanes + ",\n" +
+                "    allRetas= " + allRetas + ",\n" +
+                "    allCurvas= " + allCurvas + ",\n" +
+                "    allChicanes= " + allChicanes + "\n" +
                 '}';
     }
 }

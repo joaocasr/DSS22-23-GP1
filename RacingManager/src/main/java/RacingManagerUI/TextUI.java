@@ -122,6 +122,7 @@ public class TextUI {
     }
 
     public void trataRegistarConta() throws SintaxeIncorretaException{
+        //User input
         System.out.println("Digite o username:");
         Scanner scanner = new Scanner(System.in);
         String username = scanner.nextLine();
@@ -129,13 +130,19 @@ public class TextUI {
         String password= scanner.nextLine();
         System.out.println("Registar conta como administrador?(S/N)");
         String admin = scanner.nextLine();
+
+        //check if account is admin
         boolean isAdmin=false;
         if(admin.equals("S")) isAdmin = true;
-        else if(admin.equals("N")) isAdmin = false;
-        else throw new SintaxeIncorretaException("Não foi possível ler o valor introduzido.");
-        if(iRacingManagerLN.existeUser(username)) System.out.print("O utilizador que digitou já existe.");
-        else if(iRacingManagerLN.registaUser(username,password,isAdmin)) System.out.print("O registo de conta foi efetuado com sucesso.");
-        else if(!iRacingManagerLN.registaUser(username, password, isAdmin)) System.out.print("Registo de conta inválido.");;
+        else if(!admin.equals("N")) throw new SintaxeIncorretaException("Não foi possível ler o valor introduzido.");
+
+        //Validate input and register account
+        if(iRacingManagerLN.existeUser(username))
+            System.out.print("O utilizador que digitou já existe.");
+        else if(iRacingManagerLN.registaUser(username,password,isAdmin))
+            System.out.print("O registo de conta foi efetuado com sucesso.");
+        else
+            System.out.print("Registo de conta inválido.");;
     }
 
     public void trataAdicionarCampeonato(){

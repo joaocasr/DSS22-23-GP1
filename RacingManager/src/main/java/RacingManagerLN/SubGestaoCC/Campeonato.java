@@ -2,62 +2,56 @@ package RacingManagerLN.SubGestaoCC;
 
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Campeonato {
     private String nomeCampeonato;
     private int participantes;
-    private Map<String, Integer> classificacaoCampeonato;
-    private List<Integer> pontuacoes;
-    private Map<String, Circuito> circuitosCampeonato;
+    private List<Circuito> circuitosCampeonato;
 
-    public Campeonato(String nomeCampeonato, int participantes, Map<String, Integer> classificacaoCampeonato, List<Integer> pontuacoes, Map<String, Circuito> circuitosCampeonato) {
-        this.nomeCampeonato = nomeCampeonato;
-        this.participantes = participantes;
-        this.classificacaoCampeonato = classificacaoCampeonato;
-        this.pontuacoes = pontuacoes;
-        this.circuitosCampeonato = circuitosCampeonato;
+    //Before adding circuits
+    public Campeonato(String aNomeCampeonato, int aParticipantes) {
+        this.nomeCampeonato = aNomeCampeonato;
+        this.participantes = aParticipantes;
+        this.circuitosCampeonato = null;
     }
 
+    //When we have all the information
     public Campeonato(String nomeCampeonato, int participantes, List<Circuito> circuitosCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
         this.participantes = participantes;
         setCircuitos(circuitosCampeonato);
     }
 
+    //Cloning?
     public Campeonato(Campeonato c){
         this.nomeCampeonato = c.nomeCampeonato;
-        this.circuitosCampeonato = c.circuitosCampeonato;
         this.participantes = c.participantes;
-        this.classificacaoCampeonato = c.classificacaoCampeonato;
-        this.pontuacoes = c.pontuacoes;
+        this.circuitosCampeonato = c.circuitosCampeonato;
     }
 
+
     public List <Circuito> getCircuitos() {
-        return this.circuitosCampeonato.values().stream().toList();
+        return this.circuitosCampeonato;
     }
 
     //ACRESCENTEI ESTA
     public boolean circuitoExiste(String aNomeCirc){
-        return this.circuitosCampeonato.containsKey(aNomeCirc);
+        return this.circuitosCampeonato.stream().anyMatch(circ -> Objects.equals(circ.getNomeCircuito(), aNomeCirc));
     }
 
-    public void setCircuitos(List<Circuito> aCircuitos) {
-        this.circuitosCampeonato =
-                aCircuitos.stream().collect(Collectors.toMap(Circuito::getNomeCircuito, item -> item));
-    }
+    public void setCircuitos(List<Circuito> aCircuitos) {this.circuitosCampeonato = aCircuitos;}
 
     public void addCircuito(Circuito aCircuito) {
-        this.circuitosCampeonato.put(aCircuito.getNomeCircuito(), aCircuito);
+        this.circuitosCampeonato.add(aCircuito);
     }
 
     //Retorna o circuito removido
-    public Circuito removeCircuito(String aCircNome) {
-        return this.circuitosCampeonato.remove(aCircNome);
+    public void removeCircuito(String aCircNome) {
+        this.circuitosCampeonato.stream()
+                .filter(circ -> !Objects.equals(circ.getNomeCircuito(), aCircNome))
+                .collect(Collectors.<Circuito>toList());
     }
 
     public int getParticipantes() {
@@ -68,41 +62,12 @@ public class Campeonato {
         this.participantes = aParticipantes;
     }
 
-
-    public Campeonato(String aNomeCampeonato, int aParticipantes) {
-        this.nomeCampeonato = aNomeCampeonato;
-        this.participantes = aParticipantes;
-        this.circuitosCampeonato = new HashMap<String, Circuito>();
-    }
-
-    public Campeonato(Map<String, Integer> aClassificacao) {
-        this.classificacaoCampeonato = new HashMap<>();
-        aClassificacao.forEach((String,Integer)->this.classificacaoCampeonato.put(String,Integer));
-    }
-
-    public void atualizaClassificacao() {
-
-    }
-
-    public void atualizaClassificacaoCategoria() {
-        throw new UnsupportedOperationException();
-    }
-
-    public Map<String, Integer> getClasssificacaoCamp() {
-        return this.classificacaoCampeonato;
-    }
-
     public String getNomeCampeonato() {
         return this.nomeCampeonato;
     }
 
     public void setNomeCampeonato(String aNomeCampeonato) {
         this.nomeCampeonato = aNomeCampeonato;
-    }
-
-    public void adicionaPontuacoes(Map<String, Integer> aPontuacoesJogo) {
-        //Não sei se vai adicionar pela ordem certa??
-        this.pontuacoes = aPontuacoesJogo.values().stream().toList();
     }
 
     @Override
@@ -116,23 +81,32 @@ public class Campeonato {
             // compare fields of o with fields of this instance
             return (this.nomeCampeonato.equals(camp.nomeCampeonato))
                     && (this.circuitosCampeonato.equals(camp.circuitosCampeonato))
-                    && (this.classificacaoCampeonato.equals(camp.classificacaoCampeonato))
-                    && (this.participantes == camp.participantes)
-                    && (this.pontuacoes.equals(camp.pontuacoes));
+                    && (this.participantes == camp.participantes);
         }
         return false;
     }
 
+    @Override
     public Campeonato clone() {
-        return new Campeonato(this);
+        final Campeonato clone;
+        try {
+            clone = (Campeonato) super.clone();
+        }
+        catch (CloneNotSupportedException ex) {
+            throw new RuntimeException("superclass messed up", ex);
+        }
+        clone.nomeCampeonato = this.nomeCampeonato;
+        clone.participantes = this.participantes;
+        clone.circuitosCampeonato = this.circuitosCampeonato;
+        return clone;
     }
 
     @Override
     public String toString() {
-        return "Campeonato{" +
-                "nomeCampeonato='" + nomeCampeonato + '\'' +
-                ",\n participantes=" + participantes +
-                ",\n circuitosCampeonato=" + circuitosCampeonato +",\n"+
+        return "Campeonato{\n" +
+                "    nomeCampeonato= '" + nomeCampeonato + "',\n" +
+                "    participantes= " + participantes + "',\n" +
+                "    circuitosCampeonato= " + circuitosCampeonato +",\n"+
                 '}';
     }
 }

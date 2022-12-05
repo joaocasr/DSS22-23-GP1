@@ -42,9 +42,9 @@ public class Curva {
 
     @Override
     public String toString() {
-        return "Curva{" +
-                "_idCurva='" + _idCurva + '\'' +
-                ", _gdu=" + _gdu +
+        return "Curva{\n" +
+                "    _idCurva= '" + _idCurva + "',\n" +
+                "    _gdu= " + _gdu + "\n" +
                 '}';
     }
 }
