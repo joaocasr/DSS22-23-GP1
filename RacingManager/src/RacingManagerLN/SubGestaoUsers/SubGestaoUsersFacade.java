@@ -1,5 +1,7 @@
 package RacingManagerLN.SubGestaoUsers;
 
+import data.UserDAO;
+
 import java.util.*;
 
 public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
@@ -8,7 +10,7 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
     private Map<String,User> allUsers;
 
     public SubGestaoUsersFacade(){
-        this.allUsers = new HashMap<>();
+        this.allUsers = UserDAO.getInstance();
     }
 
     @Override
