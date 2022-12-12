@@ -5,12 +5,12 @@ import RacingManagerLN.SubGestaoCP.Carro.Carro;
 
 public class Configuracao {
     private String username;
-    private double downforce;
+    private float downforce;
     private Carro.tipoPneu tipopneu; // Carro
     private Carro.modoMotor modomotor;// Carro
     private C2.Afinacao afinacao;// categoria C2
 
-    public Configuracao(String username, double downforce, String tipopneu, String modomotor, String afinacao) {
+    public Configuracao(String username, float downforce, String tipopneu, String modomotor, String afinacao) {
         this.username = username;
         this.downforce = downforce;
         this.tipopneu = Carro.converteStringPneu(tipopneu);
@@ -18,7 +18,7 @@ public class Configuracao {
         this.afinacao = C2.converteStringAfinacao(afinacao);
     }
 
-    public Configuracao(String username, double downforce, String tipopneu, String modomotor) {
+    public Configuracao(String username, float downforce, String tipopneu, String modomotor) {
         this.username = username;
         this.downforce = downforce;
         this.tipopneu = Carro.converteStringPneu(tipopneu);
@@ -33,11 +33,11 @@ public class Configuracao {
         this.username = username;
     }
 
-    public double getDownforce() {
+    public float getDownforce() {
         return downforce;
     }
 
-    public void setDownforce(int downforce) {
+    public void setDownforce(float downforce) {
         this.downforce = downforce;
     }
 

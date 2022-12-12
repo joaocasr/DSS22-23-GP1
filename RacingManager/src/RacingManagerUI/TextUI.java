@@ -251,7 +251,7 @@ public class TextUI {
                     System.out.println("*** PARAGEM- BOX "+nj+" - jogador =" + j + " ***");
                     System.out.println("Downforce");
                     System.out.print(">>>");
-                    double downforce= scanner.nextDouble();
+                    float downforce= scanner.nextFloat();
                     scanner.nextLine();
                     System.out.println("Tipo Pneu: [Macio] [Duro] [Chuva]");
                     System.out.print(">>>");
