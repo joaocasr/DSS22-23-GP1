@@ -8,7 +8,7 @@ public class Carro {
     private int potenciaCombustao;
     private float pac;
     private tipoPneu tipopneu;
-    private double downforce;
+    private float downforce;
     private modoMotor motor;
 
     public enum modoMotor {
@@ -23,7 +23,7 @@ public class Carro {
         Chuva;
     }
 
-    public Carro(String idCarro,String marca,String modelo,int cilindrada,int potenciaCombustao,float pac,tipoPneu tipoPneu,double downforce,modoMotor modoMotor){
+    public Carro(String idCarro,String marca,String modelo,int cilindrada,int potenciaCombustao,float pac,tipoPneu tipoPneu,float downforce,modoMotor modoMotor){
         this.idCarro=idCarro;
         this.marca=marca;
         this.modelo=modelo;
@@ -95,11 +95,11 @@ public class Carro {
         this.pac=aPac;
     }
 
-    public double getDownforce() {
+    public float getDownforce() {
         return this.downforce;
     }
 
-    public void setDownforce(double aDownforce) {
+    public void setDownforce(float aDownforce) {
         this.downforce=aDownforce;
     }
 

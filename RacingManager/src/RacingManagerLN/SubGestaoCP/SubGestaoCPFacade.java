@@ -47,12 +47,12 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         allPilotos.remove(aNome);
     }
 
-    public void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, int downforce, int acilndrada, String tipoPneu, String modoMotor) {
+    public void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, float downforce, int acilndrada, String tipoPneu, String modoMotor) {
         C1Hibrido c1h = new C1Hibrido(aIdCarro,aMarca,aModelo,acilndrada,aPotenciaCombustao,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
         allCarros.put(aIdCarro,c1h);
     }
 
-    public void adicionarC1(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int acilndrada, String tipoPneu, int downforce, String modoMotor) {
+    public void adicionarC1(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int acilndrada, String tipoPneu, float downforce, String modoMotor) {
         C1 c1 = new C1(aIdCarro,aMarca,aModelo,acilndrada,aPotenciaCombustao,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
         allCarros.put(aIdCarro,c1);
     }
@@ -63,13 +63,13 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         else return false;
     }
 
-    public void adicionarC2(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, String tipoPneu, float aPac, int aCilindrada, int downforce, String modoMotor) {
+    public void adicionarC2(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, String tipoPneu, float aPac, int aCilindrada, float downforce, String modoMotor) {
         C2 c2 = new C2(aIdCarro, aMarca, aModelo,aCilindrada, aPotenciaCombustao, aPac, Carro.converteStringPneu(tipoPneu), downforce,Carro.converteStringMotor(modoMotor));
 
         allCarros.put(aIdCarro,c2);
     }
 
-    public void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, String tipoPneu, int aCilindrada, String modoMotor, int downforce) {
+    public void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, String tipoPneu, int aCilindrada, String modoMotor, float downforce) {
         C2Hibrido c2h = new C2Hibrido(aIdCarro, aMarca, aModelo,aCilindrada, aPotenciaCombustao, aPac, Carro.converteStringPneu(tipoPneu), downforce,Carro.converteStringMotor(modoMotor));
         c2h.setPotenciaEletrica(aPotenciaEletrica);
         allCarros.put(aIdCarro,c2h);
@@ -81,12 +81,12 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         else return false;
     }
 
-    public void adicionarGT(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aCilindrada, String tipoPneu, int downforce, String modoMotor) {
+    public void adicionarGT(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aCilindrada, String tipoPneu, float downforce, String modoMotor) {
         GT gt = new GT(aIdCarro,aMarca,aModelo,aCilindrada,aPotenciaCombustao,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
         allCarros.put(aIdCarro,gt);
     }
 
-    public void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, int aCilindrada, String tipoPneu, int downforce, String modoMotor) {
+    public void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, int aCilindrada, String tipoPneu, float downforce, String modoMotor) {
         GTHibrido gth = new GTHibrido(aIdCarro,aMarca,aModelo,aCilindrada,aPotenciaCombustao,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
         allCarros.put(aIdCarro,gth);
     }
@@ -97,7 +97,7 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         else return false;
     }
 
-    public void adicionarSC(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, String tipoPneu, int downforce, String modoMotor, int cilidrada) {
+    public void adicionarSC(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, String tipoPneu, float downforce, String modoMotor, int cilidrada) {
         SC sc = new SC(aIdCarro,aMarca,aModelo,cilidrada, aPotenciaCombustao,aPac,Carro.converteStringPneu(tipoPneu), downforce,Carro.converteStringMotor(modoMotor));
         allCarros.put(aIdCarro,sc);
     }

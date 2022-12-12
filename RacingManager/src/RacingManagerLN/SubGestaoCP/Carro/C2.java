@@ -18,7 +18,7 @@ public class C2 extends Carro {
         Salao;
     }
 
-    public C2(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, int downforce, modoMotor modoMotor) {
+    public C2(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, float downforce, modoMotor modoMotor) {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 

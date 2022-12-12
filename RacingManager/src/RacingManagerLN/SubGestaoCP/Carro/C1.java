@@ -3,7 +3,7 @@ package RacingManagerLN.SubGestaoCP.Carro;
 public class C1 extends Carro {
     private static final double fiabilidadeTeorica = 0.95;
 
-    public C1(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, int downforce, modoMotor modoMotor) {
+    public C1(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, float downforce, modoMotor modoMotor) {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 

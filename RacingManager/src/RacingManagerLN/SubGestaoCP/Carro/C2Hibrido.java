@@ -3,7 +3,7 @@ package RacingManagerLN.SubGestaoCP.Carro;
 public class C2Hibrido extends C2 {
     private int _potenciaEletrica;
 
-    public C2Hibrido(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, int downforce, modoMotor modoMotor) {
+    public C2Hibrido(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, float downforce, modoMotor modoMotor) {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
