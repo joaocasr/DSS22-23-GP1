@@ -21,25 +21,33 @@ public interface IRacingManagerLN {
 
     public boolean registaUser(String aUsername, String aPassword, boolean isAdmin);
 
-    public void adicionarC1(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac);
+    Boolean validaNomePiloto(String aNome);
 
-    public void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aPotenciaEletrica);
+    boolean existeCarro(String aIdCarro);
 
-    public void adicionarC2(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, String aTipoAfinacao, int aPac, int aCilindrada);
+    void adicionarC1(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int acilndrada, String tipoPneu, float downforce, String modoMotor);
 
-    public void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aPotenciaEletrica, String aTipoAfinacao, int aCilindrada);
+    void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, float downforce, int acilndrada, String tipoPneu, String modoMotor);
 
-    public void adicionarGT(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aCilindrada);
+    void adicionarC2(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, String tipoPneu, float aPac, int aCilindrada, float downforce, String modoMotor);
 
-    public void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aPotenciaEletrica, int aCilindrada);
+    void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, String tipoPneu, int aCilindrada, String modoMotor, float downforce);
 
-    public void adicionarSC(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac);
+    void adicionarGT(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aCilindrada, String tipoPneu, float downforce, String modoMotor);
 
-    public void adicionarPiloto(String aNomePiloto, int aSVA, int aCTS);
+    void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, int aCilindrada, String tipoPneu, float downforce, String modoMotor);
+
+    void adicionarSC(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, String tipoPneu, float downforce, String modoMotor, int cilidrada);
+
+    void adicionarPiloto(String aNomePiloto, float aSVA, float aCTS);
 
     public void removerPiloto(String aNomePiloto);
 
-    public List<String> getCarros();
+    Boolean validarPericia(float aCts, float aSva);
+
+    boolean validaPac(float aPac);
+
+    public List<Carro> getCarros();
 
     public List<String> getPilotos();
 

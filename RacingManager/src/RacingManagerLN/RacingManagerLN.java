@@ -45,58 +45,83 @@ public class RacingManagerLN implements IRacingManagerLN{
     }
 
     @Override
-    public void adicionarC1(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac) {
+    public Boolean validaNomePiloto(String aNome){
+        return this.subGestaoCPFacade.validaNomePiloto(aNome);
+    }
+
+    @Override
+    public boolean existeCarro(String aIdCarro){
+        return this.subGestaoCPFacade.existeCarro(aIdCarro);
+    }
+    @Override
+    public void adicionarC1(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int acilndrada, String tipoPneu, float downforce, String modoMotor) {
+
+        this.subGestaoCPFacade.adicionarC1(aIdCarro,aMarca,aModelo,aPotenciaCombustao,aPac,acilndrada,tipoPneu,downforce,modoMotor);
 
     }
 
     @Override
-    public void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aPotenciaEletrica) {
+    public void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, float downforce, int acilndrada, String tipoPneu, String modoMotor) {
+        this.subGestaoCPFacade.adicionarC1Hibrido(aIdCarro,aMarca,aModelo,aPotenciaCombustao,aPac,aPotenciaEletrica,downforce,acilndrada,tipoPneu,modoMotor);
+    }
+
+    @Override
+    public void adicionarC2(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, String tipoPneu, float aPac, int aCilindrada, float downforce, String modoMotor) {
+        this.subGestaoCPFacade.adicionarC2(aIdCarro,aMarca,aModelo,aPotenciaCombustao,tipoPneu,aPac,aCilindrada,downforce,modoMotor);
 
     }
 
     @Override
-    public void adicionarC2(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, String aTipoAfinacao, int aPac, int aCilindrada) {
+    public void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, String tipoPneu, int aCilindrada, String modoMotor, float downforce) {
+        this.subGestaoCPFacade.adicionarC2Hibrido(aIdCarro,aMarca,aModelo,aPotenciaCombustao,aPac,aPotenciaEletrica,tipoPneu,aCilindrada,modoMotor,downforce);
+    }
+
+    @Override
+    public void adicionarGT(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aCilindrada, String tipoPneu, float downforce, String modoMotor) {
+        this.subGestaoCPFacade.adicionarGT(aIdCarro,aMarca,aModelo,aPotenciaCombustao,aPac,aCilindrada,tipoPneu,downforce,modoMotor);
 
     }
 
     @Override
-    public void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aPotenciaEletrica, String aTipoAfinacao, int aCilindrada) {
+    public void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, int aCilindrada, String tipoPneu, float downforce, String modoMotor) {
+        this.subGestaoCPFacade.adicionarGTHibrido(aIdCarro,aMarca,aModelo,aPotenciaCombustao,aPac,aPotenciaEletrica,aCilindrada,tipoPneu,downforce,modoMotor);
+    }
+
+    @Override
+    public void adicionarSC(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, String tipoPneu, float downforce, String modoMotor, int cilidrada) {
+        this.subGestaoCPFacade.adicionarSC(aIdCarro,aMarca,aModelo,aPotenciaCombustao,aPac,tipoPneu,downforce,modoMotor,cilidrada);
 
     }
 
     @Override
-    public void adicionarGT(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aCilindrada) {
-
-    }
-
-    @Override
-    public void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac, int aPotenciaEletrica, int aCilindrada) {
-
-    }
-
-    @Override
-    public void adicionarSC(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, int aPac) {
-
-    }
-
-    @Override
-    public void adicionarPiloto(String aNomePiloto, int aSVA, int aCTS) {
+    public void adicionarPiloto(String aNomePiloto, float aSVA, float aCTS) {
+        this.subGestaoCPFacade.registarPiloto(aNomePiloto,aSVA,aCTS);
 
     }
 
     @Override
     public void removerPiloto(String aNomePiloto) {
+        this.subGestaoCPFacade.removePiloto(aNomePiloto);
 
+    }
+    @Override
+    public Boolean validarPericia(float aCts, float aSva) {
+       return this.subGestaoCPFacade.validarPericia(aCts,aSva);
     }
 
     @Override
-    public List<String> getCarros() {
-        return null;
+    public boolean validaPac(float aPac){
+        return this.subGestaoCPFacade.validaPac(aPac);
+    }
+
+    @Override
+    public List<Carro> getCarros() {
+        return this.subGestaoCPFacade.getAllCarros();
     }
 
     @Override
     public List<String> getPilotos() {
-        return null;
+        return this.subGestaoCPFacade.getNomePilotos();
     }
 
     @Override
@@ -162,6 +187,7 @@ public class RacingManagerLN implements IRacingManagerLN{
 
     @Override
     public void removerCarro(String aIdCarro) {
+        this.subGestaoCPFacade.removerCarro(aIdCarro);
 
     }
 

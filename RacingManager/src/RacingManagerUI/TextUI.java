@@ -2,11 +2,15 @@ package RacingManagerUI;
 
 import RacingManagerLN.Exceptions.SintaxeIncorretaException;
 import RacingManagerLN.*;
+import RacingManagerLN.SubGestaoCP.ISubGestaoCPFacade;
+import RacingManagerLN.SubGestaoCP.Piloto;
+import RacingManagerLN.SubGestaoCP.SubGestaoCPFacade;
 import RacingManagerLN.SubGestaoJogos.Simulacao.Configuracao;
 import RacingManagerLN.SubGestaoJogos.Simulacao.Simulacao;
 import RacingManagerLN.SubGestaoUsers.*;
 import RacingManagerLN.SubGestaoCC.Circuito.*;
 import RacingManagerLN.SubGestaoCC.*;
+import data.PilotoDAO;
 
 
 import java.util.*;
@@ -51,8 +55,8 @@ public class TextUI {
 
             menu.setHandlers(1, this::menuCampeonatos);
             menu.setHandlers(2, this::menuCircuitos);
-            menu.setHandlers(3, this::trataGerirCarros);
-            menu.setHandlers(4, this::trataGerirPilotos);
+            menu.setHandlers(3, this::menuCarros);
+            menu.setHandlers(4, this::menuPilotos);
             menu.setHandlers(5, this::trataLogout);
         }else{
             opcoes.add("Simular Campeonato\n");
@@ -283,8 +287,355 @@ public class TextUI {
     public void trataRemoverCampeonato(){}
     public void trataGerirCampeonatos(){}
     public void trataGerirCircuitos(){}
-    public void trataGerirCarros(){}
-    public void trataGerirPilotos(){}
+
+    public void menuPilotos(){
+        List<String> opcoes = new ArrayList<>();
+        opcoes.add("Criar Piloto\n");
+        opcoes.add("Remover Piloto\n");
+        opcoes.add("Voltar");
+
+        menu.setOptions(opcoes);
+
+        menu.setHandlers(1, this::trataCriaPilotos);
+        menu.setHandlers(2, this::trataRemoverPilotos);
+        menu.setHandlers(3,this::menuPrincipal2);
+
+
+        menu.run();
+    }
+    public void trataCriaPilotos(){
+        System.out.println("Digite o nome do Piloto:");
+        Scanner scanner = new Scanner(System.in);
+        String nome = scanner.nextLine();
+        System.out.println("Digite o CTS:");
+        float cts = scanner.nextFloat();
+        System.out.println("Digite o SVA:");
+        float sva = scanner.nextFloat();
+        if(iRacingManagerLN.validarPericia(cts,sva) && iRacingManagerLN.validaNomePiloto(nome)){
+            iRacingManagerLN.adicionarPiloto(nome,cts,sva);
+            System.out.println("Piloto criado com sucesso!");
+            menuPrincipal2();
+        }
+        else{
+            System.out.println("Pericia Invalida!");
+            trataCriaPilotos();
+        }
+
+
+    }
+
+    public void trataRemoverPilotos(){
+        System.out.println("Digite o nome do Piloto que deseja remover:");
+        Scanner scanner = new Scanner(System.in);
+        String nome = scanner.nextLine();
+        if(iRacingManagerLN.validaNomePiloto(nome)){
+            iRacingManagerLN.removerPiloto(nome);
+            System.out.println("Piloto removido!");
+            menuPrincipal2();
+        } else {
+            System.out.println("Esse Piloto não existe.");
+            menuPrincipal2();
+        }
+
+
+    }
+
+    public void menuCarros(){
+        List<String> opcoes = new ArrayList<>();
+        opcoes.add("Criar Carro\n");
+        opcoes.add("Remover Carro\n");
+        opcoes.add("Voltar");
+
+        menu.setOptions(opcoes);
+
+        menu.setHandlers(1, this::trataCriaCarros);
+        menu.setHandlers(2, this::trataRemoverCarros);
+        menu.setHandlers(3,this::menuPrincipal2);
+
+
+        menu.run();
+    }
+
+    public void menuTipoCarros(){
+        List<String> opcoes = new ArrayList<>();
+        opcoes.add("C1\n");
+        opcoes.add("C2\n");
+        opcoes.add("GT\n");
+        opcoes.add("SC\n");
+        opcoes.add("C1Hibrido\n");
+        opcoes.add("C2Hibrido\n");
+        opcoes.add("GTHibrido\n");
+
+
+        menu.setOptions(opcoes);
+
+        menu.setHandlers(1, this::trataCriaCarrosC1);
+        menu.setHandlers(2, this::trataCriaCarrosC2);
+        menu.setHandlers(3,this::trataCriaCarrosGT);
+        menu.setHandlers(4,this::trataCriaCarrosSC);
+        menu.setHandlers(5, this::trataCriaCarrosC1Hibrido);
+        menu.setHandlers(6, this::trataCriaCarrosC2Hibrido);
+        menu.setHandlers(7,this::trataCriaCarrosGTHibrido);
+
+
+        menu.run();
+    }
+
+    private void trataCriaCarrosGTHibrido() {
+        System.out.println("Digite o nome da Marca:");
+        Scanner scanner = new Scanner(System.in);
+        String marca = scanner.nextLine();
+        System.out.println("Digite o Modelo:");
+        String modelo = scanner.nextLine();
+        System.out.println("Digite a Potencia:");
+        int potencia = scanner.nextInt();
+        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+        int cilindrada = scanner.nextInt();
+        if (3000<=cilindrada && cilindrada<=5000){
+            System.out.println("Digite o PAC (valor entre o e 1):");
+            float pac = scanner.nextFloat();
+            if (iRacingManagerLN.validaPac(pac)){
+
+                System.out.println("Digite a Tipo Pneu:");
+                String tipopneu = scanner.nextLine();
+                System.out.println("Digite a Downforce:");
+                float downforce = scanner.nextFloat();
+                System.out.println("Digite a Tipo Motor:");
+                String motor = scanner.nextLine();
+                iRacingManagerLN.adicionarGTHibrido("7",marca,modelo,potencia,pac,100,cilindrada,tipopneu,downforce,motor);
+                menuPrincipal2();
+            }
+            else {
+                System.out.println("Pac Errado!");
+                menuPrincipal2();
+            }
+        } else {
+            System.out.println("Cilindrada Errada!");
+            menuPrincipal2();
+        }
+
+    }
+
+    private void trataCriaCarrosC2Hibrido() {
+        System.out.println("Digite o nome da Marca:");
+        Scanner scanner = new Scanner(System.in);
+        String marca = scanner.nextLine();
+        System.out.println("Digite o Modelo:");
+        String modelo = scanner.nextLine();
+        System.out.println("Digite a Potencia:");
+        int potencia = scanner.nextInt();
+        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+        int cilindrada = scanner.nextInt();
+        if (3000<=cilindrada && cilindrada<=5000){
+            System.out.println("Digite o PAC (valor entre o e 1):");
+            float pac = scanner.nextFloat();
+            if (iRacingManagerLN.validaPac(pac)){
+
+                System.out.println("Digite a Tipo Pneu:");
+                String tipopneu = scanner.nextLine();
+                System.out.println("Digite a Downforce:");
+                float downforce = scanner.nextFloat();
+                System.out.println("Digite a Tipo Motor:");
+                String motor = scanner.nextLine();
+                iRacingManagerLN.adicionarC2Hibrido("6",marca,modelo,potencia,pac,100,tipopneu,cilindrada,motor,downforce);
+                menuPrincipal2();
+            }
+            else {
+                System.out.println("Pac Errado!");
+                menuPrincipal2();
+            }
+        } else {
+            System.out.println("Cilindrada Errada!");
+            menuPrincipal2();
+        }
+
+
+    }
+
+    private void trataCriaCarrosC1Hibrido() {
+        System.out.println("Digite o nome da Marca:");
+        Scanner scanner = new Scanner(System.in);
+        String marca = scanner.nextLine();
+        System.out.println("Digite o Modelo:");
+        String modelo = scanner.nextLine();
+        System.out.println("Digite a Potencia:");
+        int potencia = scanner.nextInt();
+        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+        int cilindrada = scanner.nextInt();
+        if (3000<=cilindrada && cilindrada<=5000){
+            System.out.println("Digite o PAC (valor entre o e 1):");
+            float pac = scanner.nextFloat();
+            if (iRacingManagerLN.validaPac(pac)){
+
+                System.out.println("Digite a Tipo Pneu:");
+                String tipopneu = scanner.nextLine();
+                System.out.println("Digite a Downforce:");
+                float downforce = scanner.nextFloat();
+                System.out.println("Digite a Tipo Motor:");
+                String motor = scanner.nextLine();
+                iRacingManagerLN.adicionarC1Hibrido("5",marca,modelo,potencia,pac,100,downforce,cilindrada,tipopneu,motor);
+                menuPrincipal2();
+            }
+            else {
+                System.out.println("Pac Errado!");
+                menuPrincipal2();
+            }
+        } else {
+            System.out.println("Cilindrada Errada!");
+            menuPrincipal2();
+        }
+
+
+    }
+
+    private void trataCriaCarrosSC() {
+        System.out.println("Digite o nome da Marca:");
+        Scanner scanner = new Scanner(System.in);
+        String marca = scanner.nextLine();
+        System.out.println("Digite o Modelo:");
+        String modelo = scanner.nextLine();
+        System.out.println("Digite a Potencia:");
+        int potencia = scanner.nextInt();
+            System.out.println("Digite o PAC (valor entre o e 1):");
+            float pac = scanner.nextFloat();
+            if (iRacingManagerLN.validaPac(pac)){
+
+                System.out.println("Digite a Tipo Pneu:");
+                String tipopneu = scanner.nextLine();
+                System.out.println("Digite a Downforce:");
+                float downforce = scanner.nextFloat();
+                System.out.println("Digite a Tipo Motor:");
+                String motor = scanner.nextLine();
+                iRacingManagerLN.adicionarSC("4",marca,modelo,potencia,pac,tipopneu,downforce,motor,2500);
+                menuPrincipal2();
+            }
+            else {
+                System.out.println("Pac Errado!");
+                menuPrincipal2();
+            }
+
+    }
+
+    private void trataCriaCarrosGT() {
+        System.out.println("Digite o nome da Marca:");
+        Scanner scanner = new Scanner(System.in);
+        String marca = scanner.nextLine();
+        System.out.println("Digite o Modelo:");
+        String modelo = scanner.nextLine();
+        System.out.println("Digite a Potencia:");
+        int potencia = scanner.nextInt();
+        System.out.println("Digite a Cilindrada(entre 2000 e 4000):");
+        int cilindrada = scanner.nextInt();
+        if (2000<=cilindrada && cilindrada<=4000){
+            System.out.println("Digite o PAC (valor entre o e 1):");
+            float pac = scanner.nextFloat();
+            if (iRacingManagerLN.validaPac(pac)){
+
+                System.out.println("Digite a Tipo Pneu:");
+                String tipopneu = scanner.nextLine();
+                System.out.println("Digite a Downforce:");
+                float downforce = scanner.nextFloat();
+                System.out.println("Digite a Tipo Motor:");
+                String motor = scanner.nextLine();
+                iRacingManagerLN.adicionarGT("3",marca,modelo,potencia,pac,cilindrada,tipopneu,downforce,motor);
+                menuPrincipal2();
+            }
+            else {
+                System.out.println("Pac Errado!");
+                menuPrincipal2();
+            }
+        } else {
+            System.out.println("Cilindrada Errada!");
+            menuPrincipal2();
+        }
+
+
+    }
+
+    private void trataCriaCarrosC2() {
+        System.out.println("Digite o nome da Marca:");
+        Scanner scanner = new Scanner(System.in);
+        String marca = scanner.nextLine();
+        System.out.println("Digite o Modelo:");
+        String modelo = scanner.nextLine();
+        System.out.println("Digite a Potencia:");
+        int potencia = scanner.nextInt();
+        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+        int cilindrada = scanner.nextInt();
+        if (3000<=cilindrada && cilindrada<=5000){
+            System.out.println("Digite o PAC (valor entre o e 1):");
+            float pac = scanner.nextFloat();
+            if (iRacingManagerLN.validaPac(pac)){
+
+                System.out.println("Digite a Tipo Pneu:");
+                String tipopneu = scanner.nextLine();
+                System.out.println("Digite a Downforce:");
+                float downforce = scanner.nextFloat();
+                System.out.println("Digite a Tipo Motor:");
+                String motor = scanner.nextLine();
+                iRacingManagerLN.adicionarC2("2",marca,modelo,potencia,tipopneu,pac,cilindrada,downforce,motor);
+                menuPrincipal2();
+            }
+            else {
+                System.out.println("Pac Errado!");
+                menuPrincipal2();
+            }
+        } else {
+            System.out.println("Cilindrada Errada!");
+            menuPrincipal2();
+        }
+
+
+
+    }
+
+    private void trataCriaCarrosC1() {
+        System.out.println("Digite o nome da Marca:");
+        Scanner scanner = new Scanner(System.in);
+        String marca = scanner.nextLine();
+        System.out.println("Digite o Modelo:");
+        String modelo = scanner.nextLine();
+        System.out.println("Digite a Potencia:");
+        int potencia = scanner.nextInt();
+        System.out.println("Digite o PAC (valor entre o e 1):");
+        float pac = scanner.nextFloat();
+        if (iRacingManagerLN.validaPac(pac)){
+
+            System.out.println("Digite a Tipo Pneu:");
+            String tipopneu = scanner.nextLine();
+            System.out.println("Digite a Downforce:");
+            float downforce = scanner.nextFloat();
+            System.out.println("Digite a Tipo Motor:");
+            String motor = scanner.nextLine();
+            iRacingManagerLN.adicionarC1("1",marca,modelo,potencia,pac,6000,tipopneu,downforce,motor);
+            menuPrincipal2();
+        }
+        else {
+            System.out.println("Pac Errado!");
+            menuPrincipal2();
+        }
+    }
+
+    public void trataCriaCarros(){
+        menuTipoCarros();
+    }
+
+    public void trataRemoverCarros(){
+        System.out.println("Digite o Id do Carro que deseja remover:");
+        Scanner scanner = new Scanner(System.in);
+        String id = scanner.nextLine();
+        if(iRacingManagerLN.existeCarro(id)){
+            iRacingManagerLN.removerCarro(id);
+            System.out.println("Carro removido!");
+            menuPrincipal2();
+        } else {
+            System.out.println("Esse Carro não existe.");
+            menuPrincipal2();
+        }
+
+
+    }
+
     public void trataJogar(){}
 
 }

@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Piloto {
     private String nomePiloto;
-    private Float sVA;
-    private Float cTS;
+    private float sVA;
+    private float cTS;
 
     public String getNome() {
         return this.nomePiloto;
@@ -23,11 +23,11 @@ public class Piloto {
         this.nomePiloto=aNome;
     }
 
-    public void setSVA(Float aSva) {
+    public void setSVA(float aSva) {
         this.sVA = aSva;
     }
 
-    public void setCTS(Float aCts) {
+    public void setCTS(float aCts) {
         this.cTS =aCts;
     }
 
@@ -50,7 +50,7 @@ public class Piloto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Piloto piloto = (Piloto) o;
-        return nomePiloto.equals(piloto.nomePiloto) && sVA.equals(piloto.sVA) && cTS.equals(piloto.cTS);
+        return Float.compare(piloto.sVA, sVA) == 0 && Float.compare(piloto.cTS, cTS) == 0 && nomePiloto.equals(piloto.nomePiloto);
     }
 
     @Override

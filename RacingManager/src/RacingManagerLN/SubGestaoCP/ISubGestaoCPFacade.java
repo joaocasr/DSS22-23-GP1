@@ -12,7 +12,7 @@ public interface ISubGestaoCPFacade {
 
     public Boolean validaNomePiloto(String aNome);
 
-    public Boolean validarPericia(Float aCts, Float aSva);
+    public Boolean validarPericia(float aCts, float aSva);
 
     public void registarPiloto(String aNomePiloto, Float aSVA, Float aCTS);
 
