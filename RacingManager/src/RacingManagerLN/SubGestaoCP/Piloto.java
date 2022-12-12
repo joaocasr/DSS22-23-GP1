@@ -38,11 +38,10 @@ public class Piloto {
 
     @Override
     public String toString() {
-        return "Piloto{" +
-                "nomePiloto='" + nomePiloto + '\'' +
-                ", sVA=" + sVA +
-                ", cTS=" + cTS +
-                '}';
+        return "Piloto: " +
+                "nome='" + nomePiloto + '\'' +
+                ", SVA=" + sVA +
+                ", CTS=" + cTS;
     }
 
     @Override

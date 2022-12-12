@@ -40,7 +40,7 @@ public interface ISubGestaoCPFacade {
 
     public List<Carro> getAllCarros();
 
-    public Carro getCarro(Object aIdCarro);
+    public Carro getCarro(String aIdCarro);
 
     public List<Piloto> getAllPilotos();
 

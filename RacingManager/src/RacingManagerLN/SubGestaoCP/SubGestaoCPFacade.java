@@ -17,9 +17,7 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public boolean existeCarro(String aIdCarro) {
-
-       if(allCarros.get(aIdCarro) == null) return false;
-       else return true;
+        return allCarros.get(aIdCarro) != null;
     }
 
     public void removerCarro(String aIdCarro) {
@@ -28,9 +26,7 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public Boolean validaNomePiloto(String aNome) {
-
-        if(allPilotos.get(aNome) == null) return true;
-        else return false;
+        return allPilotos.get(aNome) == null;
     }
 
     public Boolean validarPericia(float aCts, float aSva) {
@@ -40,7 +36,6 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     public void registarPiloto(String aNomePiloto, Float aSVA, Float aCTS) {
         Piloto p = new Piloto(aNomePiloto,aSVA,aCTS);
         allPilotos.put(aNomePiloto,p.clone());
-
     }
 
     public void removePiloto(String aNome) {
@@ -58,9 +53,7 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public boolean validaPac(float aPac) {
-
-        if(0<=aPac && aPac <= 1) return true;
-        else return false;
+        return 0 <= aPac && aPac <= 1;
     }
 
     public void adicionarC2(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, String tipoPneu, float aPac, int aCilindrada, float downforce, String modoMotor) {
@@ -76,9 +69,7 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public boolean validaCilindradaC2(int aCilindrada) {
-
-        if(3000<=aCilindrada && aCilindrada<=5000) return true;
-        else return false;
+        return 3000 <= aCilindrada && aCilindrada <= 5000;
     }
 
     public void adicionarGT(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aCilindrada, String tipoPneu, float downforce, String modoMotor) {
@@ -92,9 +83,7 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public boolean validaCilindradaGT(int aCilindrada) {
-
-        if(2000<=aCilindrada && aCilindrada<=4000) return true;
-        else return false;
+        return 2000 <= aCilindrada && aCilindrada <= 4000;
     }
 
     public void adicionarSC(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, String tipoPneu, float downforce, String modoMotor, int cilidrada) {
@@ -103,12 +92,10 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public List<Carro> getAllCarros() {
-
         return this.allCarros.values().stream().toList();
     }
 
-    public Carro getCarro(Object aIdCarro) {
-
+    public Carro getCarro(String aIdCarro) {
         return allCarros.get(aIdCarro);
     }
 
@@ -117,7 +104,6 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public List<String> getNomePilotos() {
-
        return allPilotos.keySet().stream().toList();
     }
 }
