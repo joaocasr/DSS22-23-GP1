@@ -6,7 +6,7 @@ public class Carro {
     private String modelo;
     private int cilindrada;
     private int potenciaCombustao;
-    private int pac;
+    private float pac;
     private tipoPneu tipopneu;
     private double downforce;
     private modoMotor motor;
@@ -23,7 +23,7 @@ public class Carro {
         Chuva;
     }
 
-    public Carro(String idCarro,String marca,String modelo,int cilindrada,int potenciaCombustao,int pac,tipoPneu tipoPneu,double downforce,modoMotor modoMotor){
+    public Carro(String idCarro,String marca,String modelo,int cilindrada,int potenciaCombustao,float pac,tipoPneu tipoPneu,double downforce,modoMotor modoMotor){
         this.idCarro=idCarro;
         this.marca=marca;
         this.modelo=modelo;
@@ -87,7 +87,7 @@ public class Carro {
         this.potenciaCombustao=aPotenciaCombustao;
     }
 
-    public int getPac() {
+    public float getPac() {
         return this.pac;
     }
 
@@ -140,10 +140,15 @@ public class Carro {
     }
 
     public void alteraModo(String aModo) {
+        Carro.modoMotor m = converteStringMotor(aModo);
+        setModoMotor(m);
+
 
     }
 
     public void alteraTipoPneu(String aTipo) {
+        Carro.tipoPneu p = converteStringPneu(aTipo);
+        setTipopneu(p);
     }
 
     public void setTipopneu(tipoPneu t){
@@ -157,7 +162,7 @@ public class Carro {
 
     @Override
     public String toString() {
-        return "Carro{" +
+        return "Carro -> " +
                 "idCarro='" + idCarro + '\'' +
                 ", marca='" + marca + '\'' +
                 ", modelo='" + modelo + '\'' +
@@ -166,8 +171,7 @@ public class Carro {
                 ", pac=" + pac +
                 ", tipopneu=" + tipopneu +
                 ", downforce=" + downforce +
-                ", motor=" + motor +
-                '}';
+                ", motor=" + motor;
     }
 
     public Carro clone() {

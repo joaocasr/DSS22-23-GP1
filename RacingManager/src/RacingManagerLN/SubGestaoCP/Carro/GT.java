@@ -2,7 +2,7 @@ package RacingManagerLN.SubGestaoCP.Carro;
 
 public class GT extends Carro {
 
-    public GT(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, int pac, tipoPneu tipoPneu, int downforce, modoMotor modoMotor) {
+    public GT(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, int downforce, modoMotor modoMotor) {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
@@ -11,15 +11,22 @@ public class GT extends Carro {
         return (0.85/d)- 0.2*voltas;
     }
 
-    public boolean equals(Object aO) {
-        throw new UnsupportedOperationException();
+    public boolean equals(Object aO) { // not sure se funciona
+        boolean b = false;
+        if (this == aO) {
+            b= true;
+        }
+        if (aO == null || getClass() != aO.getClass()) {
+            b= false;
+        }
+        return b;
     }
 
     public String toString() {
         throw new UnsupportedOperationException();
     }
 
-    public C2 clone() {
+    public GT clone() {
         throw new UnsupportedOperationException();
     }
 }

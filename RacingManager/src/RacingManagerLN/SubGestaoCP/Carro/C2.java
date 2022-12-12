@@ -1,8 +1,14 @@
 package RacingManagerLN.SubGestaoCP.Carro;
 
 public class C2 extends Carro {
-    private final double fiabilidadeTeorica = 0.8;
+    private double fiabilidadeTeorica = 0.8;
     private Afinacao afinacao;
+
+    public String toString(C2 c2) {
+        return c2.toString() +
+                ", fiabilidadeTeorica=" + fiabilidadeTeorica +
+                ", afinacao=" + afinacao;
+    }
 
     public enum Afinacao {
         Freio,
@@ -12,7 +18,7 @@ public class C2 extends Carro {
         Salao;
     }
 
-    public C2(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, int pac, tipoPneu tipoPneu, int downforce, modoMotor modoMotor) {
+    public C2(String idCarro, String marca, String modelo, int cilindrada, int potenciaCombustao, float pac, tipoPneu tipoPneu, int downforce, modoMotor modoMotor) {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
@@ -32,7 +38,7 @@ public class C2 extends Carro {
     }
 
     public void setFiabilidadeTeorica(double aFiabilidadeTeorica) {
-        throw new UnsupportedOperationException();
+        this.fiabilidadeTeorica = aFiabilidadeTeorica;
     }
 
     public double calculaFiabilidade(Afinacao aAfinacao, int aClima) {
@@ -43,7 +49,8 @@ public class C2 extends Carro {
         this.afinacao=a;
     }
     public void alteraAfinacao(String aAfinacao) {
-        throw new UnsupportedOperationException();
+        Afinacao a = converteStringAfinacao(aAfinacao);
+        setAfinacao(a);
     }
 
     public static Afinacao converteStringAfinacao(String aAfinacao) {
@@ -66,15 +73,17 @@ public class C2 extends Carro {
         return a;
     }
 
-    public C2 clone() {
-        throw new UnsupportedOperationException();
+    public C2 clone() {throw new UnsupportedOperationException();
     }
 
-    public String toString() {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean equals(Object aO) {
-        throw new UnsupportedOperationException();
+    public boolean equals(Object aO) { // not sure se funciona
+        if (this == aO) {
+            return true;
+        }
+        if (aO == null || getClass() != aO.getClass()) {
+            return false;
+        }
+        C2 other = (C2) aO;
+        return  fiabilidadeTeorica == other.getFiabilidade();
     }
 }

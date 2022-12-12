@@ -1,9 +1,11 @@
 package RacingManagerLN.SubGestaoCP;
 
+import java.util.Objects;
+
 public class Piloto {
     private String nomePiloto;
-    private Double sVA;
-    private Double cTS;
+    private Float sVA;
+    private Float cTS;
 
     public String getNome() {
         return this.nomePiloto;
@@ -18,34 +20,53 @@ public class Piloto {
     }
 
     public void setNome(String aNome) {
-        throw new UnsupportedOperationException();
+        this.nomePiloto=aNome;
     }
 
-    public void setSVA(double aSva) {
-        throw new UnsupportedOperationException();
+    public void setSVA(Float aSva) {
+        this.sVA = aSva;
     }
 
-    public void setCTS(double aCts) {
-        throw new UnsupportedOperationException();
+    public void setCTS(Float aCts) {
+        this.cTS =aCts;
     }
 
     public Piloto clone() {
-        throw new UnsupportedOperationException();
+        return new Piloto(this);
     }
 
-    public boolean equals(Object aO) {
-        throw new UnsupportedOperationException();
-    }
 
+    @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        return "Piloto{" +
+                "nomePiloto='" + nomePiloto + '\'' +
+                ", sVA=" + sVA +
+                ", cTS=" + cTS +
+                '}';
     }
 
-    public Piloto(String aNomePiloto, double aSVA, double aCTS) {
-        throw new UnsupportedOperationException();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piloto piloto = (Piloto) o;
+        return nomePiloto.equals(piloto.nomePiloto) && sVA.equals(piloto.sVA) && cTS.equals(piloto.cTS);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nomePiloto, sVA, cTS);
+    }
+
+    public Piloto(String nomePiloto, Float sVA, Float cTS) {
+        this.nomePiloto = nomePiloto;
+        this.sVA = sVA;
+        this.cTS = cTS;
     }
 
     public Piloto(Piloto aP) {
-        throw new UnsupportedOperationException();
+        this.nomePiloto = aP.nomePiloto;
+        this.sVA = aP.sVA;
+        this.cTS = aP.cTS;
     }
 }
