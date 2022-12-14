@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 public class Campeonato {
     private String nomeCampeonato;
-    private int maxParticipantes;
+    private int participantes;
     private Map<String, Integer> classificacaoCampeonato;
     private List<Circuito> circuitosCampeonato;
 
     public Campeonato(String nomeCampeonato, int participantes, List<Circuito> circuitosCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
-        this.maxParticipantes = participantes;
+        this.participantes = participantes;
         this.classificacaoCampeonato=new HashMap<>();
         setCircuitos(circuitosCampeonato);
     }
@@ -21,11 +21,10 @@ public class Campeonato {
     public Campeonato(Campeonato c){
         this.nomeCampeonato = c.getNomeCampeonato();
         this.circuitosCampeonato = c.getCircuitos();
-        this.maxParticipantes = c.getParticipantes();
+        this.participantes = c.getParticipantes();
         this.classificacaoCampeonato = new HashMap<>();
+        //this.pontuacoes = c.pontuacoes;
     }
-
-    public Campeonato(){}
 
 
     public List <Circuito> getCircuitos() {
@@ -51,11 +50,11 @@ public class Campeonato {
     }
 
     public int getParticipantes() {
-        return this.maxParticipantes;
+        return this.participantes;
     }
 
     public void setParticipantes(int aParticipantes) {
-        this.maxParticipantes = aParticipantes;
+        this.participantes = aParticipantes;
     }
 
     public Map<String, Integer> getClasssificacaoCamp() {
@@ -101,7 +100,7 @@ public class Campeonato {
             // compare fields of o with fields of this instance
             return (this.nomeCampeonato.equals(camp.nomeCampeonato))
                     && (this.circuitosCampeonato.equals(camp.circuitosCampeonato))
-                    && (this.maxParticipantes == camp.maxParticipantes);
+                    && (this.participantes == camp.participantes);
         }
         return false;
     }
@@ -116,7 +115,7 @@ public class Campeonato {
             throw new RuntimeException("superclass messed up", ex);
         }
         clone.nomeCampeonato = this.nomeCampeonato;
-        clone.maxParticipantes = this.maxParticipantes;
+        clone.participantes = this.participantes;
         clone.circuitosCampeonato = this.circuitosCampeonato;
         return clone;
     }
@@ -125,7 +124,7 @@ public class Campeonato {
     public String toString() {
         return "Campeonato{\n" +
                 "    nomeCampeonato= '" + nomeCampeonato + "',\n" +
-                "    maxParticipantes= " + maxParticipantes + "',\n" +
+                "    participantes= " + participantes + "',\n" +
                 "    circuitosCampeonato= " + circuitosCampeonato +",\n"+
                 '}';
     }
