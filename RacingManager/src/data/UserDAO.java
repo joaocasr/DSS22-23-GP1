@@ -77,13 +77,18 @@ public class UserDAO implements Map<String, User> {
     public User get(Object key) {
         User u = null;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT * FROM users WHERE Username='" + key.toString() + "'")) {
+             PreparedStatement st = conn.prepareStatement("SELECT * FROM users WHERE Username='?'")) {
+
+            st.setString(1, key.toString());
+            ResultSet rs = st.executeQuery();
+
             if (rs.next()) {
                 boolean admin=false;
                 if(rs.getInt(3)==1) admin=true ;
                 u = new User(rs.getString(1), rs.getString(2),admin,rs.getInt(4),rs.getString(5));
             }
+
+            rs.close();
         } catch(SQLException e){
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
@@ -101,9 +106,11 @@ public class UserDAO implements Map<String, User> {
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
             Statement st = con.createStatement()){
             if(this.containsKey(key)){
-                sql= "UPDATE users SET Password='"+value.getPassword()+"',Admin='"+isadmin+"',Score='"+value.getScore()+"',Versao='"+value.getVersao()+"' WHERE username='"+key.toString()+"'";
+                sql= "UPDATE users SET Password='"+value.getPassword()+"',Admin='"+isadmin+"',Score='"+value.getScore()
+                        +"',Versao='"+value.getVersao()+"' WHERE username='"+key.toString()+"'";
             }else{
-                sql= "INSERT INTO users VALUES('"+key.toString()+"', '"+value.getPassword()+"', '"+isadmin+"', '"+value.getScore()+"', '"+value.getVersao()+"')";
+                sql= "INSERT INTO users VALUES('"+key.toString()+"', '"+value.getPassword()+"', '"+isadmin+"', '"
+                        +value.getScore()+"', '"+value.getVersao()+"')";
             }
             st.executeUpdate(sql);
         }catch (SQLException e) {
@@ -117,8 +124,11 @@ public class UserDAO implements Map<String, User> {
     public User remove(Object key) {
         User u = this.get(key);
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("DELETE FROM users WHERE Username='"+u.getUsername()+"'")) {
+            PreparedStatement st = con.prepareStatement("DELETE FROM users WHERE Username='?'")) {
+
+            st.setString(1, key.toString());
+            ResultSet rs = st.executeQuery();
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,9 +174,10 @@ public class UserDAO implements Map<String, User> {
         Collection<User> allUsers = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT Username FROM users")) {
+             ResultSet rs = stm.executeQuery("SELECT * FROM users")) {
             while (rs.next()) {
-                allUsers.add(this.get(rs.getString(1)));
+                allUsers.add(new User(rs.getString(1), rs.getString(2),
+                        rs.getInt(3) == 1, rs.getInt(4), rs.getString(5)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,9 +193,10 @@ public class UserDAO implements Map<String, User> {
         HashSet<Entry<String, User>> col = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT Username FROM users")) {
+             ResultSet rs = stm.executeQuery("SELECT * FROM users")) {
             while (rs.next()) {
-                entry =  new AbstractMap.SimpleEntry<>(rs.getString(1),this.get(rs.getString(1)));
+                entry =  new AbstractMap.SimpleEntry<>(rs.getString(1), new User(rs.getString(1),
+                        rs.getString(2), rs.getInt(3) == 1, rs.getInt(4), rs.getString(5)));
                 col.add(entry);
             }
         } catch (Exception e) {

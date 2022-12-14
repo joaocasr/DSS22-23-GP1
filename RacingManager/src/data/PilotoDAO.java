@@ -63,6 +63,7 @@ public class PilotoDAO implements Map<String, Piloto> {
             ResultSet rs = st.executeQuery();
 
             r = rs.next();
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
@@ -89,6 +90,7 @@ public class PilotoDAO implements Map<String, Piloto> {
             if (rs.next()) {
                 p = new Piloto(rs.getString(1), rs.getFloat(2),rs.getFloat(3));
             }
+            rs.close();
         } catch(SQLException e){
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
@@ -124,6 +126,7 @@ public class PilotoDAO implements Map<String, Piloto> {
             PreparedStatement st = con.prepareStatement("DELETE FROM pilotos WHERE Nomepiloto='?'")) {
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
