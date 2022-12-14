@@ -2,6 +2,8 @@ package RacingManagerLN.SubGestaoCP;
 
 
 import RacingManagerLN.SubGestaoCP.Carro.*;
+import data.CarroDAO;
+import data.PilotoDAO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +14,8 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     private Map<String,Piloto> allPilotos;
 
     public SubGestaoCPFacade() {
-        this.allCarros = new HashMap<>();
-        this.allPilotos = new HashMap<>();
+        this.allCarros = CarroDAO.getInstance();
+        this.allPilotos = PilotoDAO.getInstance();
     }
 
     public boolean existeCarro(String aIdCarro) {
@@ -25,11 +27,11 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         allCarros.remove(aIdCarro);
     }
 
-    public Boolean validaNomePiloto(String aNome) {
-        return allPilotos.get(aNome) == null;
+    public boolean validaNomePiloto(String aNome) {
+        return allPilotos.containsKey(aNome);
     }
 
-    public Boolean validarPericia(float aCts, float aSva) {
+    public boolean validarPericia(float aCts, float aSva) {
         return aCts + aSva == 1;
     }
 

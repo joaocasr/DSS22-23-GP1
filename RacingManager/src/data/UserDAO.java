@@ -1,5 +1,6 @@
 package data;
 
+import RacingManagerLN.SubGestaoCP.Piloto;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.sql.*;
@@ -70,7 +71,8 @@ public class UserDAO implements Map<String, User> {
     @Override
     public boolean containsValue(Object value) {
         User u = (User) value;
-        return this.containsKey(u.getUsername());
+        User dbU = this.get(u.getUsername());
+        return u.equals(dbU);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class PilotoDAO implements Map<String, Piloto> {
     public boolean containsKey(Object key) {
         boolean r;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             PreparedStatement st = conn.prepareStatement("SELECT Nomepiloto FROM pilotos WHERE Nomepiloto ='?'")) {
+             PreparedStatement st = conn.prepareStatement("SELECT Nomepiloto FROM pilotos WHERE Nomepiloto =?")) {
 
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
@@ -81,7 +81,7 @@ public class PilotoDAO implements Map<String, Piloto> {
     public Piloto get(Object key) {
         Piloto p = null;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             PreparedStatement st = conn.prepareStatement("SELECT * FROM pilotos WHERE Nomepiloto='?'")){
+             PreparedStatement st = conn.prepareStatement("SELECT * FROM pilotos WHERE Nomepiloto=?")){
 
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
@@ -104,9 +104,9 @@ public class PilotoDAO implements Map<String, Piloto> {
             Statement st = con.createStatement()){
 
             if(this.containsKey(key)){
-                sql= "UPDATE pilotos SET Cts='"+value.getSVA()+"',Sva='"+value.getCTS()+"' WHERE username='"+ key +"'";
+                sql= "UPDATE pilotos SET Cts='"+value.getCTS()+"',Sva='"+value.getSVA()+"' WHERE Nomepiloto='"+ value.getNome() +"'";
             }else{
-                sql= "INSERT INTO pilotos VALUES('"+key+"', '"+value.getSVA()+"', '"+value.getCTS()+"')";
+                sql= "INSERT INTO pilotos VALUES('"+value.getNome()+"', '"+value.getSVA()+"', '"+value.getCTS()+"')";
             }
 
             st.executeUpdate(sql);
@@ -121,8 +121,8 @@ public class PilotoDAO implements Map<String, Piloto> {
     public Piloto remove(Object key) {
         Piloto p = this.get(key);
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
-            PreparedStatement st = con.prepareStatement("DELETE FROM pilotos WHERE Nomepiloto='?'")) {
-            st.setString(1, key.toString());
+            PreparedStatement st = con.prepareStatement("DELETE FROM pilotos WHERE Nomepiloto=?")) {
+            st.setString(1, p.getNome());
             ResultSet rs = st.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
