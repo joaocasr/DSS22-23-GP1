@@ -32,7 +32,7 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public boolean validarPericia(float aCts, float aSva) {
-        return aCts + aSva == 1;
+        return (aCts + aSva) == 1;
     }
 
     public void registarPiloto(String aNomePiloto, Float aSVA, Float aCTS) {

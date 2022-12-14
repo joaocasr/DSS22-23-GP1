@@ -315,17 +315,15 @@ public class TextUI {
         float cts = scanner.nextFloat();
         System.out.println("Digite o SVA:");
         float sva = scanner.nextFloat();
-        if(iRacingManagerLN.validarPericia(cts,sva) && iRacingManagerLN.validaNomePiloto(nome)){
+        if(iRacingManagerLN.validarPericia(cts,sva) && !iRacingManagerLN.validaNomePiloto(nome)){
             iRacingManagerLN.adicionarPiloto(nome,cts,sva);
             System.out.println("Piloto criado com sucesso!");
             menuPrincipal2();
         }
         else{
-            System.out.println("Pericia Invalida!");
+            System.out.println("Pericia Invalida ou piloto já existente!");
             trataCriaPilotos();
         }
-
-
     }
 
     public void trataRemoverPilotos(){
