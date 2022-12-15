@@ -108,9 +108,9 @@ public class PilotoDAO implements Map<String, Piloto> {
             Statement st = con.createStatement()){
 
             if(this.containsKey(key)){
-                sql= "UPDATE pilotos SET Cts='"+value.getCTS()+"',Sva='"+value.getSVA()+"' WHERE Nomepiloto='"+ key +"'";
+                sql= "UPDATE pilotos SET Cts='"+value.getCTS()+"',Sva='"+value.getSVA()+"' WHERE Nomepiloto='"+ value.getNome() +"'";
             }else{
-                sql= "INSERT INTO pilotos VALUES('"+key+"', '"+value.getSVA()+"', '"+value.getCTS()+"')";
+                sql= "INSERT INTO pilotos VALUES('"+value.getNome()+"', '"+value.getSVA()+"', '"+value.getCTS()+"')";
             }
 
             st.executeUpdate(sql);
@@ -127,7 +127,7 @@ public class PilotoDAO implements Map<String, Piloto> {
         Piloto p = this.get(key);
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
             PreparedStatement st = con.prepareStatement("DELETE FROM pilotos WHERE Nomepiloto=?")) {
-            st.setString(1, key.toString());
+            st.setString(1, p.getNome());
             ResultSet rs = st.executeQuery();
             rs.close();
         } catch (SQLException e) {

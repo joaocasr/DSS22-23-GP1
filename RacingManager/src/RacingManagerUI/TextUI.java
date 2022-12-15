@@ -5,6 +5,7 @@ import RacingManagerLN.*;
 import RacingManagerLN.SubGestaoCP.ISubGestaoCPFacade;
 import RacingManagerLN.SubGestaoCP.Piloto;
 import RacingManagerLN.SubGestaoCP.SubGestaoCPFacade;
+import RacingManagerLN.SubGestaoJogos.Inscricao;
 import RacingManagerLN.SubGestaoJogos.Simulacao.Configuracao;
 import RacingManagerLN.SubGestaoJogos.Simulacao.Simulacao;
 import RacingManagerLN.SubGestaoUsers.*;
@@ -177,7 +178,7 @@ public class TextUI {
         Scanner scanner = new Scanner(System.in);
         String nome = scanner.nextLine();
         System.out.println("Digite a distância:");
-        double distancia = scanner.nextDouble();
+        float distancia = scanner.nextFloat();
         System.out.println("Digite o nº de voltas:");
         int voltas = scanner.nextInt();
         System.out.println("Digite o nº de curvas:");
@@ -218,9 +219,9 @@ public class TextUI {
             allCurvas.add(curva);
             i++;
         }
-            scanner.nextLine();
-            if(iRacingManagerLN.adicionaCircuito(nome,distancia,voltas,nretas,ncurvas,nchicanes,allRetas,allCurvas,allChicanes)) System.out.println("Circuito "+nome+" guardado com sucesso.");
-            else System.out.println("Circuito não foi guardado.");
+        scanner.nextLine();
+        if(iRacingManagerLN.adicionaCircuito(nome,distancia,voltas,nretas,ncurvas,nchicanes,allRetas,allCurvas,allChicanes)) System.out.println("Circuito "+nome+" guardado com sucesso.");
+        else System.out.println("Circuito não foi guardado.");
     }
 
     public void trataConsultarCampeonato(){
@@ -230,56 +231,59 @@ public class TextUI {
         System.out.println(iRacingManagerLN.consultaCampeonato(nome));
     }
 
-    public void trataSimularCampeonato(){
+    public void trataSimularCampeonato() {
         System.out.println("Digite o campeonato que pretende simular:");
         Scanner scanner = new Scanner(System.in);
         String nome = scanner.nextLine();
-        Campeonato campeonato =  iRacingManagerLN.getCampeonato(nome);
-        int NCorridas = campeonato.getNumeroCorridas();
-        Configuracao conf=null;
-        List<Configuracao> configuracoes= new ArrayList<>();
-        Map<String,Integer> numeroConfiguracoes = new HashMap<>();
-        List<String> jogadores = iRacingManagerLN.getJogadoresASimular(nome);
-        for(String jogador: jogadores){
-            numeroConfiguracoes.put(jogador,0);
-        }
-        Map<String,Integer> pontuacoes = new HashMap<>();
-        for(Circuito c: campeonato.getCircuitos()){
-            Simulacao simulacao = new Simulacao(c,iRacingManagerLN.getInscricoes(nome),configuracoes);
-            pontuacoes=simulacao.getScore();
-            campeonato.atualizaClassificacao(pontuacoes);
-            int nj=0;
-            for(String j : jogadores) {
-                nj++;
-                if (numeroConfiguracoes.get(j) < ((2 * NCorridas) / 3)) {
-                    System.out.println("*** PARAGEM- BOX "+nj+" - jogador =" + j + " ***");
-                    System.out.println("Downforce");
-                    System.out.print(">>>");
-                    float downforce= scanner.nextFloat();
-                    scanner.nextLine();
-                    System.out.println("Tipo Pneu: [Macio] [Duro] [Chuva]");
-                    System.out.print(">>>");
-                    String tipo=scanner.nextLine();
-                    System.out.println("Modo do Motor: [Conservador] [Normal] [Agressivo]");
-                    System.out.print(">>>");
-                    String modo = scanner.nextLine();
-                    if(iRacingManagerLN.hasCarroC2(nome,j)){
-                        System.out.println("Afinação : [Freio] [Motor] [Suspensao] [Corpo] [Salao]");
-                        System.out.print(">>>");
-                        String afinacao = scanner.nextLine();
-                        conf = new Configuracao(j,downforce,tipo,modo,afinacao);
-                    }else{
-                        conf = new Configuracao(j,downforce,tipo,modo);
-                    }
-                    int n=numeroConfiguracoes.get(j);
-                    numeroConfiguracoes.put(j,n+1);
-                }
-                if(configuracoes.size()!=0) configuracoes = new ArrayList<>();
-                configuracoes.add(conf);
+        Campeonato campeonato = iRacingManagerLN.getCampeonato(nome);
+        List<Inscricao> inscricoes = iRacingManagerLN.getInscricoes(nome);
+        if (campeonato.getParticipantes() == inscricoes.size()) {
+            int NCorridas = campeonato.getNumeroCorridas();
+            Configuracao conf = null;
+            List<Configuracao> configuracoes = new ArrayList<>();
+            Map<String, Integer> numeroConfiguracoes = new HashMap<>();
+            List<String> jogadores = iRacingManagerLN.getJogadoresASimular(nome);
+            for (String jogador : jogadores) {
+                numeroConfiguracoes.put(jogador, 0);
             }
+            Map<String, Integer> pontuacoes = new HashMap<>();
+            for (Circuito c : campeonato.getCircuitos()) {
+                Simulacao simulacao = new Simulacao(c, inscricoes, configuracoes);
+                pontuacoes = simulacao.getScore();
+                campeonato.atualizaClassificacao(pontuacoes);
+                int nj = 0;
+                for (String j : jogadores) {
+                    nj++;
+                    if (numeroConfiguracoes.get(j) < ((2 * NCorridas) / 3)) {
+                        System.out.println("*** PARAGEM- BOX " + nj + " - jogador =" + j + " ***");
+                        System.out.println("Downforce");
+                        System.out.print(">>>");
+                        float downforce = scanner.nextFloat();
+                        scanner.nextLine();
+                        System.out.println("Tipo Pneu: [Macio] [Duro] [Chuva]");
+                        System.out.print(">>>");
+                        String tipo = scanner.nextLine();
+                        System.out.println("Modo do Motor: [Conservador] [Normal] [Agressivo]");
+                        System.out.print(">>>");
+                        String modo = scanner.nextLine();
+                        if (iRacingManagerLN.hasCarroC2(nome, j)) {
+                            System.out.println("Afinação : [Freio] [Motor] [Suspensao] [Corpo] [Salao]");
+                            System.out.print(">>>");
+                            String afinacao = scanner.nextLine();
+                            conf = new Configuracao(j, downforce, tipo, modo, afinacao);
+                        } else {
+                            conf = new Configuracao(j, downforce, tipo, modo);
+                        }
+                        int n = numeroConfiguracoes.get(j);
+                        numeroConfiguracoes.put(j, n + 1);
+                    }
+                    if (configuracoes.size() != 0) configuracoes = new ArrayList<>();
+                    configuracoes.add(conf);
+                }
+            }
+            Map<String, Integer> classsificacao = campeonato.getClasssificacaoCamp();
+            iRacingManagerLN.atualizaScore(classsificacao);
         }
-        Map<String,Integer> classsificacao = campeonato.getClasssificacaoCamp();
-        iRacingManagerLN.atualizaScore(classsificacao);
     }
 
 
@@ -311,17 +315,15 @@ public class TextUI {
         float cts = scanner.nextFloat();
         System.out.println("Digite o SVA:");
         float sva = scanner.nextFloat();
-        if(iRacingManagerLN.validarPericia(cts,sva) && iRacingManagerLN.validaNomePiloto(nome)){
+        if(iRacingManagerLN.validarPericia(cts,sva) && !iRacingManagerLN.validaNomePiloto(nome)){
             iRacingManagerLN.adicionarPiloto(nome,cts,sva);
             System.out.println("Piloto criado com sucesso!");
             menuPrincipal2();
         }
         else{
-            System.out.println("Pericia Invalida!");
+            System.out.println("Pericia Invalida ou piloto já existente!");
             trataCriaPilotos();
         }
-
-
     }
 
     public void trataRemoverPilotos(){
@@ -364,7 +366,7 @@ public class TextUI {
         opcoes.add("SC\n");
         opcoes.add("C1Hibrido\n");
         opcoes.add("C2Hibrido\n");
-        opcoes.add("GTHibrido\n");
+        opcoes.add("GTHibrido");
 
 
         menu.setOptions(opcoes);
@@ -382,238 +384,264 @@ public class TextUI {
     }
 
     private void trataCriaCarrosGTHibrido() {
-        System.out.println("Digite o nome da Marca:");
+        System.out.println("Digite o ID do carro a adicionar:");
         Scanner scanner = new Scanner(System.in);
-        String marca = scanner.nextLine();
-        System.out.println("Digite o Modelo:");
-        String modelo = scanner.nextLine();
-        System.out.println("Digite a Potencia:");
-        int potencia = scanner.nextInt();
-        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
-        int cilindrada = scanner.nextInt();
-        if (3000<=cilindrada && cilindrada<=5000){
-            System.out.println("Digite o PAC (valor entre o e 1):");
-            float pac = scanner.nextFloat();
-            if (iRacingManagerLN.validaPac(pac)){
+        String id = scanner.nextLine();
+        if (!iRacingManagerLN.existeCarro(id)) {
+            System.out.println("Digite o nome da marca:");
+            String marca = scanner.nextLine();
+            System.out.println("Digite o Modelo:");
+            String modelo = scanner.nextLine();
+            System.out.println("Digite a Potencia:");
+            int potencia = scanner.nextInt();
+            System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+            int cilindrada = scanner.nextInt();
+            if (3000 <= cilindrada && cilindrada <= 5000) {
+                System.out.println("Digite o PAC (valor entre o e 1):");
+                float pac = scanner.nextFloat();
+                scanner.nextLine();
+                if (iRacingManagerLN.validaPac(pac)) {
 
-                System.out.println("Digite a Tipo Pneu:");
-                String tipopneu = scanner.nextLine();
-                System.out.println("Digite a Downforce:");
-                float downforce = scanner.nextFloat();
-                System.out.println("Digite a Tipo Motor:");
-                String motor = scanner.nextLine();
-                iRacingManagerLN.adicionarGTHibrido("7",marca,modelo,potencia,pac,100,cilindrada,tipopneu,downforce,motor);
+                    System.out.println("Digite a Tipo Pneu:");
+                    String tipopneu = scanner.nextLine();
+                    System.out.println("Digite a Downforce:");
+                    float downforce = scanner.nextFloat();
+                    scanner.nextLine();
+                    System.out.println("Digite a Tipo Motor:");
+                    String motor = scanner.nextLine();
+                    iRacingManagerLN.adicionarGTHibrido(id, marca, modelo, potencia, pac, 100, cilindrada, tipopneu, downforce, motor);
+                    menuPrincipal2();
+                } else {
+                    System.out.println("Pac Errado!");
+                    menuPrincipal2();
+                }
+            } else {
+                System.out.println("Cilindrada Errada!");
                 menuPrincipal2();
             }
-            else {
-                System.out.println("Pac Errado!");
-                menuPrincipal2();
-            }
-        } else {
-            System.out.println("Cilindrada Errada!");
-            menuPrincipal2();
-        }
 
+        }else System.out.println("Um carro com o mesmo ID já existe no sistema!");
     }
 
     private void trataCriaCarrosC2Hibrido() {
-        System.out.println("Digite o nome da Marca:");
+        System.out.println("Digite o ID do carro a adicionar:");
         Scanner scanner = new Scanner(System.in);
-        String marca = scanner.nextLine();
-        System.out.println("Digite o Modelo:");
-        String modelo = scanner.nextLine();
-        System.out.println("Digite a Potencia:");
-        int potencia = scanner.nextInt();
-        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
-        int cilindrada = scanner.nextInt();
-        if (3000<=cilindrada && cilindrada<=5000){
-            System.out.println("Digite o PAC (valor entre o e 1):");
-            float pac = scanner.nextFloat();
-            if (iRacingManagerLN.validaPac(pac)){
+        String id = scanner.nextLine();
+        if (!iRacingManagerLN.existeCarro(id)) {
+            System.out.println("Digite o nome da marca:");
+            String marca = scanner.nextLine();
+            System.out.println("Digite o Modelo:");
+            String modelo = scanner.nextLine();
+            System.out.println("Digite a Potencia:");
+            int potencia = scanner.nextInt();
+            System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+            int cilindrada = scanner.nextInt();
+            if (3000 <= cilindrada && cilindrada <= 5000) {
+                System.out.println("Digite o PAC (valor entre o e 1):");
+                float pac = scanner.nextFloat();
+                scanner.nextLine();
+                if (iRacingManagerLN.validaPac(pac)) {
 
-                System.out.println("Digite a Tipo Pneu:");
-                String tipopneu = scanner.nextLine();
-                System.out.println("Digite a Downforce:");
-                float downforce = scanner.nextFloat();
-                System.out.println("Digite a Tipo Motor:");
-                String motor = scanner.nextLine();
-                iRacingManagerLN.adicionarC2Hibrido("6",marca,modelo,potencia,pac,100,tipopneu,cilindrada,motor,downforce);
+                    System.out.println("Digite a Tipo Pneu:");
+                    String tipopneu = scanner.nextLine();
+                    System.out.println("Digite a Downforce:");
+                    float downforce = scanner.nextFloat();
+                    scanner.nextLine();
+                    System.out.println("Digite a Tipo Motor:");
+                    String motor = scanner.nextLine();
+                    iRacingManagerLN.adicionarC2Hibrido(id, marca, modelo, potencia, pac, 100, tipopneu, cilindrada, motor, downforce);
+                    menuPrincipal2();
+                } else {
+                    System.out.println("Pac Errado!");
+                    menuPrincipal2();
+                }
+            } else {
+                System.out.println("Cilindrada Errada!");
                 menuPrincipal2();
             }
-            else {
-                System.out.println("Pac Errado!");
-                menuPrincipal2();
-            }
-        } else {
-            System.out.println("Cilindrada Errada!");
-            menuPrincipal2();
-        }
 
-
+        }else System.out.println("Um carro com o mesmo ID já existe no sistema!");
     }
 
     private void trataCriaCarrosC1Hibrido() {
-        System.out.println("Digite o nome da Marca:");
+        System.out.println("Digite o ID do carro a adicionar:");
         Scanner scanner = new Scanner(System.in);
-        String marca = scanner.nextLine();
-        System.out.println("Digite o Modelo:");
-        String modelo = scanner.nextLine();
-        System.out.println("Digite a Potencia:");
-        int potencia = scanner.nextInt();
-        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
-        int cilindrada = scanner.nextInt();
-        if (3000<=cilindrada && cilindrada<=5000){
-            System.out.println("Digite o PAC (valor entre o e 1):");
-            float pac = scanner.nextFloat();
-            if (iRacingManagerLN.validaPac(pac)){
+        String id = scanner.nextLine();
+        if (!iRacingManagerLN.existeCarro(id)) {
+            System.out.println("Digite o nome da marca:");
+            String marca = scanner.nextLine();
+            System.out.println("Digite o Modelo:");
+            String modelo = scanner.nextLine();
+            System.out.println("Digite a Potencia:");
+            int potencia = scanner.nextInt();
+            System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+            int cilindrada = scanner.nextInt();
+            if (3000 <= cilindrada && cilindrada <= 5000) {
+                System.out.println("Digite o PAC (valor entre o e 1):");
+                float pac = scanner.nextFloat();
+                scanner.nextLine();
+                if (iRacingManagerLN.validaPac(pac)) {
 
-                System.out.println("Digite a Tipo Pneu:");
-                String tipopneu = scanner.nextLine();
-                System.out.println("Digite a Downforce:");
-                float downforce = scanner.nextFloat();
-                System.out.println("Digite a Tipo Motor:");
-                String motor = scanner.nextLine();
-                iRacingManagerLN.adicionarC1Hibrido("5",marca,modelo,potencia,pac,100,downforce,cilindrada,tipopneu,motor);
+                    System.out.println("Digite a Tipo Pneu:");
+                    String tipopneu = scanner.nextLine();
+                    System.out.println("Digite a Downforce:");
+                    float downforce = scanner.nextFloat();
+                    scanner.nextLine();
+                    System.out.println("Digite a Tipo Motor:");
+                    String motor = scanner.nextLine();
+                    iRacingManagerLN.adicionarC1Hibrido(id, marca, modelo, potencia, pac, 100, downforce, cilindrada, tipopneu, motor);
+                    menuPrincipal2();
+                } else {
+                    System.out.println("Pac Errado!");
+                    menuPrincipal2();
+                }
+            } else {
+                System.out.println("Cilindrada Errada!");
                 menuPrincipal2();
             }
-            else {
-                System.out.println("Pac Errado!");
-                menuPrincipal2();
-            }
-        } else {
-            System.out.println("Cilindrada Errada!");
-            menuPrincipal2();
-        }
-
-
+        }else System.out.println("Um carro com o mesmo ID já existe no sistema!");
     }
 
     private void trataCriaCarrosSC() {
-        System.out.println("Digite o nome da Marca:");
+        System.out.println("Digite o ID do carro a adicionar:");
         Scanner scanner = new Scanner(System.in);
-        String marca = scanner.nextLine();
-        System.out.println("Digite o Modelo:");
-        String modelo = scanner.nextLine();
-        System.out.println("Digite a Potencia:");
-        int potencia = scanner.nextInt();
+        String id = scanner.nextLine();
+        if (!iRacingManagerLN.existeCarro(id)) {
+            System.out.println("Digite o nome da marca:");
+            String marca = scanner.nextLine();
+            System.out.println("Digite o Modelo:");
+            String modelo = scanner.nextLine();
+            System.out.println("Digite a Potencia:");
+            int potencia = scanner.nextInt();
             System.out.println("Digite o PAC (valor entre o e 1):");
             float pac = scanner.nextFloat();
-            if (iRacingManagerLN.validaPac(pac)){
+            scanner.nextLine();
+            if (iRacingManagerLN.validaPac(pac)) {
 
                 System.out.println("Digite a Tipo Pneu:");
                 String tipopneu = scanner.nextLine();
                 System.out.println("Digite a Downforce:");
                 float downforce = scanner.nextFloat();
+                scanner.nextLine();
                 System.out.println("Digite a Tipo Motor:");
                 String motor = scanner.nextLine();
-                iRacingManagerLN.adicionarSC("4",marca,modelo,potencia,pac,tipopneu,downforce,motor,2500);
+                iRacingManagerLN.adicionarSC(id, marca, modelo, potencia, pac, tipopneu, downforce, motor, 2500);
                 menuPrincipal2();
-            }
-            else {
+            } else {
                 System.out.println("Pac Errado!");
                 menuPrincipal2();
             }
-
+        }else System.out.println("Um carro com o mesmo ID já existe no sistema!");
     }
 
     private void trataCriaCarrosGT() {
-        System.out.println("Digite o nome da Marca:");
+        System.out.println("Digite o ID do carro a adicionar:");
         Scanner scanner = new Scanner(System.in);
-        String marca = scanner.nextLine();
-        System.out.println("Digite o Modelo:");
-        String modelo = scanner.nextLine();
-        System.out.println("Digite a Potencia:");
-        int potencia = scanner.nextInt();
-        System.out.println("Digite a Cilindrada(entre 2000 e 4000):");
-        int cilindrada = scanner.nextInt();
-        if (2000<=cilindrada && cilindrada<=4000){
-            System.out.println("Digite o PAC (valor entre o e 1):");
-            float pac = scanner.nextFloat();
-            if (iRacingManagerLN.validaPac(pac)){
+        String id = scanner.nextLine();
+        if (!iRacingManagerLN.existeCarro(id)) {
+            System.out.println("Digite o nome da marca:");
+            String marca = scanner.nextLine();
+            System.out.println("Digite o Modelo:");
+            String modelo = scanner.nextLine();
+            System.out.println("Digite a Potencia:");
+            int potencia = scanner.nextInt();
+            System.out.println("Digite a Cilindrada(entre 2000 e 4000):");
+            int cilindrada = scanner.nextInt();
+            if (2000 <= cilindrada && cilindrada <= 4000) {
+                System.out.println("Digite o PAC (valor entre o e 1):");
+                float pac = scanner.nextFloat();
+                scanner.nextLine();
+                if (iRacingManagerLN.validaPac(pac)) {
 
-                System.out.println("Digite a Tipo Pneu:");
-                String tipopneu = scanner.nextLine();
-                System.out.println("Digite a Downforce:");
-                float downforce = scanner.nextFloat();
-                System.out.println("Digite a Tipo Motor:");
-                String motor = scanner.nextLine();
-                iRacingManagerLN.adicionarGT("3",marca,modelo,potencia,pac,cilindrada,tipopneu,downforce,motor);
+                    System.out.println("Digite a Tipo Pneu:");
+                    String tipopneu = scanner.nextLine();
+                    System.out.println("Digite a Downforce:");
+                    float downforce = scanner.nextFloat();
+                    scanner.nextLine();
+                    System.out.println("Digite a Tipo Motor:");
+                    String motor = scanner.nextLine();
+                    iRacingManagerLN.adicionarGT(id, marca, modelo, potencia, pac, cilindrada, tipopneu, downforce, motor);
+                    menuPrincipal2();
+                } else {
+                    System.out.println("Pac Errado!");
+                    menuPrincipal2();
+                }
+            } else {
+                System.out.println("Cilindrada Errada!");
                 menuPrincipal2();
             }
-            else {
-                System.out.println("Pac Errado!");
-                menuPrincipal2();
-            }
-        } else {
-            System.out.println("Cilindrada Errada!");
-            menuPrincipal2();
-        }
-
-
+        }else System.out.println("Um carro com o mesmo ID já existe no sistema!");
     }
 
     private void trataCriaCarrosC2() {
-        System.out.println("Digite o nome da Marca:");
+        System.out.println("Digite o ID do carro a adicionar:");
         Scanner scanner = new Scanner(System.in);
-        String marca = scanner.nextLine();
-        System.out.println("Digite o Modelo:");
-        String modelo = scanner.nextLine();
-        System.out.println("Digite a Potencia:");
-        int potencia = scanner.nextInt();
-        System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
-        int cilindrada = scanner.nextInt();
-        if (3000<=cilindrada && cilindrada<=5000){
+        String id = scanner.nextLine();
+        if (!iRacingManagerLN.existeCarro(id)) {
+            System.out.println("Digite o nome da marca:");
+            String marca = scanner.nextLine();
+            System.out.println("Digite o Modelo:");
+            String modelo = scanner.nextLine();
+            System.out.println("Digite a Potencia:");
+            int potencia = scanner.nextInt();
+            System.out.println("Digite a Cilindrada(entre 3000 e 5000):");
+            int cilindrada = scanner.nextInt();
+            if (3000 <= cilindrada && cilindrada <= 5000) {
+                System.out.println("Digite o PAC (valor entre o e 1):");
+                float pac = scanner.nextFloat();
+                scanner.nextLine();
+                if (iRacingManagerLN.validaPac(pac)) {
+
+                    System.out.println("Digite a Tipo Pneu:");
+                    String tipopneu = scanner.nextLine();
+                    System.out.println("Digite a Downforce:");
+                    float downforce = scanner.nextFloat();
+                    scanner.nextLine();
+                    System.out.println("Digite a Tipo Motor:");
+                    String motor = scanner.nextLine();
+                    iRacingManagerLN.adicionarC2(id, marca, modelo, potencia, tipopneu, pac, cilindrada, downforce, motor);
+                    menuPrincipal2();
+                } else {
+                    System.out.println("Pac Errado!");
+                    menuPrincipal2();
+                }
+            } else {
+                System.out.println("Cilindrada Errada!");
+                menuPrincipal2();
+            }
+        }else System.out.println("Um carro com o mesmo ID já existe no sistema!");
+    }
+
+    private void trataCriaCarrosC1() {
+        System.out.println("Digite o ID do carro a adicionar:");
+        Scanner scanner = new Scanner(System.in);
+        String id = scanner.nextLine();
+        if (!iRacingManagerLN.existeCarro(id)) {
+            System.out.println("Digite o nome da marca:");
+            String marca = scanner.nextLine();
+            System.out.println("Digite o Modelo:");
+            String modelo = scanner.nextLine();
+            System.out.println("Digite a Potencia:");
+            int potencia = scanner.nextInt();
             System.out.println("Digite o PAC (valor entre o e 1):");
             float pac = scanner.nextFloat();
-            if (iRacingManagerLN.validaPac(pac)){
+            scanner.nextLine();
+            if (iRacingManagerLN.validaPac(pac)) {
 
                 System.out.println("Digite a Tipo Pneu:");
                 String tipopneu = scanner.nextLine();
                 System.out.println("Digite a Downforce:");
                 float downforce = scanner.nextFloat();
+                scanner.nextLine();
                 System.out.println("Digite a Tipo Motor:");
                 String motor = scanner.nextLine();
-                iRacingManagerLN.adicionarC2("2",marca,modelo,potencia,tipopneu,pac,cilindrada,downforce,motor);
+                iRacingManagerLN.adicionarC1(id, marca, modelo, potencia, pac, 6000, tipopneu, downforce, motor);
                 menuPrincipal2();
-            }
-            else {
+            } else {
                 System.out.println("Pac Errado!");
                 menuPrincipal2();
             }
-        } else {
-            System.out.println("Cilindrada Errada!");
-            menuPrincipal2();
-        }
-
-
-
-    }
-
-    private void trataCriaCarrosC1() {
-        System.out.println("Digite o nome da Marca:");
-        Scanner scanner = new Scanner(System.in);
-        String marca = scanner.nextLine();
-        System.out.println("Digite o Modelo:");
-        String modelo = scanner.nextLine();
-        System.out.println("Digite a Potencia:");
-        int potencia = scanner.nextInt();
-        System.out.println("Digite o PAC (valor entre o e 1):");
-        float pac = scanner.nextFloat();
-        if (iRacingManagerLN.validaPac(pac)){
-
-            System.out.println("Digite a Tipo Pneu:");
-            String tipopneu = scanner.nextLine();
-            System.out.println("Digite a Downforce:");
-            float downforce = scanner.nextFloat();
-            System.out.println("Digite a Tipo Motor:");
-            String motor = scanner.nextLine();
-            iRacingManagerLN.adicionarC1("1",marca,modelo,potencia,pac,6000,tipopneu,downforce,motor);
-            menuPrincipal2();
-        }
-        else {
-            System.out.println("Pac Errado!");
-            menuPrincipal2();
-        }
+        }else System.out.println("Um carro com o mesmo ID já existe no sistema!");
     }
 
     public void trataCriaCarros(){
@@ -621,7 +649,7 @@ public class TextUI {
     }
 
     public void trataRemoverCarros(){
-        System.out.println("Digite o Id do Carro que deseja remover:");
+        System.out.println("Digite o ID do carro que deseja remover:");
         Scanner scanner = new Scanner(System.in);
         String id = scanner.nextLine();
         if(iRacingManagerLN.existeCarro(id)){
@@ -629,7 +657,7 @@ public class TextUI {
             System.out.println("Carro removido!");
             menuPrincipal2();
         } else {
-            System.out.println("Esse Carro não existe.");
+            System.out.println("Esse carro não existe.");
             menuPrincipal2();
         }
 

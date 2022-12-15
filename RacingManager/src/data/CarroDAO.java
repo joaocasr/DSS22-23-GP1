@@ -18,9 +18,9 @@ public class CarroDAO implements Map<String, Carro> {
                     "Modelo varchar(45) NOT NULL," +
                     "Cilindrada int(5) NOT NULL," +
                     "PotenciaCombustao int(10) NOT NULL,"+
-                    "PAC float NOT NULL," +
+                    "PAC float(5) NOT NULL," +
                     "TipoPneu varchar(45) NOT NULL," +
-                    "Downforce float NOT NULL," +
+                    "Downforce float(5) NOT NULL," +
                     "Motor varchar(30) NOT NULL)";
             stm.executeUpdate(sql);
         } catch (SQLException e) {
@@ -111,7 +111,7 @@ public class CarroDAO implements Map<String, Carro> {
             if(this.containsKey(key)){
                 sql= "UPDATE carros SET Marca='"+value.getMarca()+"',Modelo='"+value.getModelo()+"',Cilindrada='"+value.getCilindrada()+"',PotenciaCombustao='"+value.getPotenciaCombustao()+"',PAC='"+value.getPac()+"',TipoPneu='"+value.getTipoPneu().toString()+"',Downforce='"+value.getDownforce()+"',Motor='"+value.getMotor().toString()+"' WHERE IdCarro='"+key+"'";
             }else{
-                sql= "INSERT INTO carros VALUES('"+key+"', '"+value.getMarca()+"', '"+value.getModelo()+"', '"+value.getCilindrada()+"', '"+value.getPotenciaCombustao()+"', '"+value.getPac()+"', '"+value.getTipoPneu().toString()+"', '"+value.getDownforce()+"', '"+value.getMotor().toString()+"')";
+                sql= "INSERT INTO carros VALUES('"+value.getIdCarro()+"', '"+value.getMarca()+"', '"+value.getModelo()+"', '"+value.getCilindrada()+"', '"+value.getPotenciaCombustao()+"', '"+value.getPac()+"', '"+value.getTipoPneu().toString()+"', '"+value.getDownforce()+"', '"+value.getMotor().toString()+"')";
             }
             st.executeUpdate(sql);
         }catch (SQLException e) {
