@@ -221,4 +221,12 @@ public class RacingManagerLN implements IRacingManagerLN{
         this.subGestaoUsersFacade.atualizaScore(classificacao);
     }
 
+    public boolean existeCircuito(String circuito){
+        return this.subGestaoCCFacade.existeCircuito(circuito);
+    }
+
+    public boolean removeCircuito(String circuito){
+        return this.subGestaoCCFacade.removeCIrcuito(circuito);
+    }
+
 }

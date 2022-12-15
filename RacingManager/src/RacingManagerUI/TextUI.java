@@ -156,7 +156,8 @@ public class TextUI {
         System.out.println("Digite o nº de participantes");
         int participantes = scanner.nextInt();
         System.out.print("Lista de Circuitos:");
-        System.out.println(iRacingManagerLN.getCircuitos());
+        List<String> lista = iRacingManagerLN.getCircuitos();
+        System.out.println(lista);
         System.out.print("Digite quantos circuitos pretende adicionar ao campeonato:");
         int num = scanner.nextInt();
         scanner.nextLine();
@@ -173,55 +174,57 @@ public class TextUI {
 
     }
 
-    public void trataAdicionarCircuito(){
+    public void trataAdicionarCircuito() {
         System.out.println("Digite o nome do circuito:");
         Scanner scanner = new Scanner(System.in);
         String nome = scanner.nextLine();
-        System.out.println("Digite a distância:");
-        float distancia = scanner.nextFloat();
-        System.out.println("Digite o nº de voltas:");
-        int voltas = scanner.nextInt();
-        System.out.println("Digite o nº de curvas:");
-        int ncurvas = scanner.nextInt();
-        System.out.println("Digite o nº de chicanes:");
-        int nchicanes = scanner.nextInt();
-        int nretas = ncurvas+nchicanes;
-        scanner.nextLine();
-        List<Reta> allRetas=new ArrayList<>();
-        StringBuilder retaNome = new StringBuilder("reta");
-        List<Chicane> allChicanes = new ArrayList<>();
-        StringBuilder chicaneNome = new StringBuilder("chicane");
-        StringBuilder curvaNome = new StringBuilder("curva");
-        List<Curva> allCurvas = new ArrayList<>();
-        int i=1;
-        System.out.println("GDU: Possível=0 Difícil=1 Impossível=2");
-        while(i<=nretas){
-            String nomereta = retaNome.append(i).toString();
-            System.out.println("Digite o GDU da "+nomereta);
-            int gdu = scanner.nextInt();
-            Reta r = new Reta(nomereta,gdu);
-            allRetas.add(r);
-            i++;
-        }
-        i=1;
-        while(i<=nchicanes){
-            String nomechicane = chicaneNome.append(i).toString();
-            Chicane chicane = new Chicane(nomechicane,1);
-            allChicanes.add(chicane);
-            i++;
-        }
-        i=1;
-        while(i<=ncurvas){
-            String nomecurva = curvaNome.append(i).toString();
-            System.out.println("Digite o GDU da "+nomecurva);
-            int gdu = scanner.nextInt();
-            Curva curva = new Curva(nomecurva,gdu);
-            allCurvas.add(curva);
-            i++;
-        }
-        scanner.nextLine();
-        if(iRacingManagerLN.adicionaCircuito(nome,distancia,voltas,nretas,ncurvas,nchicanes,allRetas,allCurvas,allChicanes)) System.out.println("Circuito "+nome+" guardado com sucesso.");
-        else System.out.println("Circuito não foi guardado.");
+        if (!iRacingManagerLN.existeCircuito(nome)) {
+            System.out.println("Digite a distância:");
+            float distancia = scanner.nextFloat();
+            System.out.println("Digite o nº de voltas:");
+            int voltas = scanner.nextInt();
+            System.out.println("Digite o nº de curvas:");
+            int ncurvas = scanner.nextInt();
+            System.out.println("Digite o nº de chicanes:");
+            int nchicanes = scanner.nextInt();
+            int nretas = ncurvas + nchicanes;
+            scanner.nextLine();
+            List<Reta> allRetas = new ArrayList<>();
+            List<Chicane> allChicanes = new ArrayList<>();
+            List<Curva> allCurvas = new ArrayList<>();
+            int i = 1;
+            System.out.println("GDU: Possível=0 Difícil=1 Impossível=2");
+            while (i <= nretas) {
+                System.out.println("Digite o ID da reta:");
+                String nomereta = scanner.nextLine();
+                System.out.println("Digite o GDU da " + nomereta);
+                int gdu = scanner.nextInt();
+                scanner.nextLine();
+                Reta r = new Reta(nomereta, gdu);
+                allRetas.add(r);
+                i++;
+            }
+            i = 1;
+            while (i <= nchicanes) {
+                System.out.println("Digite o ID da chicane:");
+                String nomechicane = scanner.nextLine();
+                Chicane chicane = new Chicane(nomechicane, 1);
+                allChicanes.add(chicane);
+                i++;
+            }
+            i = 1;
+            while (i <= ncurvas) {
+                System.out.println("Digite o ID da curva:");
+                String nomecurva = scanner.nextLine();
+                System.out.println("Digite o GDU da " + nomecurva);
+                int gdu = scanner.nextInt();
+                scanner.nextLine();
+                Curva curva = new Curva(nomecurva, gdu);
+                allCurvas.add(curva);
+                i++;
+            }
+            if (iRacingManagerLN.adicionaCircuito(nome, distancia, voltas, nretas, ncurvas, nchicanes, allRetas, allCurvas, allChicanes)) System.out.println("Circuito " + nome + " guardado com sucesso.");
+        }else System.out.println("Existe um circuito com a mesma designação no sistema.");
     }
 
     public void trataConsultarCampeonato(){
@@ -287,7 +290,14 @@ public class TextUI {
     }
 
 
-    public void trataRemoverCircuito(){}
+    public void trataRemoverCircuito(){
+        System.out.println("Digite o ID do circuito a remover:");
+        Scanner scanner = new Scanner(System.in);
+        String nome = scanner.nextLine();
+        if(iRacingManagerLN.removeCircuito(nome)) System.out.println("Circuito removido com sucessso!");
+        else System.out.println("Ocorreu um erro- O circuito não foi removido.");
+    }
+
     public void trataRemoverCampeonato(){}
     public void trataGerirCampeonatos(){}
     public void trataGerirCircuitos(){}

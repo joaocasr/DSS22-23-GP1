@@ -41,5 +41,5 @@ public interface ISubGestaoCCFacade {
 
     public void modificaCircuito(String aAntigoCircuito, Circuito aCircuito);
 
-    public void removeCIrcuito(String aNomeCircuito);
+    public boolean removeCIrcuito(String aNomeCircuito);
 }

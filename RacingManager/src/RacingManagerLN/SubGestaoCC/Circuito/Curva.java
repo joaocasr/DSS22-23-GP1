@@ -5,11 +5,11 @@ public class Curva {
     private int _gdu;
 
     public String getId() {
-        throw new UnsupportedOperationException();
+        return this._idCurva;
     }
 
     public void setId(String aId) {
-        throw new UnsupportedOperationException();
+        this._idCurva = aId;
     }
 
     public int getGdu() {
@@ -17,7 +17,7 @@ public class Curva {
     }
 
     public void setGdu(int aGdu) {
-        throw new UnsupportedOperationException();
+        this._gdu=aGdu;
     }
 
     public Curva(String aId,int gdu) {
@@ -43,8 +43,8 @@ public class Curva {
     @Override
     public String toString() {
         return "Curva{\n" +
-                "    _idCurva= '" + _idCurva + "',\n" +
-                "    _gdu= " + _gdu + "\n" +
+                "    _idCurva= '" + _idCurva + "'," +
+                "    _gdu= " + _gdu +
                 '}';
     }
 }

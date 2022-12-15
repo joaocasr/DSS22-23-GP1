@@ -18,6 +18,13 @@ public class Campeonato {
         setCircuitos(circuitosCampeonato);
     }
 
+    public Campeonato(String nomeCampeonato, int participantes) {
+        this.nomeCampeonato = nomeCampeonato;
+        this.participantes = participantes;
+        this.circuitosCampeonato = new ArrayList<>();
+    }
+
+
     public Campeonato(Campeonato c){
         this.nomeCampeonato = c.getNomeCampeonato();
         this.circuitosCampeonato = c.getCircuitos();
@@ -107,17 +114,7 @@ public class Campeonato {
 
     @Override
     public Campeonato clone() {
-        final Campeonato clone;
-        try {
-            clone = (Campeonato) super.clone();
-        }
-        catch (CloneNotSupportedException ex) {
-            throw new RuntimeException("superclass messed up", ex);
-        }
-        clone.nomeCampeonato = this.nomeCampeonato;
-        clone.participantes = this.participantes;
-        clone.circuitosCampeonato = this.circuitosCampeonato;
-        return clone;
+        return new Campeonato(this);
     }
 
     @Override

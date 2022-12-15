@@ -4,6 +4,8 @@ import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
 import RacingManagerLN.SubGestaoCC.Circuito.Curva;
 import RacingManagerLN.SubGestaoCC.Circuito.Reta;
+import data.CampDAO;
+import data.CircuitoDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +17,10 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
     private Map<String,Campeonato> allCampeonatos;
     private Map<String,Circuito> allCircuitos;
 
-    public  SubGestaoCCFacade(){
-        this.allCampeonatos = new HashMap<>();
-        this.allCircuitos = new HashMap<>();
+    public
+    SubGestaoCCFacade(){
+        this.allCampeonatos = CampDAO.getInstance();
+        this.allCircuitos = CircuitoDAO.getInstance();
     }
 
     public boolean validaNomeCampeonato(String aNomeCampeonato) {
@@ -30,7 +33,7 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
 
 
     public List<String> allCircuitosNome(){
-        return this.allCircuitos.values().stream().map(Circuito::getNomeCircuito).collect(Collectors.toList());
+        return new ArrayList<>(this.allCircuitos.keySet());
     }
 
     public boolean guardaCampeonato(String aNomeCampeonato, int aNjogadores,List<Circuito> l) {
@@ -117,8 +120,10 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
         this.allCircuitos.put(aAntigoCircuito, aCircuito);
     }
 
-    public void removeCIrcuito(String aNomeCircuito) {
-        this.allCircuitos.remove(aNomeCircuito);
+    public boolean removeCIrcuito(String aNomeCircuito) {
+        boolean b= true;
+        if(this.allCircuitos.remove(aNomeCircuito)==null) b=false;
+        return b;
     }
 
     public String consultaCampeonato(String nomeCampeonato){

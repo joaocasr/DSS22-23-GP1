@@ -2,10 +2,7 @@ package RacingManagerLN.SubGestaoCC.Circuito;
 
 import RacingManagerLN.SubGestaoCC.Campeonato;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Circuito {
@@ -19,7 +16,7 @@ public class Circuito {
     private List<Curva> allCurvas;
     private List<Chicane> allChicanes;
 
-    public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numCurvas, int numChicanes,
+    public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numChicanes,int numCurvas,
                     List<Reta> allRetas, List<Curva> allCurvas, List<Chicane> allChicanes) {
         this.nomeCircuito = nomeCircuito;
         this.distancia = distancia;
@@ -30,6 +27,18 @@ public class Circuito {
         this.allRetas = allRetas;
         this.allCurvas = allCurvas;
         this.allChicanes = allChicanes;
+    }
+
+    public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numChicanes,int numCurvas) {
+        this.nomeCircuito = nomeCircuito;
+        this.distancia = distancia;
+        this.voltas = voltas;
+        this.numRetas = numRetas;
+        this.numCurvas = numCurvas;
+        this.numChicanes = numChicanes;
+        this.allRetas = new ArrayList<>();
+        this.allCurvas = new ArrayList<>();
+        this.allChicanes = new ArrayList<>();
     }
 
     public Circuito(Circuito c){
@@ -45,7 +54,7 @@ public class Circuito {
     }
 
     public String getNomeCircuito() {
-        return nomeCircuito;
+        return this.nomeCircuito;
     }
 
     public void setNomeCircuito(String nomeCircuito) {
@@ -66,6 +75,18 @@ public class Circuito {
 
     public void setVoltas(int voltas) {
         this.voltas = voltas;
+    }
+
+    public void addReta(Reta r){
+        this.allRetas.add(r);
+    }
+
+    public void addCurva(Curva c){
+        this.allCurvas.add(c);
+    }
+
+    public void addChicane(Chicane c){
+        this.allChicanes.add(c);
     }
 
     public Curva getCurva(String id){
@@ -171,23 +192,7 @@ public class Circuito {
 
     @Override
     public Circuito clone() {
-        final Circuito clone;
-        try {
-            clone = (Circuito) super.clone();
-        }
-        catch (CloneNotSupportedException ex) {
-            throw new RuntimeException("superclass messed up", ex);
-        }
-        clone.nomeCircuito = this.nomeCircuito;
-        clone.distancia = this.distancia ;
-        clone.voltas = this.voltas;
-        clone.numRetas = this.numRetas;
-        clone.numCurvas = this.numCurvas;
-        clone.numChicanes = this.numChicanes;
-        clone.allRetas = this.allRetas;
-        clone.allCurvas = this.allCurvas;
-        clone.allChicanes = this.allChicanes;
-        return clone;
+        return new Circuito(this);
     }
 
     @Override

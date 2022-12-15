@@ -93,4 +93,7 @@ public interface IRacingManagerLN {
 
     public void atualizaScore(Map<String,Integer> classificacao);
 
+    public boolean existeCircuito(String circuito);
+
+    public boolean removeCircuito(String circuito);
 }
