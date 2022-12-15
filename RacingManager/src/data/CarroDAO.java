@@ -62,9 +62,11 @@ public class CarroDAO implements Map<String, Carro> {
     public boolean containsKey(Object key) {
         boolean r;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT IdCarro FROM carros WHERE IdCarro ='"+ key.toString()+"'")) {
+             PreparedStatement st = conn.prepareStatement("SELECT IdCarro FROM carros WHERE IdCarro =?")) {
+            st.setString(1, key.toString());
+            ResultSet rs = st.executeQuery();
             r = rs.next();
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
@@ -75,18 +77,24 @@ public class CarroDAO implements Map<String, Carro> {
     @Override
     public boolean containsValue(Object value) {
         Carro c = (Carro) value;
-        return this.containsKey(c.getIdCarro());
+        Carro dbc = this.get(c.getIdCarro());
+        return c.equals(dbc);
     }
 
     @Override
     public Carro get(Object key) {
         Carro c = null;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT * FROM carros WHERE IdCarro='" + key.toString() + "'")) {
+             PreparedStatement st = conn.prepareStatement("SELECT * FROM carros WHERE IdCarro=?")) {
+
+            st.setString(1, key.toString());
+            ResultSet rs = st.executeQuery();
+
             if (rs.next()) {
                 c = new Carro(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getFloat(6),Carro.converteStringPneu(rs.getString(7)),rs.getFloat(8),Carro.converteStringMotor(rs.getString(9)));
             }
+
+            rs.close();
         } catch(SQLException e){
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
@@ -117,8 +125,12 @@ public class CarroDAO implements Map<String, Carro> {
     public Carro remove(Object key) {
         Carro c = this.get(key);
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("DELETE FROM carros WHERE IdCarro='"+c.getIdCarro()+"'")) {
+            PreparedStatement st = con.prepareStatement("DELETE FROM carros WHERE IdCarro=?")) {
+
+            st.setString(1, c.getIdCarro());
+            ResultSet rs = st.executeQuery();
+            rs.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,9 +176,12 @@ public class CarroDAO implements Map<String, Carro> {
         Collection<Carro> allCarros = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT IdCarro FROM carros")) {
+             ResultSet rs = stm.executeQuery("SELECT * FROM carros")) {
             while (rs.next()) {
-                allCarros.add(this.get(rs.getString(1)));
+                allCarros.add(new Carro(rs.getString(1), rs.getString(2),
+                        rs.getString(3), rs.getInt(4), rs.getInt(5),
+                        rs.getFloat(6), Carro.tipoPneu.valueOf(rs.getString(7)),
+                        rs.getFloat(8), Carro.modoMotor.valueOf(rs.getString(9))));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,7 +199,10 @@ public class CarroDAO implements Map<String, Carro> {
              Statement stm = conn.createStatement();
              ResultSet rs = stm.executeQuery("SELECT IdCarro FROM carros")) {
             while (rs.next()) {
-                entry =  new AbstractMap.SimpleEntry<>(rs.getString(1),this.get(rs.getString(1)));
+                entry =  new AbstractMap.SimpleEntry<>(rs.getString(1), new Carro(rs.getString(1),
+                        rs.getString(2), rs.getString(3), rs.getInt(4),
+                        rs.getInt(5), rs.getFloat(6), Carro.tipoPneu.valueOf(rs.getString(7)),
+                        rs.getFloat(8), Carro.modoMotor.valueOf(rs.getString(9))));
                 col.add(entry);
             }
         } catch (Exception e) {

@@ -57,7 +57,7 @@ public class PilotoDAO implements Map<String, Piloto> {
     public boolean containsKey(Object key) {
         boolean r;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             PreparedStatement st = conn.prepareStatement("SELECT Nomepiloto FROM pilotos WHERE Nomepiloto ='?'")) {
+             PreparedStatement st = conn.prepareStatement("SELECT Nomepiloto FROM pilotos WHERE Nomepiloto =?")) {
 
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
@@ -68,11 +68,12 @@ public class PilotoDAO implements Map<String, Piloto> {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
         }
+
         return r;
     }
 
     @Override
-    public boolean containsValue(Object value) { //TODO Check if this is as intended
+    public boolean containsValue(Object value) {
         Piloto p = (Piloto) value;
         Piloto dbP = this.get(p.getNome());
         return p.equals(dbP);
@@ -82,7 +83,7 @@ public class PilotoDAO implements Map<String, Piloto> {
     public Piloto get(Object key) {
         Piloto p = null;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             PreparedStatement st = conn.prepareStatement("SELECT * FROM pilotos WHERE Nomepiloto='?'")){
+             PreparedStatement st = conn.prepareStatement("SELECT * FROM pilotos WHERE Nomepiloto=?")){
 
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
@@ -90,6 +91,7 @@ public class PilotoDAO implements Map<String, Piloto> {
             if (rs.next()) {
                 p = new Piloto(rs.getString(1), rs.getFloat(2),rs.getFloat(3));
             }
+
             rs.close();
         } catch(SQLException e){
             e.printStackTrace();
@@ -106,7 +108,7 @@ public class PilotoDAO implements Map<String, Piloto> {
             Statement st = con.createStatement()){
 
             if(this.containsKey(key)){
-                sql= "UPDATE pilotos SET Cts='"+value.getSVA()+"',Sva='"+value.getCTS()+"' WHERE username='"+ key +"'";
+                sql= "UPDATE pilotos SET Cts='"+value.getCTS()+"',Sva='"+value.getSVA()+"' WHERE Nomepiloto='"+ key +"'";
             }else{
                 sql= "INSERT INTO pilotos VALUES('"+key+"', '"+value.getSVA()+"', '"+value.getCTS()+"')";
             }
@@ -116,6 +118,7 @@ public class PilotoDAO implements Map<String, Piloto> {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
         }
+
         return piloto;
     }
 
@@ -123,7 +126,7 @@ public class PilotoDAO implements Map<String, Piloto> {
     public Piloto remove(Object key) {
         Piloto p = this.get(key);
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
-            PreparedStatement st = con.prepareStatement("DELETE FROM pilotos WHERE Nomepiloto='?'")) {
+            PreparedStatement st = con.prepareStatement("DELETE FROM pilotos WHERE Nomepiloto=?")) {
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
             rs.close();

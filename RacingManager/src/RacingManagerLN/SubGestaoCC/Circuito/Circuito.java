@@ -19,7 +19,8 @@ public class Circuito {
     private List<Curva> allCurvas;
     private List<Chicane> allChicanes;
 
-    public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numCurvas, int numChicanes, List<Reta> allRetas, List<Curva> allCurvas, List<Chicane> allChicanes) {
+    public Circuito(String nomeCircuito, double distancia, int voltas, int numRetas, int numCurvas, int numChicanes,
+                    List<Reta> allRetas, List<Curva> allCurvas, List<Chicane> allChicanes) {
         this.nomeCircuito = nomeCircuito;
         this.distancia = distancia;
         this.voltas = voltas;

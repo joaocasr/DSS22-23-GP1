@@ -10,9 +10,9 @@ public interface ISubGestaoCPFacade {
 
     public void removerCarro(String aIdCarro);
 
-    public Boolean validaNomePiloto(String aNome);
+    public boolean validaNomePiloto(String aNome);
 
-    public Boolean validarPericia(float aCts, float aSva);
+    public boolean validarPericia(float aCts, float aSva);
 
     public void registarPiloto(String aNomePiloto, Float aSVA, Float aCTS);
 

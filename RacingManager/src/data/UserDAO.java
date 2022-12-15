@@ -70,14 +70,15 @@ public class UserDAO implements Map<String, User> {
     @Override
     public boolean containsValue(Object value) {
         User u = (User) value;
-        return this.containsKey(u.getUsername());
+        User dbu = this.get(u.getUsername());
+        return u.equals(dbu);
     }
 
     @Override
     public User get(Object key) {
         User u = null;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             PreparedStatement st = conn.prepareStatement("SELECT * FROM users WHERE Username='?'")) {
+             PreparedStatement st = conn.prepareStatement("SELECT * FROM users WHERE Username=?")) {
 
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
@@ -124,7 +125,7 @@ public class UserDAO implements Map<String, User> {
     public User remove(Object key) {
         User u = this.get(key);
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
-            PreparedStatement st = con.prepareStatement("DELETE FROM users WHERE Username='?'")) {
+            PreparedStatement st = con.prepareStatement("DELETE FROM users WHERE Username=?")) {
 
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();

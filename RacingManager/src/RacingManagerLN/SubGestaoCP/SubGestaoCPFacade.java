@@ -25,11 +25,11 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         allCarros.remove(aIdCarro);
     }
 
-    public Boolean validaNomePiloto(String aNome) {
+    public boolean validaNomePiloto(String aNome) {
         return allPilotos.get(aNome) == null;
     }
 
-    public Boolean validarPericia(float aCts, float aSva) {
+    public boolean validarPericia(float aSva, float aCts) {
         return aCts + aSva == 1;
     }
 
