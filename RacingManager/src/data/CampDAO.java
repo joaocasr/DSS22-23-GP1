@@ -119,27 +119,25 @@ public class CampDAO implements Map<String, Campeonato> {
 
     @Override
     public Campeonato get(Object key) {
-        Campeonato c=null;
         Circuito circuito = null;
 
         Set<String> circuitos = new HashSet<>();
+        Set<Campeonato> campeonatos=new HashSet<>();
 
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement st = conn.createStatement()) {
 
 
-            String sql1 = "SELECT circuito.nomeCircuito,campeonato.NomeCampeonato,campeonato.participantes FROM campeonato "+
-            "INNER JOIN circuito ON circuito.fk_campeonato=campeonato.NomeCampeonato";
-
+            String sql1 = "SELECT circuito.nomeCircuito,campeonato.participantes FROM campeonato "+
+                    "INNER JOIN circuito ON circuito.fk_campeonato='"+key.toString()+"';";
             ResultSet rs = st.executeQuery(sql1);
-            int j=0;
             while(rs.next()) {
-                if(j==0) c = new Campeonato(rs.getString(2),rs.getInt(3));
+                campeonatos.add(new Campeonato(key.toString(),rs.getInt(2)));
                 circuitos.add(rs.getString(1));
-                j++;
             }
             rs.close();
 
+            Campeonato c = (Campeonato) campeonatos.toArray()[0];
             for(String cir : circuitos) {
                 String sql2 = "SELECT * FROM circuito" +
                         " INNER JOIN reta ON circuito.nomeCircuito=reta.fk_circuitoRT" +
@@ -160,7 +158,7 @@ public class CampDAO implements Map<String, Campeonato> {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
         }
-        return c;
+        return (Campeonato) campeonatos.toArray()[0];
     }
 
     @Override
@@ -190,12 +188,12 @@ public class CampDAO implements Map<String, Campeonato> {
         List<Circuito> cirs = c.getCircuitos();
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
             Statement st = con.createStatement()) {
-            StringBuilder sb = new StringBuilder();
             for(String circuito: cirs.stream().map(Circuito::getNomeCircuito).toList()){
-                sb.append("UPDATE circuito SET fk_campeonato='"+ null +"' WHERE nomeCircuito='"+circuito+"';");
+                String sqlcircuito = "UPDATE circuito SET fk_campeonato='"+ null +"' WHERE nomeCircuito='"+circuito+"';";
+                st.executeUpdate(sqlcircuito);
             }
-            sb.append("DELETE FROM campeonato WHERE NomeCampeonato='"+c.getNomeCampeonato()+"';");
-            st.executeUpdate(sb.toString());
+            String sqlcamp = "DELETE FROM campeonato WHERE NomeCampeonato='"+c.getNomeCampeonato()+"';";
+            st.executeUpdate(sqlcamp);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -126,7 +126,7 @@ public class RacingManagerLN implements IRacingManagerLN{
 
     @Override
     public List<String> getCampeonatos() {
-        return null;
+        return this.subGestaoCCFacade.getNomesCampeonatos();
     }
 
     @Override
@@ -193,7 +193,7 @@ public class RacingManagerLN implements IRacingManagerLN{
 
     @Override
     public void adicionaInscricao(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto) {
-
+        this.subGestaoJogosFacade.guardaEscolhasUser(aUser,aCampeonato,aCarro,aPiloto);
     }
 
     public String consultaCampeonato(String nomeCampeonato){
@@ -227,6 +227,18 @@ public class RacingManagerLN implements IRacingManagerLN{
 
     public boolean removeCircuito(String circuito){
         return this.subGestaoCCFacade.removeCIrcuito(circuito);
+    }
+
+    public boolean removeCampeonato(String campeonato){
+        return this.subGestaoCCFacade.removeCampeonato(campeonato);
+    }
+
+    public Carro getCarro(String idcarro){
+        return this.subGestaoCPFacade.getCarro(idcarro);
+    }
+
+    public Piloto getPiloto(String pilotoname){
+        return this.subGestaoCPFacade.getPiloto(pilotoname);
     }
 
 }

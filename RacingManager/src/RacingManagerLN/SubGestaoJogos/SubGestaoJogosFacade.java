@@ -22,7 +22,7 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
     public void guardaEscolhasUser(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto) {
         Inscricao inscricao = new Inscricao(aUser,aCampeonato,aCarro,aPiloto);
         String nomeCampeonato= aCampeonato.getNomeCampeonato();
-        if(getInscricoesCampeonato(nomeCampeonato)!=null) {
+        if(getInscricoesCampeonato(nomeCampeonato)==null) {
             List<Inscricao> l = new ArrayList<>();
             l.add(inscricao);
             allInscricoes.put(nomeCampeonato, l);

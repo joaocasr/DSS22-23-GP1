@@ -45,4 +45,7 @@ public interface ISubGestaoCPFacade {
     public List<Piloto> getAllPilotos();
 
     public List<String> getNomePilotos();
+
+    public Piloto getPiloto(String pilotoname);
+
 }

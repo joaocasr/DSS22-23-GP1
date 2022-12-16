@@ -42,4 +42,8 @@ public interface ISubGestaoCCFacade {
     public void modificaCircuito(String aAntigoCircuito, Circuito aCircuito);
 
     public boolean removeCIrcuito(String aNomeCircuito);
+
+    public boolean removeCampeonato(String campeonato);
+
+
 }

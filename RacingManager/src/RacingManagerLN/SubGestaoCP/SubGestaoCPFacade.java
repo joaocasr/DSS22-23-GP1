@@ -101,6 +101,10 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         return allCarros.get(aIdCarro);
     }
 
+    public Piloto getPiloto(String nome){
+        return this.allPilotos.get(nome);
+    }
+
     public List<Piloto> getAllPilotos() {
         return this.allPilotos.values().stream().toList();
     }

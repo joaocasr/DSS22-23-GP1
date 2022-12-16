@@ -7,18 +7,14 @@ import RacingManagerLN.SubGestaoCC.Circuito.Reta;
 import data.CampDAO;
 import data.CircuitoDAO;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SubGestaoCCFacade implements ISubGestaoCCFacade {
     private Map<String,Campeonato> allCampeonatos;
     private Map<String,Circuito> allCircuitos;
 
-    public
-    SubGestaoCCFacade(){
+    public SubGestaoCCFacade(){
         this.allCampeonatos = CampDAO.getInstance();
         this.allCircuitos = CircuitoDAO.getInstance();
     }
@@ -34,6 +30,12 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
 
     public List<String> allCircuitosNome(){
         return new ArrayList<>(this.allCircuitos.keySet());
+    }
+
+    public boolean removeCampeonato(String campeonato){
+        boolean b = true;
+        if(this.allCampeonatos.remove(campeonato)==null) b=false;
+        return b;
     }
 
     public boolean guardaCampeonato(String aNomeCampeonato, int aNjogadores,List<Circuito> l) {
@@ -76,6 +78,10 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
         return true;
     }
 
+    public List<String> getNomesCampeonatos(){
+        Collection<Campeonato> l = this.allCampeonatos.values();
+        return l.stream().map(Campeonato::getNomeCampeonato).collect(Collectors.toList());
+    }
     public void apagaCampeonato(String aCampNome) {
         this.allCampeonatos.remove(aCampNome);
     }

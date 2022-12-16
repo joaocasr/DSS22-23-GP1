@@ -5,7 +5,10 @@ import RacingManagerLN.SubGestaoCP.Carro.*;
 import RacingManagerLN.SubGestaoCP.Piloto;
 import RacingManagerLN.SubGestaoJogos.Inscricao;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Simulacao implements Clima {
@@ -188,6 +191,39 @@ public class Simulacao implements Clima {
             }
         }
         return inscricoes;
+    }
+    public Simulacao(){};
+    public void showGameLogo(String message) throws InterruptedException {
+        int height = 35;
+        int width =350;
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = bufferedImage.getGraphics();
+        Graphics2D graphics2D = (Graphics2D) graphics;
+        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics2D.drawString(message, 12, 24);
+
+        for (int y = 0; y < height; y++) {
+            StringBuilder sb = new StringBuilder();
+            for (int x = 0; x < width; x++) {
+
+                sb.append(bufferedImage.getRGB(x, y) == -16777216 ? " " : "@");
+
+            }
+
+            if (sb.toString().trim().isEmpty()) {
+                continue;
+            }
+
+            System.out.println("\u001B[36m"+sb+"\u001B[36m");
+        }
+        System.out.print("\nA CARREGAR JOGO");
+        Thread.sleep(1000);
+        System.out.print(".");
+        Thread.sleep(1000);
+        System.out.print(".");
+        Thread.sleep(1000);
+        System.out.print(".");
+        System.out.print("\033[0m");
     }
 
     public void setallConfiguracoes(Configuracao allConfiguracoes) {

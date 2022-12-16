@@ -96,4 +96,11 @@ public interface IRacingManagerLN {
     public boolean existeCircuito(String circuito);
 
     public boolean removeCircuito(String circuito);
+
+    public boolean removeCampeonato(String campeonato);
+
+    public Carro getCarro(String carro);
+
+    public Piloto getPiloto(String pilotoname);
+
 }

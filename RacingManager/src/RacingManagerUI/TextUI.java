@@ -2,16 +2,14 @@ package RacingManagerUI;
 
 import RacingManagerLN.Exceptions.SintaxeIncorretaException;
 import RacingManagerLN.*;
-import RacingManagerLN.SubGestaoCP.ISubGestaoCPFacade;
+import RacingManagerLN.SubGestaoCP.Carro.Carro;
 import RacingManagerLN.SubGestaoCP.Piloto;
-import RacingManagerLN.SubGestaoCP.SubGestaoCPFacade;
 import RacingManagerLN.SubGestaoJogos.Inscricao;
 import RacingManagerLN.SubGestaoJogos.Simulacao.Configuracao;
 import RacingManagerLN.SubGestaoJogos.Simulacao.Simulacao;
 import RacingManagerLN.SubGestaoUsers.*;
 import RacingManagerLN.SubGestaoCC.Circuito.*;
 import RacingManagerLN.SubGestaoCC.*;
-import data.PilotoDAO;
 
 
 import java.util.*;
@@ -166,6 +164,7 @@ public class TextUI {
             System.out.print(">>>");
             String circuito = scanner.nextLine();
             Circuito c = iRacingManagerLN.getCircuito(circuito);
+            if(c==null) System.out.println("something wrong");
             l.add(c);
             num--;
         }
@@ -240,7 +239,13 @@ public class TextUI {
         String nome = scanner.nextLine();
         Campeonato campeonato = iRacingManagerLN.getCampeonato(nome);
         List<Inscricao> inscricoes = iRacingManagerLN.getInscricoes(nome);
-        if (campeonato.getParticipantes() == inscricoes.size()) {
+        Simulacao s = new Simulacao();
+        try {
+            s.showGameLogo("RACING MANAGER");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (inscricoes!=null && campeonato.getParticipantes() == inscricoes.size()) {
             int NCorridas = campeonato.getNumeroCorridas();
             Configuracao conf = null;
             List<Configuracao> configuracoes = new ArrayList<>();
@@ -286,7 +291,7 @@ public class TextUI {
             }
             Map<String, Integer> classsificacao = campeonato.getClasssificacaoCamp();
             iRacingManagerLN.atualizaScore(classsificacao);
-        }
+        }else System.out.println("\nAVISO: O campeonato não atingiu o número de jogadores necessário!");
     }
 
 
@@ -298,7 +303,15 @@ public class TextUI {
         else System.out.println("Ocorreu um erro- O circuito não foi removido.");
     }
 
-    public void trataRemoverCampeonato(){}
+    public void trataRemoverCampeonato(){
+        System.out.println("Digite o nome do campeonato a remover:");
+        Scanner scanner = new Scanner(System.in);
+        String nome = scanner.nextLine();
+        if(iRacingManagerLN.removeCampeonato(nome)) System.out.println("Circuito removido com sucesso.");
+        else System.out.println("Ocorreu um erro- O campeonato não foi removido.");
+    }
+
+
     public void trataGerirCampeonatos(){}
     public void trataGerirCircuitos(){}
 
@@ -348,8 +361,6 @@ public class TextUI {
             System.out.println("Esse Piloto não existe.");
             menuPrincipal2();
         }
-
-
     }
 
     public void menuCarros(){
@@ -674,6 +685,32 @@ public class TextUI {
 
     }
 
-    public void trataJogar(){}
+    public void trataJogar(){
+        String userAtual = this.iRacingManagerLN.getCurrentUser();
+        User u = this.iRacingManagerLN.getUser(userAtual);
+        System.out.println("CAMPEONATOS DISPONÍVEIS:");
+        List<String> l = iRacingManagerLN.getCampeonatos();
+        System.out.println(l);
+        System.out.println("Digite o campeonato a jogar:");
+        Scanner scanner = new Scanner(System.in);
+        String nomecampeonato = scanner.nextLine();
+        Campeonato campeonato =iRacingManagerLN.getCampeonato(nomecampeonato);
+        System.out.println("CARROS DISPONÍVEIS:");
+        iRacingManagerLN.getCarros().forEach(x->{
+            System.out.println(x.getIdCarro()+": "+"Marca-> "+x.getMarca()+", Modelo-> "+x.getModelo()+";");
+        });
+        System.out.println("Digite o ID do carro com que pretende jogar:");
+        String carroid = scanner.nextLine();
+        Carro carro = iRacingManagerLN.getCarro(carroid);
+        iRacingManagerLN.getPilotos().forEach(x->{
+            System.out.println("Piloto: "+x);
+        });
+        System.out.println("Digite o piloto com que pretende jogar:");
+        String pilotoname = scanner.nextLine();
+        Piloto piloto =iRacingManagerLN.getPiloto(pilotoname);
+        iRacingManagerLN.adicionaInscricao(u,campeonato,carro,piloto);
+        System.out.println("Inscrição para o jogo efetuada com sucesso.");
+
+    }
 
 }
