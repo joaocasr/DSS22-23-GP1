@@ -147,9 +147,12 @@ public class CampDAO implements Map<String, Campeonato> {
                 int n = 0;
                 while (rs2.next()) {
                     if (n == 0) circuito = new Circuito(rs2.getString(1), rs2.getDouble(2), rs2.getInt(3), rs2.getInt(4), rs2.getInt(5), rs2.getInt(6));
-                    circuito.addReta(new Reta(rs2.getString(8), rs2.getInt(9)));
-                    circuito.addChicane(new Chicane(rs2.getString(11), rs2.getInt(12)));
-                    circuito.addCurva(new Curva(rs2.getString(14), rs2.getInt(15)));
+                    String idreta=rs2.getString(8);
+                    if(circuito.getAllRetas().stream().noneMatch(x -> x.getId().equals(idreta))) circuito.addReta(new Reta(rs2.getString(8), rs2.getInt(9)));
+                    String idChicane=rs2.getString(11);
+                    if(circuito.getAllChicanes().stream().noneMatch(x -> x.getIdChicane().equals(idChicane))) circuito.addChicane(new Chicane(rs2.getString(11), rs2.getInt(12)));
+                    String idCurva=rs2.getString(14);
+                    if(circuito.getAllCurvas().stream().noneMatch(x -> x.getId().equals(idCurva))) circuito.addCurva(new Curva(rs2.getString(14), rs2.getInt(15)));
                     n++;
                 }
                 c.addCircuito(circuito);

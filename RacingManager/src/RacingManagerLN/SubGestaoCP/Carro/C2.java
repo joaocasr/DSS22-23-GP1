@@ -28,12 +28,13 @@ public class C2 extends Carro {
     }
 
     public double getFiabilidade(){
-        double extra=0;
-        if(this.afinacao.equals(Afinacao.Salao)) extra=1;
-        if(this.afinacao.equals(Afinacao.Corpo)) extra=2;
-        if(this.afinacao.equals(Afinacao.Suspensao)) extra=3;
-        if(this.afinacao.equals(Afinacao.Motor)) extra=4;
-        if(this.afinacao.equals(Afinacao.Freio)) extra=5;
+        double extra=-1;
+        if(this.afinacao==null) extra =0;
+        else if(this.afinacao.equals(Afinacao.Salao)) extra=1;
+        else if(this.afinacao.equals(Afinacao.Corpo)) extra=2;
+        else if(this.afinacao.equals(Afinacao.Suspensao)) extra=3;
+        else if(this.afinacao.equals(Afinacao.Motor)) extra=4;
+        else if(this.afinacao.equals(Afinacao.Freio)) extra=5;
         return this.fiabilidadeTeorica+ (double)(getCilindrada()/1000) +extra;
     }
 

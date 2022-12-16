@@ -120,8 +120,8 @@ public class Simulacao implements Clima {
     public Map<Integer,String> posicionaJogadores(List<String> jogadores){
         int N = jogadores.size();
         int i;
-        for(i=1;i<=N;i++){
-            this.ordemPilotos.put(i,jogadores.get(i));
+        for(i=0;i<N;i++){
+            this.ordemPilotos.put(i+1,jogadores.get(i));
         }
         return this.ordemPilotos;
     }
@@ -147,9 +147,11 @@ public class Simulacao implements Clima {
             System.out.println("James Allen (comentador): Hoje faz um dia de chuva, pelo que os pilotos terão de ter em atenção o piso escorregadio.");
         }
         System.out.println("James Allen (comentador):Já temos a confirmação das posições iniciais.");
+        System.out.println("---------------------------------");
         for(Map.Entry<Integer,String> m: posicoes.entrySet()){
-            System.out.println(m.getKey()+" - "+m.getValue());
+            System.out.println(m.getKey()+"º - "+m.getValue());
         }
+        System.out.println("---------------------------------");
         System.out.println("David Croft (comentador): Vamos então dar início à corrida.");
     }
 
@@ -158,7 +160,7 @@ public class Simulacao implements Clima {
     }
 
     public void relataUltrapassagem(String piloto1,String piloto2){
-        System.out.println("David Croft (comentador): WOW! Acabámos de assistir a uma incrível ultrapassagem do "+piloto1+"."+piloto2+" está a perder terreno e fica atrás do "+piloto1);
+        System.out.println("David Croft (comentador): WOW! "+piloto1+" ultrapassa "+piloto2);
     }
 
     public void showResultados(List<String> posicoes){

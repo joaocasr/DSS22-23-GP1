@@ -28,13 +28,15 @@ public class TextUI {
         opcoes.add("Login\n");
         opcoes.add("Registar Conta\n");
         opcoes.add("Simular Campeonato\n");
+        opcoes.add("SIMULACAO-TESTE\n");
         opcoes.add("Jogar");
         menu.setOptions(opcoes);
 
         menu.setHandlers(1, this::trataEfetuarLogin);
         menu.setHandlers(2, this::trataRegistarConta);
         menu.setHandlers(3, this::trataSimularCampeonato);
-        menu.setHandlers(4,this::trataJogar);
+        menu.setHandlers(4, this::simulacaoteste);
+        menu.setHandlers(5,this::trataJogar);
         menu.run();
     }
 
@@ -294,6 +296,13 @@ public class TextUI {
         }else System.out.println("\nAVISO: O campeonato não atingiu o número de jogadores necessário!");
     }
 
+
+    public void simulacaoteste(){
+        List<Inscricao> l = this.iRacingManagerLN.getInscricoes("UM-CAMP");
+        Campeonato camp = this.iRacingManagerLN.getCampeonato("UM-CAMP");
+        List<Configuracao> configuracoes = new ArrayList<>();
+        Simulacao s = new Simulacao(camp.getCircuitos().get(0),l,configuracoes);
+    }
 
     public void trataRemoverCircuito(){
         System.out.println("Digite o ID do circuito a remover:");
