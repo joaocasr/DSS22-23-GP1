@@ -241,12 +241,6 @@ public class TextUI {
         String nome = scanner.nextLine();
         Campeonato campeonato = iRacingManagerLN.getCampeonato(nome);
         List<Inscricao> inscricoes = iRacingManagerLN.getInscricoes(nome);
-        Simulacao s = new Simulacao();
-        try {
-            s.showGameLogo("RACING MANAGER");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (inscricoes!=null && campeonato.getParticipantes() == inscricoes.size()) {
             int NCorridas = campeonato.getNumeroCorridas();
             Configuracao conf = null;
@@ -258,7 +252,12 @@ public class TextUI {
             }
             Map<String, Integer> pontuacoes = new HashMap<>();
             for (Circuito c : campeonato.getCircuitos()) {
-                Simulacao simulacao = new Simulacao(c, inscricoes, configuracoes);
+                Simulacao simulacao = null;
+                try {
+                    simulacao = new Simulacao(c, inscricoes, configuracoes);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 pontuacoes = simulacao.getScore();
                 campeonato.atualizaClassificacao(pontuacoes);
                 int nj = 0;
@@ -298,10 +297,20 @@ public class TextUI {
 
 
     public void simulacaoteste(){
+        Simulacao simulacao = new Simulacao();
+        try {
+            simulacao.showGameLogo("RACING MANAGER");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         List<Inscricao> l = this.iRacingManagerLN.getInscricoes("UM-CAMP");
         Campeonato camp = this.iRacingManagerLN.getCampeonato("UM-CAMP");
         List<Configuracao> configuracoes = new ArrayList<>();
-        Simulacao s = new Simulacao(camp.getCircuitos().get(0),l,configuracoes);
+        try {
+            Simulacao s = new Simulacao(camp.getCircuitos().get(0),l,configuracoes);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void trataRemoverCircuito(){

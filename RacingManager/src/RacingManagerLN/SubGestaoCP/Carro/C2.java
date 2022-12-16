@@ -22,6 +22,10 @@ public class C2 extends Carro {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
+    public C2(C2 c2){
+        super(c2);
+        this.afinacao = c2.getAfinacao();
+    }
 
     public double getFiabilidadeTeorica() {
         return this.fiabilidadeTeorica;
@@ -30,12 +34,14 @@ public class C2 extends Carro {
     public double getFiabilidade(){
         double extra=-1;
         if(this.afinacao==null) extra =0;
-        else if(this.afinacao.equals(Afinacao.Salao)) extra=1;
-        else if(this.afinacao.equals(Afinacao.Corpo)) extra=2;
-        else if(this.afinacao.equals(Afinacao.Suspensao)) extra=3;
-        else if(this.afinacao.equals(Afinacao.Motor)) extra=4;
-        else if(this.afinacao.equals(Afinacao.Freio)) extra=5;
-        return this.fiabilidadeTeorica+ (double)(getCilindrada()/1000) +extra;
+        else if(this.afinacao.equals(Afinacao.Salao)) extra=0.10;
+        else if(this.afinacao.equals(Afinacao.Corpo)) extra=0.12;
+        else if(this.afinacao.equals(Afinacao.Suspensao)) extra=0.13;
+        else if(this.afinacao.equals(Afinacao.Motor)) extra=0.14;
+        else if(this.afinacao.equals(Afinacao.Freio)) extra=0.15;
+        double d = (double)getCilindrada()/40000;
+        double fiab = this.fiabilidadeTeorica+ d +extra;
+        return fiab;
     }
 
     public void setFiabilidadeTeorica(double aFiabilidadeTeorica) {
@@ -52,6 +58,9 @@ public class C2 extends Carro {
     public void alteraAfinacao(String aAfinacao) {
         Afinacao a = converteStringAfinacao(aAfinacao);
         setAfinacao(a);
+    }
+    public Afinacao getAfinacao() {
+        return this.afinacao;
     }
 
     public static Afinacao converteStringAfinacao(String aAfinacao) {
@@ -74,7 +83,8 @@ public class C2 extends Carro {
         return a;
     }
 
-    public C2 clone() {throw new UnsupportedOperationException();
+    public C2 clone(){;
+        return new C2(this);
     }
 
     public boolean equals(Object aO) { // not sure se funciona

@@ -8,7 +8,7 @@ public class GT extends Carro {
 
     public double getFiabilidade(int voltas){
         double d =(double) (getCilindrada()/1000);
-        return (0.85/d)- 0.2*voltas;
+        return (1/d)- 0.2*voltas;
     }
 
     public boolean equals(Object aO) { // not sure se funciona

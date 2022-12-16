@@ -22,20 +22,28 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
         User user1 = new User("tomas","tomaspass",false,0,"B");
         User user2 = new User("joao","joaopass",false,0,"B");
         User user3 = new User("renato","renatopass",false,0,"B");
+        User user4 = new User("duarte","duartepass",false,0,"B");
         Campeonato campeonato = new Campeonato("UM-CAMP",3);
         Piloto p1 = new Piloto("MAX", 0.5F, 0.5F);
         Piloto p2 = new Piloto("MAX2", 0.4F, 0.6F);
         Piloto p3 = new Piloto("MAX3", 0.3F, 0.7F);
-        Carro c1 = new C1("carro1","McLaren","M14A",789,200,0.3F, Carro.tipoPneu.Duro,0.4F, Carro.modoMotor.Agressivo);
-        Carro c2 = new C2("carro2","Mercedes","D23J",689,230,0.4F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
-        GT c3 = new GT("carro3","Ferrari","H34K",665,210,0.4F, Carro.tipoPneu.Duro,0.6F, Carro.modoMotor.Agressivo);
+        Piloto p4 = new Piloto("MAX4", 0.35F, 0.65F);
+
+        Carro c1 = new C1("carro1","McLaren","M14A",6000,200,0.3F, Carro.tipoPneu.Duro,0.4F, Carro.modoMotor.Agressivo);
+        Carro c2 = new C2("carro2","Mercedes","D23J",4000,230,0.4F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
+        GT c3 = new GT("carro3","Ferrari","H34K",2500,210,0.4F, Carro.tipoPneu.Duro,0.6F, Carro.modoMotor.Agressivo);
+        Carro c4 = new C2("carro4","Austin Martin","H45G",3000,240,0.6F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
+
         Inscricao i1 = new Inscricao(user1,campeonato,c1,p1);
         Inscricao i2 = new Inscricao(user2,campeonato,c2,p2);
         Inscricao i3 = new Inscricao(user3,campeonato,c3,p3);
+        Inscricao i4 = new Inscricao(user4,campeonato,c4,p4);
         List<Inscricao> l = new ArrayList<>();
         l.add(i1);
-        l.add(i2);
         l.add(i3);
+        l.add(i2);
+        l.add(i4);
+
         this.allInscricoes.put("UM-CAMP",l);
     }
 

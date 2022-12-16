@@ -23,7 +23,6 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
     }
 
     public void removerCarro(String aIdCarro) {
-
         allCarros.remove(aIdCarro);
     }
 
