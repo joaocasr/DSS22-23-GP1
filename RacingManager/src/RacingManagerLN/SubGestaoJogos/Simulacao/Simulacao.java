@@ -255,7 +255,6 @@ public class Simulacao implements Clima {
             if (sb.toString().trim().isEmpty()) {
                 continue;
             }
-
             System.out.println("\u001B[36m"+sb+"\u001B[36m");
         }
         System.out.print("\nA CARREGAR JOGO");

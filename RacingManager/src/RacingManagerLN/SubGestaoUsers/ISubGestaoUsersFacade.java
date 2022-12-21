@@ -19,6 +19,8 @@ public interface ISubGestaoUsersFacade {
 
     public User getUser(String aUsername);
 
+    public List<User> getAllUsers();
+
     public void setCurrentUser(String aCurrentUser);
 
     public String getCurrentUser();

@@ -1,5 +1,6 @@
 package RacingManagerLN;
 
+import RacingManagerLN.Exceptions.CampeonatoInexistenteException;
 import RacingManagerLN.SubGestaoCC.Campeonato;
 import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
@@ -83,9 +84,9 @@ public interface IRacingManagerLN {
 
     public String consultaCampeonato(String nomeCampeonato);
 
-    public Campeonato getCampeonato(String nomeCampeonato);
+    public Campeonato getCampeonato(String nomeCampeonato) throws CampeonatoInexistenteException;
 
-    public List<Inscricao> getInscricoes(String nomeCampeonato);
+    public List<Inscricao> getInscricoes(String nomeCampeonato) throws CampeonatoInexistenteException;
 
     public List<String> getJogadoresASimular(String nomeCampeonato);
 
@@ -102,5 +103,5 @@ public interface IRacingManagerLN {
     public Carro getCarro(String carro);
 
     public Piloto getPiloto(String pilotoname);
-
+    public List<User> getAllUsers();
 }

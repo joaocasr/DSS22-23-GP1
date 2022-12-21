@@ -60,6 +60,15 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
         return this.allUsers.get(aUsername);
     }
 
+    public List<User> getAllUsers(){
+        Comparator<User> c = (c1,c2)-> {
+            double d1 = c1.getScore();
+            double d2 = c2.getScore();
+            return (int) ((int) d2-d1);
+        };
+        return this.allUsers.values().stream().sorted(c).toList();
+    }
+
     @Override
     public void setCurrentUser(String aCurrentUser) {
         this.currentUser=aCurrentUser;
@@ -77,7 +86,9 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
         int i=0;
         for(Map.Entry<String,Integer> m : aJogadoresOrdenados){
             if(i>=pontuacoes.size()) this.allUsers.get(m.getKey()).setScore(0);
-            this.allUsers.get(m.getKey()).setScore(pontuacoes.get(i));
+            User u = this.allUsers.get(m.getKey());
+            u.setScore(pontuacoes.get(i));
+            this.allUsers.put(u.getUsername(),u.clone());
             i++;
         }
     }

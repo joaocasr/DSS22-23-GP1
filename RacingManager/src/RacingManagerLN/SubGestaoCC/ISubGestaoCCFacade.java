@@ -1,5 +1,6 @@
 package RacingManagerLN.SubGestaoCC;
 
+import RacingManagerLN.Exceptions.CampeonatoInexistenteException;
 import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
 import RacingManagerLN.SubGestaoCC.Circuito.Curva;
@@ -25,7 +26,7 @@ public interface ISubGestaoCCFacade {
 
     public void apagaCampeonato(String aCampNome);
 
-    public Campeonato getCampeonato(String aNomeCampeonato);
+    public Campeonato getCampeonato(String aNomeCampeonato) throws CampeonatoInexistenteException;
 
     public List<Campeonato> getCampeonatos();
 

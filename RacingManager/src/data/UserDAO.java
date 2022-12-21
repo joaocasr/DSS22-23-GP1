@@ -109,7 +109,7 @@ public class UserDAO implements Map<String, User> {
             Statement st = con.createStatement()){
             if(this.containsKey(key)){
                 sql= "UPDATE users SET Password='"+value.getPassword()+"',Admin='"+isadmin+"',Score='"+value.getScore()
-                        +"',Versao='"+value.getVersao()+"' WHERE username='"+key.toString()+"'";
+                        +"',Versao='"+value.getVersao()+"' WHERE username='"+value.getUsername()+"'";
             }else{
                 sql= "INSERT INTO users VALUES('"+key.toString()+"', '"+value.getPassword()+"', '"+isadmin+"', '"
                         +value.getScore()+"', '"+value.getVersao()+"')";

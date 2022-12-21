@@ -1,5 +1,6 @@
 package RacingManagerLN;
 
+import RacingManagerLN.Exceptions.CampeonatoInexistenteException;
 import RacingManagerLN.SubGestaoCC.Campeonato;
 import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
@@ -201,12 +202,16 @@ public class RacingManagerLN implements IRacingManagerLN{
     }
 
     @Override
-    public Campeonato getCampeonato(String nomeCampeonato) {
+    public Campeonato getCampeonato(String nomeCampeonato) throws CampeonatoInexistenteException{
         return this.subGestaoCCFacade.getCampeonato(nomeCampeonato);
     }
 
-    public List<Inscricao> getInscricoes(String nomeCampeonato){
+    public List<Inscricao> getInscricoes(String nomeCampeonato) throws CampeonatoInexistenteException {
         return this.subGestaoJogosFacade.getInscricoesCampeonato(nomeCampeonato);
+    }
+
+    public List<User> getAllUsers(){
+        return this.subGestaoUsersFacade.getAllUsers();
     }
 
     public List<String> getJogadoresASimular(String nomeCampeonato){

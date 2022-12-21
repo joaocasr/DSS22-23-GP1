@@ -1,5 +1,6 @@
 package RacingManagerLN.SubGestaoCC;
 
+import RacingManagerLN.Exceptions.CampeonatoInexistenteException;
 import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
 import RacingManagerLN.SubGestaoCC.Circuito.Curva;
@@ -86,7 +87,8 @@ public class SubGestaoCCFacade implements ISubGestaoCCFacade {
         this.allCampeonatos.remove(aCampNome);
     }
 
-    public Campeonato getCampeonato(String aNomeCampeonato) {
+    public Campeonato getCampeonato(String aNomeCampeonato) throws CampeonatoInexistenteException {
+        if(this.allCampeonatos.get(aNomeCampeonato)==null) throw new CampeonatoInexistenteException("O campeonato que digitou não existe.");
         return this.allCampeonatos.get(aNomeCampeonato);
     }
 

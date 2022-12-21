@@ -22,6 +22,7 @@ public class Campeonato {
         this.nomeCampeonato = nomeCampeonato;
         this.participantes = participantes;
         this.circuitosCampeonato = new ArrayList<>();
+        this.classificacaoCampeonato = new HashMap<>();
     }
 
 

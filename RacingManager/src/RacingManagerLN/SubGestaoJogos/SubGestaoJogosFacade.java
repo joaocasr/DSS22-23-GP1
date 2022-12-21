@@ -1,5 +1,6 @@
 package RacingManagerLN.SubGestaoJogos;
 
+import RacingManagerLN.Exceptions.CampeonatoInexistenteException;
 import RacingManagerLN.SubGestaoCC.Campeonato;
 import RacingManagerLN.SubGestaoCP.Carro.C1;
 import RacingManagerLN.SubGestaoCP.Carro.C2;
@@ -42,7 +43,7 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
         l.add(i1);
         l.add(i3);
         l.add(i2);
-        l.add(i4);
+        //l.add(i4);
 
         this.allInscricoes.put("UM-CAMP",l);
     }
@@ -50,18 +51,23 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
     public void guardaEscolhasUser(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto) {
         Inscricao inscricao = new Inscricao(aUser,aCampeonato,aCarro,aPiloto);
         String nomeCampeonato= aCampeonato.getNomeCampeonato();
-        if(getInscricoesCampeonato(nomeCampeonato)==null) {
-            List<Inscricao> l = new ArrayList<>();
-            l.add(inscricao);
-            allInscricoes.put(nomeCampeonato, l);
-        }else{
-            List<Inscricao> l = allInscricoes.get(nomeCampeonato);
-            l.add(inscricao);
-            allInscricoes.put(nomeCampeonato, l);
+        try {
+            if(getInscricoesCampeonato(nomeCampeonato)==null) {
+                List<Inscricao> l = new ArrayList<>();
+                l.add(inscricao);
+                allInscricoes.put(nomeCampeonato, l);
+            }else{
+                List<Inscricao> l = allInscricoes.get(nomeCampeonato);
+                l.add(inscricao);
+                allInscricoes.put(nomeCampeonato, l);
+            }
+        } catch (CampeonatoInexistenteException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    public List<Inscricao> getInscricoesCampeonato(String aNomeCampeonato) {
+    public List<Inscricao> getInscricoesCampeonato(String aNomeCampeonato) throws CampeonatoInexistenteException {
+        if(allInscricoes.get(aNomeCampeonato)==null) throw new CampeonatoInexistenteException("O campeonato que digitou não existe no sistema.");
         return allInscricoes.get(aNomeCampeonato);
     }
 
