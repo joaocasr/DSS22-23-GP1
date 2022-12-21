@@ -213,6 +213,9 @@ public class RacingManagerLN implements IRacingManagerLN{
     public List<User> getAllUsers(){
         return this.subGestaoUsersFacade.getAllUsers();
     }
+    public void mudaVersao(String versao,String username){
+        subGestaoUsersFacade.mudaVersao(versao,username);
+    }
 
     public List<String> getJogadoresASimular(String nomeCampeonato){
         return this.subGestaoJogosFacade.getJogadoresASimular(nomeCampeonato);

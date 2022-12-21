@@ -104,4 +104,5 @@ public interface IRacingManagerLN {
 
     public Piloto getPiloto(String pilotoname);
     public List<User> getAllUsers();
+    public void mudaVersao(String versao,String username);
 }

@@ -1,5 +1,5 @@
 package RacingManagerLN.SubGestaoUsers;
-public class User {
+public class User implements Comparable<User>{
     private String username;
     private String password;
     private boolean isAdmin;
@@ -69,5 +69,10 @@ public class User {
     }
     public User clone(){
         return new User(this);
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return this.username.compareTo(o.getUsername());
     }
 }

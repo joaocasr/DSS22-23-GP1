@@ -62,15 +62,52 @@ public class TextUI {
             opcoes.add("Simular Campeonato\n");
             opcoes.add("Jogar\n");
             opcoes.add("Consultar Ranking\n");
+            opcoes.add("Mudar Versao\n");
             opcoes.add("Logout");
 
             menu.setOptions(opcoes);
             menu.setHandlers(1,this::trataSimularCampeonato);
             menu.setHandlers(2,this::trataJogar);
-            menu.setHandlers(3,this::trataConsultarRanking);
-            menu.setHandlers(4,this::trataLogout);
+            menu.setHandlers(3,this::trataConsultarRankingMenu);
+            menu.setHandlers(4,this::trataMudarVersao);
+            menu.setHandlers(5,this::trataLogout);
         }
         menu.run();
+    }
+
+    public void trataMudarVersao(){
+        String username = iRacingManagerLN.getCurrentUser();
+        User u = iRacingManagerLN.getUser(username);
+        Scanner scanner = new Scanner(System.in);
+        if(u.getVersao().equals("B")){
+            System.out.println("Mudar para versão Premium ? [S/N]");
+            String resposta = scanner.nextLine();
+            if(resposta.equalsIgnoreCase("S")){
+                iRacingManagerLN.mudaVersao("P",username);
+                System.out.println("Mudança de versão da conta efetuada com sucesso.");
+            }
+        }
+        else{
+            System.out.println("Mudar para versão Base ? [S/N]");
+            String resposta = scanner.nextLine();
+            if(resposta.equalsIgnoreCase("S")){
+                iRacingManagerLN.mudaVersao("B",username);
+                System.out.println("Mudança de versão da conta efetuada com sucesso.");
+            }
+        }
+    }
+
+
+    public void trataConsultarRankingMenu(){
+        List<String> opcoes = new ArrayList<>();
+        opcoes.add("Consultar Ranking de todos os jogadores.\n");
+        opcoes.add("Consultar Ranking de jogador.\n");
+        opcoes.add("Logout");
+
+        menu.setOptions(opcoes);
+        menu.setHandlers(1,this::trataConsultarRanking);
+        menu.setHandlers(2,this::trataConsultarRankingJogador);
+        menu.setHandlers(3,this::menuPrincipal2);
     }
 
     public void menuCampeonatos(){
@@ -297,9 +334,9 @@ public class TextUI {
                         configuracoes.add(conf);
                     }
                     classificacao = campeonato.getClasssificacaoCamp();
-                    System.out.println("CLASSIFICAÇÃO ATUAL DO CAMPEONATO");
+                    System.out.println("PONTUAÇÃO ATUAL DO CAMPEONATO");
                     System.out.println("---------------------------------");
-                    System.out.println(classificacao);
+                    classificacao.forEach((k,v)-> System.out.println(k+" - "+v+"pts"));
                 }
                 iRacingManagerLN.atualizaScore(classificacao);
             } else System.out.println("\nAVISO: O campeonato não atingiu ou excede o número de jogadores configurados para o campeonato!");
@@ -739,6 +776,26 @@ public class TextUI {
             if(!u.getIsAdmin()){
             System.out.println("| "+p+"º- "+u.getUsername()+"  ("+u.getScore()+"pts)");
             p++;
+            }
+        }
+        System.out.println("---------------------------------------");
+    }
+
+    public void trataConsultarRankingJogador(){
+        System.out.println("Digite o jogador:");
+        Scanner scanner = new Scanner(System.in);
+        String jogador = scanner.nextLine();
+        List<User> allUsers =iRacingManagerLN.getAllUsers();
+        System.out.println("---------------RANKING-----------------");
+        int p=1;
+        for (User u : allUsers) {
+            if(!u.getIsAdmin() && u.getUsername().equals(jogador)){
+                System.out.println("\u001B[35m"+"| "+p+"º- "+u.getUsername()+"  ("+u.getScore()+"pts)"+"\u001B[35m");
+                System.out.print("\u001B[33m");
+                p++;
+            } else if(!u.getIsAdmin() ){
+                System.out.println("| "+p+"º- "+u.getUsername()+"  ("+u.getScore()+"pts)");
+                p++;
             }
         }
         System.out.println("---------------------------------------");

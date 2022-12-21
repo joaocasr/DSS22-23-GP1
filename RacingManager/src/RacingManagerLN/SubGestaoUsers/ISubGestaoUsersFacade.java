@@ -28,4 +28,5 @@ public interface ISubGestaoUsersFacade {
     public void atualizaScore(Map<String,Integer> aJogadoresOrdenados);
 
     public List<Map.Entry<String,Integer>> orderByScore(Map<String, Integer> s);
+    public void mudaVersao(String versao,String username);
 }

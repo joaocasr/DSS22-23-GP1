@@ -56,12 +56,12 @@ public class Simulacao implements Clima {
         int i;
         for(i=0;i<numVoltas;i++) {
             System.out.println("David Croft (Comentador) : Vamos para a volta nº"+(i+1));
-            //Thread.sleep(2000);
+            Thread.sleep(2000);
             if(i==numVoltas-1) System.out.println("David Croft (Comentador) : Vamos para a última volta!!!");
-            //Thread.sleep(2000);
+            Thread.sleep(2000);
             for (String p : percurso) {
                 System.out.println("David Croft (Comentador) : Estamos a chegar à "+p+" do circuito");
-                //Thread.sleep(2000);
+                Thread.sleep(2000);
                 int gdu = -1;
                 if (c.getChicane(p) != null) gdu = c.getChicane(p).getGdu();
                 else if (c.getCurva(p) != null) gdu = c.getCurva(p).getGdu();
@@ -165,16 +165,16 @@ public class Simulacao implements Clima {
 
     public void showPartida(Map<Integer,String> posicoes,int clima,String nomeCircuito) throws InterruptedException {
         System.out.println("David Croft (comentador): Olá a todos. Sejam bem vindos ao autódromo de "+ nomeCircuito+"!");
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
         if(clima==1){
             System.out.println("James Allen (comentador): Hoje faz um dia bonito de sol. Não achas David?");
-            //Thread.sleep(3000);
+            Thread.sleep(3000);
             System.out.println("David Croft (comentador): Sim. Sem dúvida Allen.");
-            //Thread.sleep(3000);
+            Thread.sleep(3000);
         }
         else if(clima==0){
             System.out.println("James Allen (comentador): Hoje faz um dia de chuva, pelo que os pilotos terão de ter em atenção o piso escorregadio.");
-            //Thread.sleep(3000);
+            Thread.sleep(3000);
         }
         System.out.println("James Allen (comentador):Já temos a confirmação das posições iniciais.");
         System.out.println("---------------------------------");
@@ -182,24 +182,24 @@ public class Simulacao implements Clima {
             System.out.println(m.getKey()+"º - "+m.getValue());
         }
         System.out.println("---------------------------------");
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
         System.out.println("David Croft (comentador): Vamos então dar início à corrida.");
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
     }
 
     public void relataAcidente(String piloto) throws InterruptedException {
         System.out.println("David Croft (comentador): Oh não! Que péssima notícia...o piloto "+piloto+" sofreu um acidente.");
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
     }
 
     public void relataUltrapassagem(String piloto1,String piloto2) throws InterruptedException {
         System.out.println("David Croft (comentador): WOW! "+piloto1+" ultrapassa "+piloto2);
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
     }
 
     public void showResultados(List<String> posicoes) throws InterruptedException {
         System.out.println("David Croft (comentador): Que incrivel corrida! Passámos a mostrar os resultados:");
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
         int lugar=1;
         System.out.println("---------------------------------");
         for(String p : posicoes){
@@ -207,9 +207,9 @@ public class Simulacao implements Clima {
             lugar++;
         }
         System.out.println("---------------------------------");
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
         System.out.println("David Croft (comentador): Daqui David Croft. Esperámos encontrá-lo na próxima corrida.");
-        //Thread.sleep(3000);
+        Thread.sleep(3000);
     }
 
     public Map<String,Integer> getScore(){
@@ -236,7 +236,7 @@ public class Simulacao implements Clima {
     }
     public Simulacao(){};
     public void showGameLogo(String message) throws InterruptedException {
-        int height = 35;
+        int height = 30;
         int width =350;
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics graphics = bufferedImage.getGraphics();

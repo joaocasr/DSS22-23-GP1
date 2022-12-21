@@ -61,11 +61,7 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
     }
 
     public List<User> getAllUsers(){
-        Comparator<User> c = (c1,c2)-> {
-            double d1 = c1.getScore();
-            double d2 = c2.getScore();
-            return (int) ((int) d2-d1);
-        };
+        Comparator<User> c = (c1,c2)-> (c1.getScore()!=c2.getScore()) ? (c2.getScore()-c1.getScore()) : c2.compareTo(c1) ;
         return this.allUsers.values().stream().sorted(c).toList();
     }
 
@@ -87,7 +83,7 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
         for(Map.Entry<String,Integer> m : aJogadoresOrdenados){
             if(i>=pontuacoes.size()) this.allUsers.get(m.getKey()).setScore(0);
             User u = this.allUsers.get(m.getKey());
-            u.setScore(pontuacoes.get(i));
+            u.setScore(pontuacoes.get(i)+u.getScore());
             this.allUsers.put(u.getUsername(),u.clone());
             i++;
         }
@@ -103,5 +99,11 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
             }
         });
         return entradas;
+    }
+
+    public void mudaVersao(String versao,String username){
+        User u = this.allUsers.get(username);
+        u.setVersao(versao);
+        this.allUsers.put(username,u.clone());
     }
 }
