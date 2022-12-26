@@ -22,15 +22,20 @@ public class Simulacao implements Clima {
     @Override
     public double probabilidadePrecipitacao() {
         Random prob = new Random();
-        return (double)prob.nextInt(0,100)/100;
+        double d = (double)prob.nextInt(0,100)/100;
+        System.out.println("Probabilidade de Precipitaçao: "+ d*100+"%");
+        return d;
     }
 
     @Override
     public int clima() {
         //0:chuva 1:sol
+        System.out.println("**Previsoes Meteorologicas**");
         int clima=0;
         Random rain = new Random();
-        if(this.probabilidadePrecipitacao()>(double)rain.nextInt(0,100)/100) clima=1;
+        double d = (double)rain.nextInt(0,100)/100;
+        System.out.println("Precipitação: "+d*100+"%");
+        if(this.probabilidadePrecipitacao()>d) clima=1;
         return clima;
     }
 
@@ -92,8 +97,11 @@ public class Simulacao implements Clima {
                         else if(carro2 instanceof GT) fiabilidade2=((GT) carro2).getFiabilidade(i);
                         else if(carro2 instanceof SC) fiabilidade2=((SC) carro2).getfiabilidade(piloto2.getSVA(),piloto2.getCTS());
 
-                        if(calculaQualidade(gdu,piloto2.getSVA(),piloto2.getCTS(),fiabilidade2,carro2.getPac(),carro2.getDownforce(),carro2.getPotenciaCombustao(),clima)>
-                                calculaQualidade(gdu,piloto1.getSVA(),piloto1.getCTS(),fiabilidade1,carro1.getPac(),carro1.getDownforce(),carro1.getPotenciaCombustao(),clima)) ultrapassagem[j]=true;
+                        double q2=calculaQualidade(gdu,piloto2.getSVA(),piloto2.getCTS(),fiabilidade2,carro2.getPac(),carro2.getDownforce(),carro2.getPotenciaCombustao(),clima);
+                        double q1=calculaQualidade(gdu,piloto1.getSVA(),piloto1.getCTS(),fiabilidade1,carro1.getPac(),carro1.getDownforce(),carro1.getPotenciaCombustao(),clima);
+                        if(q2>=q1) ultrapassagem[j]=true;
+                        else ultrapassagem[j]=false;
+                        //System.out.println(q2+">="+q1);
                     }
                     else if(acidentados.contains(carro2)) ultrapassagem[j]=false;
                     else if(acidentados.contains(carro1) && !acidentados.contains(carro2)) ultrapassagem[j]=true;
@@ -150,7 +158,9 @@ public class Simulacao implements Clima {
         if(clima==0 && cts>0.5 && sva>0.5 && downforce<0.5){
             qualidade= (cts- sva)*2*(-0.5-gdu) + fiabilidade + pac - downforce + pot ;
         }
-        return qualidade;
+        Random estadoPiloto = new Random();
+        double d =(double) estadoPiloto.nextInt(100,200)/100; // estado de humor/ mental / saude / cansaço /variantes do dia a dia
+        return qualidade*d;
     }
 
     public boolean consegueEfetuarPercurso(int gdu,Carro carro,Piloto piloto,int clima){
@@ -236,8 +246,8 @@ public class Simulacao implements Clima {
     }
     public Simulacao(){};
     public void showGameLogo(String message) throws InterruptedException {
+        int width = 150;
         int height = 30;
-        int width =350;
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics graphics = bufferedImage.getGraphics();
         Graphics2D graphics2D = (Graphics2D) graphics;

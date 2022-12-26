@@ -103,6 +103,10 @@ public interface IRacingManagerLN {
     public Carro getCarro(String carro);
 
     public Piloto getPiloto(String pilotoname);
+
     public List<User> getAllUsers();
+
     public void mudaVersao(String versao,String username);
+
+    public boolean validaNumInscricoes(String campeonato);
 }

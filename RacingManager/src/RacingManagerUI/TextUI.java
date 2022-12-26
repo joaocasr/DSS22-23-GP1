@@ -29,13 +29,15 @@ public class TextUI {
         opcoes.add("Login\n");
         opcoes.add("Registar Conta\n");
         opcoes.add("Simular Campeonato\n");
+        opcoes.add("Consultar Ranking\n");
         opcoes.add("Jogar");
         menu.setOptions(opcoes);
 
         menu.setHandlers(1, this::trataEfetuarLogin);
         menu.setHandlers(2, this::trataRegistarConta);
         menu.setHandlers(3, this::trataSimularCampeonato);
-        menu.setHandlers(4,this::trataJogar);
+        menu.setHandlers(4,this::trataConsultarRankingMenu);
+        menu.setHandlers(5,this::trataJogar);
         menu.run();
     }
 
@@ -61,16 +63,14 @@ public class TextUI {
         }else{
             opcoes.add("Simular Campeonato\n");
             opcoes.add("Jogar\n");
-            opcoes.add("Consultar Ranking\n");
             opcoes.add("Mudar Versao\n");
             opcoes.add("Logout");
 
             menu.setOptions(opcoes);
             menu.setHandlers(1,this::trataSimularCampeonato);
             menu.setHandlers(2,this::trataJogar);
-            menu.setHandlers(3,this::trataConsultarRankingMenu);
-            menu.setHandlers(4,this::trataMudarVersao);
-            menu.setHandlers(5,this::trataLogout);
+            menu.setHandlers(3,this::trataMudarVersao);
+            menu.setHandlers(4,this::trataLogout);
         }
         menu.run();
     }
@@ -102,7 +102,7 @@ public class TextUI {
         List<String> opcoes = new ArrayList<>();
         opcoes.add("Consultar Ranking de todos os jogadores.\n");
         opcoes.add("Consultar Ranking de jogador.\n");
-        opcoes.add("Logout");
+        opcoes.add("Voltar");
 
         menu.setOptions(opcoes);
         menu.setHandlers(1,this::trataConsultarRanking);
@@ -760,8 +760,12 @@ public class TextUI {
             System.out.println("Digite o piloto com que pretende jogar:");
             String pilotoname = scanner.nextLine();
             Piloto piloto = iRacingManagerLN.getPiloto(pilotoname);
-            iRacingManagerLN.adicionaInscricao(u, campeonato, carro, piloto);
-            System.out.println("Inscrição para o jogo efetuada com sucesso.");
+            if(iRacingManagerLN.validaNumInscricoes(nomecampeonato)) {
+                iRacingManagerLN.adicionaInscricao(u, campeonato, carro, piloto);
+                System.out.println("Inscrição para o jogo efetuada com sucesso.");
+            }else{
+                System.out.println("O campeonato atingiu o limite de jogadores.");
+            }
         }catch (CampeonatoInexistenteException e){
             System.out.println(e.getMessage());
         }
@@ -774,7 +778,7 @@ public class TextUI {
         int p=1;
         for (User u : allUsers) {
             if(!u.getIsAdmin()){
-            System.out.println("| "+p+"º- "+u.getUsername()+"  ("+u.getScore()+"pts)");
+            System.out.println("| "+p+"º- "+u.getUsername()+"  ("+u.getScore()+" pts)");
             p++;
             }
         }
@@ -790,7 +794,7 @@ public class TextUI {
         int p=1;
         for (User u : allUsers) {
             if(!u.getIsAdmin() && u.getUsername().equals(jogador)){
-                System.out.println("\u001B[35m"+"| "+p+"º- "+u.getUsername()+"  ("+u.getScore()+"pts)"+"\u001B[35m");
+                System.out.println("\u001B[35m"+"| "+p+"º- "+u.getUsername()+"  ("+u.getScore()+" pts)"+"\u001B[35m");
                 System.out.print("\u001B[33m");
                 p++;
             } else if(!u.getIsAdmin() ){

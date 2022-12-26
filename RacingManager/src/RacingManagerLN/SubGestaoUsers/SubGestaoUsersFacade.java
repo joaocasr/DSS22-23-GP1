@@ -1,6 +1,6 @@
 package RacingManagerLN.SubGestaoUsers;
 
-import data.UserDAO;
+import RacingManagerDL.UserDAO;
 
 import java.util.*;
 
@@ -78,14 +78,15 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
     @Override
     public void atualizaScore(Map<String, Integer> classificacao) {
         List<Map.Entry<String,Integer>> aJogadoresOrdenados= this.orderByScore(classificacao);
-        List<Integer> pontuacoes = Arrays.asList(12,10,8,7,6,5,4,3,2,1,0);
+        List<Integer> pontuacoes = Arrays.asList(12,10,8,7,6,5,4,3,2,1);
         int i=0;
         for(Map.Entry<String,Integer> m : aJogadoresOrdenados){
-            if(i>=pontuacoes.size()) this.allUsers.get(m.getKey()).setScore(0);
-            User u = this.allUsers.get(m.getKey());
-            u.setScore(pontuacoes.get(i)+u.getScore());
-            this.allUsers.put(u.getUsername(),u.clone());
-            i++;
+            if(i<pontuacoes.size()){
+                User u = this.allUsers.get(m.getKey());
+                u.setScore(pontuacoes.get(i) + u.getScore());
+                this.allUsers.put(u.getUsername(), u.clone());
+                i++;
+            }
         }
     }
 

@@ -1,6 +1,5 @@
-package data;
+package RacingManagerDL;
 
-import RacingManagerLN.SubGestaoCP.Piloto;
 import RacingManagerLN.SubGestaoUsers.User;
 
 import java.sql.*;

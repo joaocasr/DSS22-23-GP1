@@ -5,8 +5,8 @@ import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
 import RacingManagerLN.SubGestaoCC.Circuito.Curva;
 import RacingManagerLN.SubGestaoCC.Circuito.Reta;
-import data.CampDAO;
-import data.CircuitoDAO;
+import RacingManagerDL.CampDAO;
+import RacingManagerDL.CircuitoDAO;
 
 import java.util.*;
 import java.util.stream.Collectors;

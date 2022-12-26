@@ -1,4 +1,4 @@
-package data;
+package RacingManagerDL;
 
 public class DAOconfig {
     static final String USERNAME = "g1";                            // Actualizar

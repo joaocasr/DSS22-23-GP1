@@ -1,4 +1,6 @@
-package data;
+package RacingManagerDL;
+
+import RacingManagerLN.SubGestaoCC.Campeonato;
 import RacingManagerLN.SubGestaoCC.Circuito.Chicane;
 import RacingManagerLN.SubGestaoCC.Circuito.Circuito;
 import RacingManagerLN.SubGestaoCC.Circuito.Curva;
@@ -7,13 +9,17 @@ import RacingManagerLN.SubGestaoCC.Circuito.Reta;
 import java.sql.*;
 import java.util.*;
 
-public class CircuitoDAO implements Map<String, Circuito> {
-    private static CircuitoDAO singleton = null;
+public class CampDAO implements Map<String, Campeonato> {
+    private static CampDAO singleton = null;
 
 
-    private CircuitoDAO() {
+    private CampDAO(){
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement()) {
+            String sqlCamp = "CREATE TABLE IF NOT EXISTS campeonato (" +
+                    "NomeCampeonato varchar(45) NOT NULL PRIMARY KEY," +
+                    "participantes int(10) NOT NULL);";
+            stm.executeUpdate(sqlCamp);
             String sqlCirc = "CREATE TABLE IF NOT EXISTS circuito ("+
                     "nomeCircuito VARCHAR(45) NOT NULL PRIMARY KEY,"+
                     "distancia float(10) NOT NULL,"+
@@ -52,11 +58,12 @@ public class CircuitoDAO implements Map<String, Circuito> {
             throw new NullPointerException(e.getMessage());
         }
     }
-    public static CircuitoDAO getInstance() {
-        if (CircuitoDAO.singleton == null) {
-            CircuitoDAO.singleton = new CircuitoDAO();
+
+    public static CampDAO getInstance() {
+        if (CampDAO.singleton == null) {
+            CampDAO.singleton = new CampDAO();
         }
-        return CircuitoDAO.singleton;
+        return CampDAO.singleton;
     }
 
     @Override
@@ -64,7 +71,7 @@ public class CircuitoDAO implements Map<String, Circuito> {
         int i = 0;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT count(*) FROM circuito")) {
+             ResultSet rs = stm.executeQuery("SELECT count(*) FROM campeonato")) {
             if(rs.next()) {
                 i = rs.getInt(1);
             }
@@ -73,18 +80,19 @@ public class CircuitoDAO implements Map<String, Circuito> {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
         }
-        return i;    }
+        return i;
+    }
 
     @Override
     public boolean isEmpty() {
-        return this.size()==0;
+        return this.size() == 0;
     }
 
     @Override
     public boolean containsKey(Object key) {
         boolean r;
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             PreparedStatement st = conn.prepareStatement("SELECT nomeCircuito FROM circuito WHERE nomeCircuito =?")) {
+             PreparedStatement st = conn.prepareStatement("SELECT NomeCampeonato FROM campeonato WHERE NomeCampeonato =?")) {
 
             st.setString(1, key.toString());
             ResultSet rs = st.executeQuery();
@@ -101,95 +109,102 @@ public class CircuitoDAO implements Map<String, Circuito> {
 
     @Override
     public boolean containsValue(Object value) {
-        Circuito c = (Circuito) value;
-        Circuito dbC = this.get(c.getNomeCircuito());
+        Campeonato c = (Campeonato) value;
+        Campeonato dbC = this.get(c.getNomeCampeonato());
         return c.equals(dbC);
     }
 
-    @Override //6 3 3 3
-    public Circuito get(Object key) {
-        Circuito c = null;
+    @Override
+    public Campeonato get(Object key) {
+        Circuito circuito = null;
+
+        Set<String> circuitos = new HashSet<>();
+        Set<Campeonato> campeonatos=new HashSet<>();
+
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
-             PreparedStatement st = conn.prepareStatement("SELECT * FROM circuito"+
-                     " INNER JOIN reta ON circuito.nomeCircuito=reta.fk_circuitoRT"+
-                     " INNER JOIN chicane ON circuito.nomeCircuito=chicane.fk_circuitoCH"+
-                     " INNER JOIN curva ON circuito.nomeCircuito=curva.fk_circuitoCR WHERE circuito.nomeCircuito=?;")){
-            st.setString(1, key.toString());
-            ResultSet rs = st.executeQuery();
-            int n=0;
-            while (rs.next()) {
-                if(n==0) c = new Circuito(rs.getString(1),(double) rs.getFloat(2),rs.getInt(3),rs.getInt(4),rs.getInt(5), rs.getInt(6));
-                c.addReta(new Reta(rs.getString(8),rs.getInt(9)));
-                c.addChicane(new Chicane(rs.getString(11),rs.getInt(12)));
-                c.addCurva(new Curva(rs.getString(14),rs.getInt(15)));
-                n++;
+             Statement st = conn.createStatement()) {
+
+
+            String sql1 = "SELECT circuito.nomeCircuito,campeonato.participantes FROM campeonato "+
+                    "INNER JOIN circuito ON circuito.fk_campeonato='"+key.toString()+"';";
+            ResultSet rs = st.executeQuery(sql1);
+            while(rs.next()) {
+                campeonatos.add(new Campeonato(key.toString(),rs.getInt(2)));
+                circuitos.add(rs.getString(1));
             }
-            }catch (SQLException e) {
+            rs.close();
+
+            Campeonato c = (Campeonato) campeonatos.toArray()[0];
+            for(String cir : circuitos) {
+                String sql2 = "SELECT * FROM circuito" +
+                        " INNER JOIN reta ON circuito.nomeCircuito=reta.fk_circuitoRT" +
+                        " INNER JOIN chicane ON circuito.nomeCircuito=chicane.fk_circuitoCH" +
+                        " INNER JOIN curva ON circuito.nomeCircuito=curva.fk_circuitoCR WHERE circuito.nomeCircuito='" + cir + "';";
+                ResultSet rs2 = st.executeQuery(sql2);
+                int n = 0;
+                while (rs2.next()) {
+                    if (n == 0) circuito = new Circuito(rs2.getString(1), rs2.getDouble(2), rs2.getInt(3), rs2.getInt(4), rs2.getInt(5), rs2.getInt(6));
+                    String idreta=rs2.getString(8);
+                    if(circuito.getAllRetas().stream().noneMatch(x -> x.getId().equals(idreta))) circuito.addReta(new Reta(rs2.getString(8), rs2.getInt(9)));
+                    String idChicane=rs2.getString(11);
+                    if(circuito.getAllChicanes().stream().noneMatch(x -> x.getIdChicane().equals(idChicane))) circuito.addChicane(new Chicane(rs2.getString(11), rs2.getInt(12)));
+                    String idCurva=rs2.getString(14);
+                    if(circuito.getAllCurvas().stream().noneMatch(x -> x.getId().equals(idCurva))) circuito.addCurva(new Curva(rs2.getString(14), rs2.getInt(15)));
+                    n++;
+                }
+                c.addCircuito(circuito);
+            }
+        }catch (SQLException e) {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
+        }
+        return (Campeonato) campeonatos.toArray()[0];
+    }
+
+    @Override
+    public Campeonato put(String key, Campeonato value) {
+        Campeonato c = null;
+        List<Circuito> cirs = value.getCircuitos();
+
+        try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
+            Statement st = con.createStatement()) {
+            String sql = "INSERT INTO campeonato  VALUES('"+ value.getNomeCampeonato() + "', '" + value.getParticipantes()+"');";
+
+            st.executeUpdate(sql);
+            for(String circuito: cirs.stream().map(Circuito::getNomeCircuito).toList()){
+                String circuitosql = "UPDATE circuito SET fk_campeonato='"+ value.getNomeCampeonato() +"' WHERE nomeCircuito='"+circuito+"';";
+                st.executeUpdate(circuitosql);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+            throw new NullPointerException(e.getMessage());
+        }
+        return c;
+    }
+
+    @Override
+    public Campeonato remove(Object key) {
+        Campeonato c = this.get(key);
+        List<Circuito> cirs = c.getCircuitos();
+        try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
+            Statement st = con.createStatement()) {
+            for(String circuito: cirs.stream().map(Circuito::getNomeCircuito).toList()){
+                String sqlcircuito = "UPDATE circuito SET fk_campeonato='"+ null +"' WHERE nomeCircuito='"+circuito+"';";
+                st.executeUpdate(sqlcircuito);
+            }
+            String sqlcamp = "DELETE FROM campeonato WHERE NomeCampeonato='"+c.getNomeCampeonato()+"';";
+            st.executeUpdate(sqlcamp);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return c;
     }
 
     @Override
-    public Circuito put(String key, Circuito value) {
-        try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
-            Statement st = con.createStatement()) {
-
-                String sqlCirc = "INSERT INTO circuito VALUES('"+ value.getNomeCircuito() + "', '" + (float)value.getDistancia() + "', '" +
-                        + value.getVoltas() + "', '" +value.getNumRetas()+ "', '" + value.getNumChicanes() + "', '" + value.getNumCurvas() + "', '" +null+"');";
-                st.executeUpdate(sqlCirc);
-                for(Reta r : value.getAllRetas()){
-                    String sqlreta = "INSERT INTO reta VALUES('"+ r.getId()+ "', '" +r.getGdu()+ "', '" +value.getNomeCircuito()+"') "+
-                            "ON DUPLICATE KEY UPDATE gduReta='"+r.getGdu() +"';";
-                    st.executeUpdate(sqlreta);
-                }
-                for(Chicane chicane : value.getAllChicanes()){
-                    String sqlchicane ="INSERT INTO chicane VALUES('"+ chicane.getIdChicane()+ "', '" +chicane.getGdu()+ "', '" +value.getNomeCircuito()+"') "+
-                            "ON DUPLICATE KEY UPDATE gduChicane='"+chicane.getGdu() +"';";
-                    st.executeUpdate(sqlchicane);
-                }
-                for(Curva curva : value.getAllCurvas()){
-                    String sqlcurva = "INSERT INTO curva VALUES('"+ curva.getId()+ "', '" +curva.getGdu()+ "', '" +value.getNomeCircuito()+"') "+
-                            "ON DUPLICATE KEY UPDATE gduCurva='"+curva.getGdu() +"';";
-                    st.executeUpdate(sqlcurva);
-                }
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-            throw new NullPointerException(e.getMessage());
-        }
-        return null;
-    }
-
-    @Override
-    public Circuito remove(Object key) {
-        Circuito c = this.get(key);
-
-        try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
-            Statement st = con.createStatement()) {
-
-            String sqlreta= "DELETE FROM reta WHERE fk_circuitoRT='"+c.getNomeCircuito()+"';";
-            st.executeUpdate(sqlreta);
-            String sqlchicane= "DELETE FROM chicane WHERE fk_circuitoCH='"+c.getNomeCircuito()+"';";
-            st.executeUpdate(sqlchicane);
-            String sqlcurva= "DELETE FROM curva WHERE fk_circuitoCR='"+c.getNomeCircuito()+"';";
-            st.executeUpdate(sqlcurva);
-            String sqlcircuito = "DELETE FROM circuito WHERE nomeCircuito='"+c.getNomeCircuito()+"';";
-            st.executeUpdate(sqlcircuito);
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-            throw new NullPointerException(e.getMessage());
-        }
-            return c;
-    }
-
-    @Override
-    public void putAll(Map<? extends String, ? extends Circuito> m) {
-        for(Circuito c : m.values()){
-            this.put(c.getNomeCircuito(),c);
+    public void putAll(Map<? extends String, ? extends Campeonato> m) {
+        for(Campeonato c : m.values()){
+            this.put(c.getNomeCampeonato(),c);
         }
     }
 
@@ -197,10 +212,8 @@ public class CircuitoDAO implements Map<String, Circuito> {
     public void clear() {
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
             Statement st = con.createStatement()){
-            st.executeUpdate("UPDATE reta SET fk_circuitoRT=NULL");
-            st.executeUpdate("UPDATE chicane SET fk_circuitoCH=NULL");
-            st.executeUpdate("UPDATE curva SET fk_circuitoCR=NULL");
-            st.executeUpdate("TRUNCATE circuito");
+            st.executeUpdate("UPDATE circuito SET fk_campeonato=NULL");
+            st.executeUpdate("TRUNCATE campeonato");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
@@ -209,47 +222,47 @@ public class CircuitoDAO implements Map<String, Circuito> {
 
     @Override
     public Set<String> keySet() {
-        Set<String> circuitos = new HashSet<>();
+        Set<String> nomescamp = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT nomeCircuito FROM circuito")) {
+             ResultSet rs = stm.executeQuery("SELECT NomeCampeonato FROM campeonato")) {
             while (rs.next()) {
-                circuitos.add(rs.getString(1));
+                nomescamp.add(rs.getString(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
         }
-        return circuitos;
+        return nomescamp;
     }
 
     @Override
-    public Collection<Circuito> values() {
-        Collection<Circuito> allCircuitos = new HashSet<>();
+    public Collection<Campeonato> values() {
+        Collection<Campeonato> allCamp = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT nomeCircuito FROM circuito")) {
+             ResultSet rs = stm.executeQuery("SELECT NomeCampeonato FROM campeonato")) {
             while (rs.next()) {
-                allCircuitos.add(this.get(rs.getString(1)));
+                allCamp.add(this.get(rs.getString(1)));
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
         }
 
-        return allCircuitos;
+        return allCamp;
     }
 
     @Override
-    public Set<Entry<String, Circuito>> entrySet() {
-        Map.Entry<String, Circuito> entry;
-        HashSet<Entry<String, Circuito>> col = new HashSet<>();
+    public Set<Entry<String, Campeonato>> entrySet() {
+        Map.Entry<String, Campeonato> entry;
+        HashSet<Entry<String, Campeonato>> col = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT * FROM circuito")) {
+             ResultSet rs = stm.executeQuery("SELECT * FROM campeonato")) {
             while (rs.next()) {
                 entry =  new AbstractMap.SimpleEntry<>(rs.getString(1),
-                        new Circuito(this.get(rs.getString(1))));
+                        new Campeonato(this.get(rs.getString(1))));
                 col.add(entry);
             }
         } catch (Exception e) {

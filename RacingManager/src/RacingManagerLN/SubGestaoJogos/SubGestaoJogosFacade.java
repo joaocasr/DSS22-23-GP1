@@ -25,10 +25,10 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
         User user3 = new User("renato","renatopass",false,0,"B");
         User user4 = new User("duarte","duartepass",false,0,"B");
         Campeonato campeonato = new Campeonato("UM-CAMP",3);
-        Piloto p1 = new Piloto("MAX", 0.5F, 0.5F);
-        Piloto p2 = new Piloto("MAX2", 0.4F, 0.6F);
-        Piloto p3 = new Piloto("MAX3", 0.3F, 0.7F);
-        Piloto p4 = new Piloto("MAX4", 0.35F, 0.65F);
+        Piloto p1 = new Piloto("Max Verstappen", 0.5F, 0.5F);
+        Piloto p2 = new Piloto("Charles Leclerc", 0.4F, 0.6F);
+        Piloto p3 = new Piloto("Lewis Hamilton", 0.3F, 0.7F);
+        Piloto p4 = new Piloto("George Russell", 0.35F, 0.65F);
 
         Carro c1 = new C1("carro1","McLaren","M14A",6000,200,0.3F, Carro.tipoPneu.Duro,0.4F, Carro.modoMotor.Agressivo);
         Carro c2 = new C2("carro2","Mercedes","D23J",4000,230,0.4F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
@@ -95,6 +95,6 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
     }
 
     public boolean validaNumeroInscricoes(String aNomeCampeonato) {
-        return allInscricoes.get(aNomeCampeonato).size() >= 2;
+        return allInscricoes.get(aNomeCampeonato).size() < allInscricoes.get(aNomeCampeonato).get(0).getCampeonato().getParticipantes();
     }
 }
