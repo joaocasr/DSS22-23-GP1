@@ -42,8 +42,8 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         allPilotos.remove(aNome);
     }
 
-    public void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, float downforce, int acilndrada, String tipoPneu, String modoMotor) {
-        C1Hibrido c1h = new C1Hibrido(aIdCarro,aMarca,aModelo,acilndrada,aPotenciaCombustao,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
+    public void adicionarC1Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao,int aPotenciaEletrica, float aPac, float downforce, int acilndrada, String tipoPneu, String modoMotor) {
+        C1Hibrido c1h = new C1Hibrido(aIdCarro,aMarca,aModelo,acilndrada,aPotenciaCombustao,aPotenciaEletrica,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
         allCarros.put(aIdCarro,c1h.clone());
     }
 
@@ -62,8 +62,8 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         allCarros.put(aIdCarro,c2.clone());
     }
 
-    public void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, String tipoPneu, int aCilindrada, String modoMotor, float downforce) {
-        C2Hibrido c2h = new C2Hibrido(aIdCarro, aMarca, aModelo,aCilindrada, aPotenciaCombustao, aPac, Carro.converteStringPneu(tipoPneu), downforce,Carro.converteStringMotor(modoMotor));
+    public void adicionarC2Hibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao,int aPotenciaEletrica, float aPac, String tipoPneu, int aCilindrada, String modoMotor, float downforce) {
+        C2Hibrido c2h = new C2Hibrido(aIdCarro, aMarca, aModelo,aCilindrada, aPotenciaCombustao,aPotenciaEletrica, aPac, Carro.converteStringPneu(tipoPneu), downforce,Carro.converteStringMotor(modoMotor));
         c2h.setPotenciaEletrica(aPotenciaEletrica);
         allCarros.put(aIdCarro,c2h.clone());
     }
@@ -77,8 +77,8 @@ public class SubGestaoCPFacade implements ISubGestaoCPFacade {
         allCarros.put(aIdCarro,gt.clone());
     }
 
-    public void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao, float aPac, int aPotenciaEletrica, int aCilindrada, String tipoPneu, float downforce, String modoMotor) {
-        GTHibrido gth = new GTHibrido(aIdCarro,aMarca,aModelo,aCilindrada,aPotenciaCombustao,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
+    public void adicionarGTHibrido(String aIdCarro, String aMarca, String aModelo, int aPotenciaCombustao,int aPotenciaEletrica, float aPac, int aCilindrada, String tipoPneu, float downforce, String modoMotor) {
+        GTHibrido gth = new GTHibrido(aIdCarro,aMarca,aModelo,aCilindrada,aPotenciaCombustao,aPotenciaEletrica,aPac,Carro.converteStringPneu(tipoPneu),downforce,Carro.converteStringMotor(modoMotor));
         allCarros.put(aIdCarro,gth.clone());
     }
 

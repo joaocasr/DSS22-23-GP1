@@ -1,5 +1,7 @@
 package RacingManagerLN.SubGestaoCP.Carro;
 
+import java.util.Objects;
+
 public class Carro {
     private String idCarro;
     private String marca;
@@ -142,8 +144,6 @@ public class Carro {
     public void alteraModo(String aModo) {
         Carro.modoMotor m = converteStringMotor(aModo);
         setModoMotor(m);
-
-
     }
 
     public void alteraTipoPneu(String aTipo) {
@@ -159,6 +159,41 @@ public class Carro {
         this.motor=m;
     }
 
+    public String getCategoria(){
+        String categoria="";
+        if(this instanceof C1Hibrido){
+            categoria="C1Hibrido";
+        }
+        else if(this instanceof C2Hibrido){
+            categoria="C2Hibrido";
+        }
+        else if(this instanceof GTHibrido){
+            categoria="GTHibrido";
+        }
+        else if(this instanceof C1){
+            categoria="C1";
+        }
+        else if(this instanceof C2){
+            categoria="C2";
+        }
+        else if(this instanceof GT){
+            categoria="GT";
+        }
+        else if(this instanceof SC){
+            categoria="SC";
+        }
+        return categoria;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Carro carro = (Carro) o;
+        return cilindrada == carro.cilindrada && potenciaCombustao == carro.potenciaCombustao && Float.compare(carro.pac, pac) == 0 &&
+                Float.compare(carro.downforce, downforce) == 0 && carro.getIdCarro().equals(idCarro) && carro.getMarca().equals(marca) &&
+                carro.getModelo().equals(modelo) && carro.getTipoPneu().equals(tipopneu) && carro.getMotor().equals(motor);
+    }
 
     @Override
     public String toString() {

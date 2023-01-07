@@ -19,19 +19,15 @@ public class C1 extends Carro {
         return new C1(this);
     }
 
-    public String toString(C1 c1) {
-        return c1.toString() + "fiabilidade= " + fiabilidadeTeorica;
+    public String toString() {
+        return super.toString() + "\nfiabilidade= " + fiabilidadeTeorica;
     }
 
-    public boolean equals(Object aO) { // not sure se funciona
-        if (this == aO) {
-            return true;
-        }
-        if (aO == null || getClass() != aO.getClass()) {
-            return false;
-        }
-        C1 other = (C1) aO;
-        return  fiabilidadeTeorica == other.getFiabilidade();
+    public boolean equals(Object o) {
+        if(o==this) return true;
+        if(o==null || this.getClass()!=o.getClass()) return false;
+        C1 c1 = (C1) o;
+        return super.equals(o) && c1.getFiabilidade()==fiabilidadeTeorica;
     }
 }
 

@@ -6,27 +6,26 @@ public class GT extends Carro {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
+    public GT(GT gt){
+        super(gt);
+    }
+
     public double getFiabilidade(int voltas){
         double d =(double) (getCilindrada()/1000);
         return (1/d)- 0.2*voltas;
     }
 
-    public boolean equals(Object aO) { // not sure se funciona
-        boolean b = false;
-        if (this == aO) {
-            b= true;
-        }
-        if (aO == null || getClass() != aO.getClass()) {
-            b= false;
-        }
-        return b;
+    public boolean equals(Object aO) {
+        if (this == aO) return true;
+        if (aO == null || getClass() != aO.getClass()) return false;
+        return super.equals(aO);
     }
 
     public String toString() {
-        throw new UnsupportedOperationException();
+        return super.toString();
     }
 
     public GT clone() {
-        throw new UnsupportedOperationException();
+        return new GT(this);
     }
 }

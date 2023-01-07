@@ -1,6 +1,6 @@
 package RacingManagerDL;
 
-import RacingManagerLN.SubGestaoCP.Carro.Carro;
+import RacingManagerLN.SubGestaoCP.Carro.*;
 
 import java.sql.*;
 import java.util.*;
@@ -17,9 +17,11 @@ public class CarroDAO implements Map<String, Carro> {
                     "Modelo varchar(45) NOT NULL," +
                     "Cilindrada int(5) NOT NULL," +
                     "PotenciaCombustao int(10) NOT NULL,"+
+                    "PotenciaEletrica int(10) DEFAULT 0,"+
                     "PAC float(5) NOT NULL," +
                     "TipoPneu varchar(45) NOT NULL," +
                     "Downforce float(5) NOT NULL," +
+                    "Categoria varchar(15) NOT NULL," +
                     "Motor varchar(30) NOT NULL)";
             stm.executeUpdate(sql);
         } catch (SQLException e) {
@@ -90,9 +92,17 @@ public class CarroDAO implements Map<String, Carro> {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                c = new Carro(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getFloat(6),Carro.converteStringPneu(rs.getString(7)),rs.getFloat(8),Carro.converteStringMotor(rs.getString(9)));
-            }
+                String categoria = rs.getString(10);
+                if(categoria.equals("C1")) c = new C1(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getFloat(7),Carro.converteStringPneu(rs.getString(8)),rs.getFloat(9),Carro.converteStringMotor(rs.getString(11)));
+                else if(categoria.equals("C2")) c = new C2(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getFloat(7),Carro.converteStringPneu(rs.getString(8)),rs.getFloat(9),Carro.converteStringMotor(rs.getString(11)));
+                else if(categoria.equals("GT")) c = new GT(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getFloat(7),Carro.converteStringPneu(rs.getString(8)),rs.getFloat(9),Carro.converteStringMotor(rs.getString(11)));
+                else if(categoria.equals("SC")) c = new SC(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getFloat(7),Carro.converteStringPneu(rs.getString(8)),rs.getFloat(9),Carro.converteStringMotor(rs.getString(11)));
 
+                else if(categoria.equals("C1Hibrido")) c = new C1Hibrido(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6),rs.getFloat(7),Carro.converteStringPneu(rs.getString(8)),rs.getFloat(9),Carro.converteStringMotor(rs.getString(11)));
+                else if(categoria.equals("C2Hibrido")) c = new C2Hibrido(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6),rs.getFloat(7),Carro.converteStringPneu(rs.getString(8)),rs.getFloat(9),Carro.converteStringMotor(rs.getString(11)));
+                else if(categoria.equals("GTHibrido")) c = new GTHibrido(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6),rs.getFloat(7),Carro.converteStringPneu(rs.getString(8)),rs.getFloat(9),Carro.converteStringMotor(rs.getString(11)));
+
+            }
             rs.close();
         } catch(SQLException e){
             e.printStackTrace();
@@ -107,10 +117,19 @@ public class CarroDAO implements Map<String, Carro> {
         String sql="";
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
             Statement st = con.createStatement()){
+            String categoria = value.getCategoria();
+            System.out.println("categor");
             if(this.containsKey(key)){
-                sql= "UPDATE carros SET Marca='"+value.getMarca()+"',Modelo='"+value.getModelo()+"',Cilindrada='"+value.getCilindrada()+"',PotenciaCombustao='"+value.getPotenciaCombustao()+"',PAC='"+value.getPac()+"',TipoPneu='"+value.getTipoPneu().toString()+"',Downforce='"+value.getDownforce()+"',Motor='"+value.getMotor().toString()+"' WHERE IdCarro='"+key+"'";
+                if(categoria.equals("C1Hibrido"))  sql= "UPDATE carros SET Marca='"+value.getMarca()+"',Modelo='"+value.getModelo()+"',Cilindrada='"+value.getCilindrada()+"',PotenciaCombustao='"+value.getPotenciaCombustao()+"',PotenciaEletrica='"+((C1Hibrido) value).getPotenciaEletrica()+"',PAC='"+value.getPac()+"',TipoPneu='"+value.getTipoPneu().toString()+"',Downforce='"+value.getDownforce()+"',Categoria='"+value.getCategoria()+"',Motor='"+value.getMotor().toString()+"' WHERE IdCarro='"+key+"'";
+                else if(categoria.equals("C2Hibrido"))  sql= "UPDATE carros SET Marca='"+value.getMarca()+"',Modelo='"+value.getModelo()+"',Cilindrada='"+value.getCilindrada()+"',PotenciaCombustao='"+value.getPotenciaCombustao()+"',PotenciaEletrica='"+((C2Hibrido) value).getPotenciaEletrica()+"',PAC='"+value.getPac()+"',TipoPneu='"+value.getTipoPneu().toString()+"',Downforce='"+value.getDownforce()+"',Categoria='"+value.getCategoria()+"',Motor='"+value.getMotor().toString()+"' WHERE IdCarro='"+key+"'";
+                else if(categoria.equals("GTHibrido"))  sql= "UPDATE carros SET Marca='"+value.getMarca()+"',Modelo='"+value.getModelo()+"',Cilindrada='"+value.getCilindrada()+"',PotenciaCombustao='"+value.getPotenciaCombustao()+"',PotenciaEletrica='"+((GTHibrido) value).getPotenciaEletrica()+"',PAC='"+value.getPac()+"',TipoPneu='"+value.getTipoPneu().toString()+"',Downforce='"+value.getDownforce()+"',Categoria='"+value.getCategoria()+"',Motor='"+value.getMotor().toString()+"' WHERE IdCarro='"+key+"'";
+                else  sql= "UPDATE carros SET Marca='"+value.getMarca()+"',Modelo='"+value.getModelo()+"',Cilindrada='"+value.getCilindrada()+"',PotenciaCombustao='"+value.getPotenciaCombustao()+"',PotenciaEletrica='"+0+"',PAC='"+value.getPac()+"',TipoPneu='"+value.getTipoPneu().toString()+"',Downforce='"+value.getDownforce()+"',Categoria='"+value.getCategoria()+"',Motor='"+value.getMotor().toString()+"' WHERE IdCarro='"+key+"'";
+
             }else{
-                sql= "INSERT INTO carros VALUES('"+value.getIdCarro()+"', '"+value.getMarca()+"', '"+value.getModelo()+"', '"+value.getCilindrada()+"', '"+value.getPotenciaCombustao()+"', '"+value.getPac()+"', '"+value.getTipoPneu().toString()+"', '"+value.getDownforce()+"', '"+value.getMotor().toString()+"')";
+                if(categoria.equals("C1Hibrido")) sql= "INSERT INTO carros VALUES('"+value.getIdCarro()+"', '"+value.getMarca()+"', '"+value.getModelo()+"', '"+value.getCilindrada()+"', '"+value.getPotenciaCombustao()+"', '"+((C1Hibrido) value).getPotenciaEletrica()+"', '"+value.getPac()+"', '"+value.getTipoPneu().toString()+"', '"+value.getDownforce()+"', '"+value.getCategoria()+"', '"+value.getMotor().toString()+"')";
+                else if(categoria.equals("C2Hibrido")) sql= "INSERT INTO carros VALUES('"+value.getIdCarro()+"', '"+value.getMarca()+"', '"+value.getModelo()+"', '"+value.getCilindrada()+"', '"+value.getPotenciaCombustao()+"', '"+((C2Hibrido) value).getPotenciaEletrica()+"', '"+value.getPac()+"', '"+value.getTipoPneu().toString()+"', '"+value.getDownforce()+"', '"+value.getCategoria()+"', '"+value.getMotor().toString()+"')";
+                else if(categoria.equals("GTHibrido")) sql= "INSERT INTO carros VALUES('"+value.getIdCarro()+"', '"+value.getMarca()+"', '"+value.getModelo()+"', '"+value.getCilindrada()+"', '"+value.getPotenciaCombustao()+"', '"+((GTHibrido) value).getPotenciaEletrica()+"', '"+value.getPac()+"', '"+value.getTipoPneu().toString()+"', '"+value.getDownforce()+"', '"+value.getCategoria()+"', '"+value.getMotor().toString()+"')";
+                else sql= "INSERT INTO carros VALUES('"+value.getIdCarro()+"', '"+value.getMarca()+"', '"+value.getModelo()+"', '"+value.getCilindrada()+"', '"+value.getPotenciaCombustao()+"', '"+0+"', '"+value.getPac()+"', '"+value.getTipoPneu().toString()+"', '"+value.getDownforce()+"', '"+value.getCategoria()+"', '"+value.getMotor().toString()+"')";
             }
             st.executeUpdate(sql);
         }catch (SQLException e) {
@@ -175,13 +194,16 @@ public class CarroDAO implements Map<String, Carro> {
         Collection<Carro> allCarros = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT * FROM carros")) {
+             ResultSet rs = stm.executeQuery("SELECT IdCarro FROM carros")) {
             while (rs.next()) {
-                allCarros.add(new Carro(rs.getString(1), rs.getString(2),
+             /*   allCarros.add(new Carro(rs.getString(1), rs.getString(2),
                         rs.getString(3), rs.getInt(4), rs.getInt(5),
                         rs.getFloat(6), Carro.tipoPneu.valueOf(rs.getString(7)),
                         rs.getFloat(8), Carro.modoMotor.valueOf(rs.getString(9))));
+            */
+                allCarros.add(get(rs.getString(1)));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new NullPointerException(e.getMessage());
@@ -198,10 +220,13 @@ public class CarroDAO implements Map<String, Carro> {
              Statement stm = conn.createStatement();
              ResultSet rs = stm.executeQuery("SELECT IdCarro FROM carros")) {
             while (rs.next()) {
-                entry =  new AbstractMap.SimpleEntry<>(rs.getString(1), new Carro(rs.getString(1),
+                entry =  new AbstractMap.SimpleEntry<>(rs.getString(1),get(rs.getString(1)));
+                /*
+                * new Carro(rs.getString(1),
                         rs.getString(2), rs.getString(3), rs.getInt(4),
                         rs.getInt(5), rs.getFloat(6), Carro.tipoPneu.valueOf(rs.getString(7)),
-                        rs.getFloat(8), Carro.modoMotor.valueOf(rs.getString(9))));
+                        rs.getFloat(8), Carro.modoMotor.valueOf(rs.getString(9)))
+                * */
                 col.add(entry);
             }
         } catch (Exception e) {

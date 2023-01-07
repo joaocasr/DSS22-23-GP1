@@ -6,6 +6,10 @@ public class SC extends Carro {
         super(idCarro, marca, modelo, cilindrada, potenciaCombustao, pac, tipoPneu, downforce, modoMotor);
     }
 
+    public SC(SC sc){
+        super(sc);
+    }
+
     public double getfiabilidade(double sva,double cts) {
         double d =0.5;
         int m = -1;
@@ -14,14 +18,21 @@ public class SC extends Carro {
     }
 
     public boolean equals(Object aO) {
-        throw new UnsupportedOperationException();
+        boolean b = false;
+        if (this == aO) {
+            b= true;
+        }
+        if (aO == null || getClass() != aO.getClass()) {
+            b= false;
+        }
+        return super.equals(aO);
     }
 
     public String toString() {
-        throw new UnsupportedOperationException();
+        return super.toString();
     }
 
     public SC clone() {
-        throw new UnsupportedOperationException();
+        return new SC(this);
     }
 }

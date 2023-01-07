@@ -101,7 +101,6 @@ public class Simulacao implements Clima {
                         double q1=calculaQualidade(gdu,piloto1.getSVA(),piloto1.getCTS(),fiabilidade1,carro1.getPac(),carro1.getDownforce(),carro1.getPotenciaCombustao(),clima);
                         if(q2>=q1) ultrapassagem[j]=true;
                         else ultrapassagem[j]=false;
-                        //System.out.println(q2+">="+q1);
                     }
                     else if(acidentados.contains(carro2)) ultrapassagem[j]=false;
                     else if(acidentados.contains(carro1) && !acidentados.contains(carro2)) ultrapassagem[j]=true;
@@ -159,8 +158,10 @@ public class Simulacao implements Clima {
             qualidade= (cts- sva)*2*(-0.5-gdu) + fiabilidade + pac - downforce + pot ;
         }
         Random estadoPiloto = new Random();
-        double d =(double) estadoPiloto.nextInt(100,200)/100; // estado de humor/ mental / saude / cansaço /variantes do dia a dia
-        return qualidade*d;
+        if(qualidade==0) qualidade= estadoPiloto.nextInt(0,2);
+        double d =(double) estadoPiloto.nextInt(0,200)/100; // estado de humor/ mental / saude / cansaço /variantes do dia a dia
+        //System.out.println(Math.abs(qualidade*d));
+        return Math.abs(qualidade*d);
     }
 
     public boolean consegueEfetuarPercurso(int gdu,Carro carro,Piloto piloto,int clima){
@@ -245,7 +246,7 @@ public class Simulacao implements Clima {
         return inscricoes;
     }
     public Simulacao(){};
-    public void showGameLogo(String message) throws InterruptedException {
+    public void showGameLogo(String message) throws InterruptedException {/*
         int width = 150;
         int height = 30;
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -267,6 +268,15 @@ public class Simulacao implements Clima {
             }
             System.out.println("\u001B[36m"+sb+"\u001B[36m");
         }
+        */
+        System.out.print("\n");
+        System.out.println("██████╗░░█████╗░░█████╗░██╗███╗░░██╗░██████╗░  ███╗░░░███╗░█████╗░███╗░░██╗░█████╗░░██████╗░███████╗██████╗░");
+        System.out.println("██╔══██╗██╔══██╗██╔══██╗██║████╗░██║██╔════╝░  ████╗░████║██╔══██╗████╗░██║██╔══██╗██╔════╝░██╔════╝██╔══██╗");
+        System.out.println("██████╔╝███████║██║░░╚═╝██║██╔██╗██║██║░░██╗░  ██╔████╔██║███████║██╔██╗██║███████║██║░░██╗░█████╗░░██████╔╝");
+        System.out.println("██╔══██╗██╔══██║██║░░██╗██║██║╚████║██║░░╚██╗  ██║╚██╔╝██║██╔══██║██║╚████║██╔══██║██║░░╚██╗██╔══╝░░██╔══██╗");
+        System.out.println("██║░░██║██║░░██║╚█████╔╝██║██║░╚███║╚██████╔╝  ██║░╚═╝░██║██║░░██║██║░╚███║██║░░██║╚██████╔╝███████╗██║░░██║");
+        System.out.println("╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝╚═╝░░╚══╝░╚═════╝░  ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝╚═╝░░╚═╝░╚═════╝░╚══════╝╚═╝░░╚═╝");
+
         System.out.print("\nA CARREGAR JOGO");
         Thread.sleep(1000);
         System.out.print(".");

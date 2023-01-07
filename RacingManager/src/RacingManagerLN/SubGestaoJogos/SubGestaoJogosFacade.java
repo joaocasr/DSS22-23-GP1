@@ -30,10 +30,10 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
         Piloto p3 = new Piloto("Lewis Hamilton", 0.3F, 0.7F);
         Piloto p4 = new Piloto("George Russell", 0.35F, 0.65F);
 
-        Carro c1 = new C1("carro1","McLaren","M14A",6000,200,0.3F, Carro.tipoPneu.Duro,0.4F, Carro.modoMotor.Agressivo);
-        Carro c2 = new C2("carro2","Mercedes","D23J",4000,230,0.4F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
+        C1 c1 = new C1("carro1","McLaren","M14A",6000,200,0.3F, Carro.tipoPneu.Duro,0.4F, Carro.modoMotor.Agressivo);
+        C2 c2 = new C2("carro2","Mercedes","D23J",4000,230,0.4F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
         GT c3 = new GT("carro3","Ferrari","H34K",2500,210,0.4F, Carro.tipoPneu.Duro,0.6F, Carro.modoMotor.Agressivo);
-        Carro c4 = new C2("carro4","Austin Martin","H45G",3000,240,0.6F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
+        C2 c4 = new C2("carro4","Austin Martin","H45G",3000,240,0.6F, Carro.tipoPneu.Duro,0.5F, Carro.modoMotor.Agressivo);
 
         Inscricao i1 = new Inscricao(user1,campeonato,c1,p1);
         Inscricao i2 = new Inscricao(user2,campeonato,c2,p2);

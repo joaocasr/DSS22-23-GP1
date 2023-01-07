@@ -87,7 +87,7 @@ public class C2 extends Carro {
         return new C2(this);
     }
 
-    public boolean equals(Object aO) { // not sure se funciona
+    public boolean equals(Object aO) {
         if (this == aO) {
             return true;
         }
@@ -95,6 +95,6 @@ public class C2 extends Carro {
             return false;
         }
         C2 other = (C2) aO;
-        return  fiabilidadeTeorica == other.getFiabilidade();
+        return  super.equals(aO) && fiabilidadeTeorica == other.getFiabilidade() && other.getAfinacao().equals(afinacao);
     }
 }
