@@ -120,8 +120,8 @@ public class Campeonato {
 
     @Override
     public String toString() {
-        return "Campeonato{\n" +
-                "    nomeCampeonato= '" + nomeCampeonato + "',\n" +
+        return "Campeonato\n" +
+                "    nome = '" + nomeCampeonato + "',\n" +
                 "    participantes= " + participantes + "',\n" +
                 "    circuitosCampeonato= " + circuitosCampeonato +",\n"+
                 '}';

@@ -54,6 +54,8 @@ public interface IRacingManagerLN {
 
     public List<String> getCampeonatos();
 
+    public List<Campeonato> getAllCampeonatos();
+
     public List<String> getCircuitos();
 
     public Circuito getCircuito(String nomeCircuito);

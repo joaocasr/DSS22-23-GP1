@@ -33,7 +33,7 @@ public class GTHibrido extends GT implements MotorHibrido{
     }
 
     public String toString(){
-        return super.toString() +" ; Potência Elétrica="+ this.potenciaEletrica;
+        return super.toString() +",\n Potência Elétrica= "+ this.potenciaEletrica+" cv";
     }
 
     public GTHibrido clone(){

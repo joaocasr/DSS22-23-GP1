@@ -42,9 +42,6 @@ public class Chicane {
 
     @Override
     public String toString() {
-        return "Chicane{\n" +
-                "idChicane= '" + idChicane + "'," +
-                "gdu= " + gdu +
-                '}';
+        return "Chicane" +"    idChicane= '" + idChicane + "'," +"    gdu= " + gdu +";";
     }
 }

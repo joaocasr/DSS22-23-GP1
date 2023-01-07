@@ -28,7 +28,7 @@ public class C2Hibrido extends C2 implements MotorHibrido{
     }
 
     public String toString(){
-        return super.toString() +" ; Potência Elétrica="+ this.pootenciaEletrica;
+        return super.toString() +",\n Potência Elétrica= "+ this.pootenciaEletrica+" cv";
     }
 
     public C2Hibrido clone(){

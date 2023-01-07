@@ -42,9 +42,6 @@ public class Reta {
 
     @Override
     public String toString() {
-        return "Reta{\n" +
-                "    idReta= '" + idReta + "'," +
-                "    gdu= " + gdu +
-                '}';
+        return "Reta" + "    idReta= '" + idReta + "'," + "    gdu= " + gdu+";";
     }
 }

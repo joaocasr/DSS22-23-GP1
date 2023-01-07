@@ -18,6 +18,7 @@ public class Simulacao implements Clima {
     private final List<Integer> pontuacoes = Arrays.asList(12,10,8,7,6,5,4,3,2,1,0);
     private Map<String,Configuracao> allConfiguracoes;
     private List<Inscricao> inscricoesCampeonato;
+    private int clima;
 
     @Override
     public double probabilidadePrecipitacao() {
@@ -39,15 +40,12 @@ public class Simulacao implements Clima {
         return clima;
     }
 
-    public Simulacao(Circuito c, List<Inscricao> allInscricoes,List<Configuracao> allConfiguracoes) throws InterruptedException {//simulacao base
+    public void inicioSimulacao(Circuito c, List<Inscricao> allInscricoes,List<Configuracao> allConfiguracoes) throws InterruptedException {//simulacao base
         if(allConfiguracoes.size()!=0){
             allInscricoes=alteraConfiguracoes(allInscricoes,allConfiguracoes);
         }
-        this.ordemPilotos = new HashMap<>();
         this.score=new HashMap<>();
         int numVoltas = c.getVoltas();
-        int clima = this.clima();
-        this.showPartida(posicionaJogadores(allInscricoes.stream().map(x->x.getPiloto().getNome()+"-"+x.getUser().getUsername()).collect(Collectors.toList())),clima,c.getNomeCircuito());
         //circuito GDU:GRAU DIFICULDADE DE ULTRAPASSAGEM
         //PILOTO : CTS-melhor desempenho em tempo seco > 0.5 SVA-arrica pouco quando <0.5
         //CARRO: fiabilidade
@@ -126,15 +124,6 @@ public class Simulacao implements Clima {
         showResultados(posicoes);
     }
 
-    public Map<Integer,String> posicionaJogadores(List<String> jogadores){
-        int N = jogadores.size();
-        int i;
-        for(i=0;i<N;i++){
-            this.ordemPilotos.put(i+1,jogadores.get(i));
-        }
-        return this.ordemPilotos;
-    }
-
 
     public double calculaQualidade(int gdu,double sva,double cts,double fiabilidade,float pac,float downforce,int potencia,int clima){
         double qualidade =0;
@@ -174,7 +163,8 @@ public class Simulacao implements Clima {
         return consegue;
     }
 
-    public void showPartida(Map<Integer,String> posicoes,int clima,String nomeCircuito) throws InterruptedException {
+    public void condicoes(Map<Integer,String> posicoes,String nomeCircuito) throws InterruptedException {
+        clima = this.clima();
         System.out.println("David Croft (comentador): Olá a todos. Sejam bem vindos ao autódromo de "+ nomeCircuito+"!");
         Thread.sleep(3000);
         if(clima==1){

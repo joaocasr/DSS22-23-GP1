@@ -198,15 +198,16 @@ public class Carro {
     @Override
     public String toString() {
         return "Carro -> " +
-                "idCarro='" + idCarro + '\'' +
-                ", marca='" + marca + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", cilindrada=" + cilindrada +
-                ", potenciaCombustao=" + potenciaCombustao +
-                ", pac=" + pac +
-                ", tipopneu=" + tipopneu +
-                ", downforce=" + downforce +
-                ", motor=" + motor;
+                "idCarro= " + idCarro + ",\n" +
+                " marca= " + marca + ",\n" +
+                " modelo= " + modelo + ",\n" +
+                " categoria= " + this.getCategoria() + ",\n" +
+                " cilindrada= " + cilindrada + "cm3 ,\n" +
+                " Potência Combustão= " + potenciaCombustao + "cv\n" +
+                " pac= " + pac + ",\n" +
+                " tipopneu= " + tipopneu + ",\n" +
+                " downforce= " + downforce + ",\n" +
+                " motor= " + motor;
     }
 
     public Carro clone() {

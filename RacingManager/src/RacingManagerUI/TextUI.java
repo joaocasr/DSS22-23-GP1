@@ -14,6 +14,7 @@ import RacingManagerLN.SubGestaoCC.*;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TextUI {
     private static Menu menu = new Menu();
@@ -274,9 +275,9 @@ public class TextUI {
     }
 
     public void trataSimularCampeonato() {
-        Simulacao logo = new Simulacao();
+        Simulacao simulacao = new Simulacao();
         try {
-            logo.showGameLogo("RACING MANAGER");
+            simulacao.showGameLogo("RACING MANAGER");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -285,6 +286,9 @@ public class TextUI {
         String nome = scanner.nextLine();
         try {
             Campeonato campeonato = iRacingManagerLN.getCampeonato(nome);
+            System.out.println("Campeonato: "+campeonato.getNomeCampeonato());
+            System.out.println("Participantes: "+campeonato.getParticipantes());
+            System.out.println("Número de corridas: "+campeonato.getCircuitos().size());
             List<Inscricao> inscricoes = iRacingManagerLN.getInscricoes(campeonato.getNomeCampeonato());
             if (inscricoes != null && campeonato.getParticipantes() == inscricoes.size()) {
                 int NCorridas = campeonato.getNumeroCorridas();
@@ -298,16 +302,12 @@ public class TextUI {
                 Map<String, Integer> pontuacoes = new HashMap<>();
                 Map<String, Integer> classificacao = new HashMap<>();
                 for (Circuito c : campeonato.getCircuitos()) {
-                    Simulacao simulacao = null;
-                    try {
-                        simulacao = new Simulacao(c, inscricoes, configuracoes);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    pontuacoes = simulacao.getScore();
-                    campeonato.atualizaClassificacao(pontuacoes);
+                    simulacao.condicoes(posicionaJogadores(inscricoes.stream().map(x->x.getPiloto().getNome()+"-"+x.getUser().getUsername()).collect(Collectors.toList())),c.getNomeCircuito());
+                    System.out.println("Circuito: "+c);
                     for (String j : jogadores) {
-                        if (numeroConfiguracoes.get(j) < ((2 * NCorridas) / 3)) {
+                        System.out.println("O jogador "+j+" pretende efetuar configurações no carro?[S/N]");
+                        String response=scanner.nextLine();
+                        if (numeroConfiguracoes.get(j) < ((2 * NCorridas) / 3) && response.equalsIgnoreCase("S")) {
                             System.out.println("*** PARAGEM - CONFIGURAÇÃO DO CARRO - jogador =" + j + " ***");
                             System.out.println("Downforce");
                             System.out.print(">>>");
@@ -329,22 +329,44 @@ public class TextUI {
                             }
                             int n = numeroConfiguracoes.get(j);
                             numeroConfiguracoes.put(j, n + 1);
+                            configuracoes.add(conf);
                         }
                         if (configuracoes.size() != 0) configuracoes = new ArrayList<>();
-                        configuracoes.add(conf);
                     }
+
+                    //Simulacao simulacao = null;
+                    try {
+                        simulacao.inicioSimulacao(c, inscricoes, configuracoes);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    pontuacoes = simulacao.getScore();
+                    campeonato.atualizaClassificacao(pontuacoes);
                     classificacao = campeonato.getClasssificacaoCamp();
                     System.out.println("PONTUAÇÃO ATUAL DO CAMPEONATO");
                     System.out.println("---------------------------------");
                     classificacao.forEach((k,v)-> System.out.println(k+" - "+v+"pts"));
                 }
+                System.out.println("---------------------------------");
                 iRacingManagerLN.atualizaScore(classificacao);
+                System.out.println("---------------------------------");
             } else System.out.println("\nAVISO: O campeonato não atingiu ou excede o número de jogadores configurados para o campeonato!");
         }catch (CampeonatoInexistenteException e){
             System.out.println(e.getMessage());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
+    public Map<Integer,String> posicionaJogadores(List<String> jogadores){
+        Map <Integer,String> ordemPilotos= new HashMap<>();
+        int N = jogadores.size();
+        int i;
+        for(i=0;i<N;i++){
+            ordemPilotos.put(i+1,jogadores.get(i));
+        }
+        return ordemPilotos;
+    }
 
     public void trataRemoverCircuito(){
         System.out.println("Digite o ID do circuito a remover:");
@@ -755,8 +777,8 @@ public class TextUI {
             String userAtual = this.iRacingManagerLN.getCurrentUser();
             User u = this.iRacingManagerLN.getUser(userAtual);
             System.out.println("CAMPEONATOS DISPONÍVEIS:");
-            List<String> l = iRacingManagerLN.getCampeonatos();
-            System.out.println(l);
+            List<Campeonato> l = iRacingManagerLN.getAllCampeonatos();
+            l.forEach(System.out::println);
             System.out.println("Digite o campeonato a jogar:");
             Scanner scanner = new Scanner(System.in);
             String nomecampeonato = scanner.nextLine();
@@ -764,7 +786,7 @@ public class TextUI {
             System.out.println("CARROS DISPONÍVEIS:");
             System.out.println("-----------------------------------------------");
             iRacingManagerLN.getCarros().forEach(x -> {
-                System.out.println("ID: "+x.getIdCarro() + "| Marca-> " + x.getMarca() + " |  Modelo-> " + x.getModelo()+" |\n***** +INFO  *****\n Categoria:"+x.getCategoria()+"\n Potência:"+x.getPotenciaCombustao()+"cv"+"\n Cilindrada:"+x.getCilindrada()+" cm3");
+                System.out.println(x);
                 System.out.println("-----------------------------------------------");
             });
             System.out.println("Digite o ID do carro com que pretende jogar:");
