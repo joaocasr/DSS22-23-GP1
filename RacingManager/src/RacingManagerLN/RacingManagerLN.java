@@ -249,5 +249,7 @@ public class RacingManagerLN implements IRacingManagerLN{
         return this.subGestaoCPFacade.getPiloto(pilotoname);
     }
 
+    public List<Piloto> getAllPilotos(){return this.subGestaoCPFacade.getAllPilotos();}
+
     public boolean validaNumInscricoes(String campeonato){return this.subGestaoJogosFacade.validaNumeroInscricoes(campeonato);}
 }

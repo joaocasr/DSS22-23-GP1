@@ -174,9 +174,9 @@ public class PilotoDAO implements Map<String, Piloto> {
         Collection<Piloto> allPilotos = new HashSet<>();
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
-             ResultSet rs = stm.executeQuery("SELECT * FROM pilotos")) {
+             ResultSet rs = stm.executeQuery("SELECT Nomepiloto FROM pilotos")) {
             while (rs.next()) {
-                allPilotos.add(new Piloto(rs.getString(1), rs.getFloat(2), rs.getFloat(3)));
+                allPilotos.add(get(rs.getString(1)));
             }
         } catch (Exception e) {
             e.printStackTrace();

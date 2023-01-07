@@ -20,6 +20,7 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
 
     public SubGestaoJogosFacade(){
         this.allInscricoes = new HashMap<>();
+        /*
         User user1 = new User("tomas","tomaspass",false,0,"B");
         User user2 = new User("joao","joaopass",false,0,"B");
         User user3 = new User("renato","renatopass",false,0,"B");
@@ -46,29 +47,26 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
         //l.add(i4);
 
         this.allInscricoes.put("UM-CAMP",l);
+        */
     }
 
     public void guardaEscolhasUser(User aUser, Campeonato aCampeonato, Carro aCarro, Piloto aPiloto) {
         Inscricao inscricao = new Inscricao(aUser,aCampeonato,aCarro,aPiloto);
         String nomeCampeonato= aCampeonato.getNomeCampeonato();
-        try {
-            if(getInscricoesCampeonato(nomeCampeonato)==null) {
-                List<Inscricao> l = new ArrayList<>();
-                l.add(inscricao);
-                allInscricoes.put(nomeCampeonato, l);
-            }else{
-                List<Inscricao> l = allInscricoes.get(nomeCampeonato);
-                l.add(inscricao);
-                allInscricoes.put(nomeCampeonato, l);
-            }
-        } catch (CampeonatoInexistenteException e) {
-            System.out.println(e.getMessage());
+        if(getInscricoesCampeonato(nomeCampeonato)==null) {
+            List<Inscricao> l = new ArrayList<>();
+            l.add(inscricao);
+            allInscricoes.put(nomeCampeonato, l);
+        }else{
+            List<Inscricao> l = allInscricoes.get(nomeCampeonato);
+            l.add(inscricao);
+            allInscricoes.put(nomeCampeonato, l);
         }
     }
 
-    public List<Inscricao> getInscricoesCampeonato(String aNomeCampeonato) throws CampeonatoInexistenteException {
-        if(allInscricoes.get(aNomeCampeonato)==null) throw new CampeonatoInexistenteException("O campeonato que digitou não existe no sistema.");
-        return allInscricoes.get(aNomeCampeonato);
+    public List<Inscricao> getInscricoesCampeonato(String aNomeCampeonato) {
+        if(allInscricoes.get(aNomeCampeonato)!=null) return allInscricoes.get(aNomeCampeonato);
+        else return null;
     }
 
     public List<String> getJogadoresASimular(String nomeCampeonato){
@@ -95,6 +93,7 @@ public class SubGestaoJogosFacade implements ISubGestaoJogosFacade{
     }
 
     public boolean validaNumeroInscricoes(String aNomeCampeonato) {
-        return allInscricoes.get(aNomeCampeonato).size() < allInscricoes.get(aNomeCampeonato).get(0).getCampeonato().getParticipantes();
+        if(allInscricoes.get(aNomeCampeonato)==null) return true;
+        else return allInscricoes.get(aNomeCampeonato).size() < allInscricoes.get(aNomeCampeonato).get(0).getCampeonato().getParticipantes();
     }
 }

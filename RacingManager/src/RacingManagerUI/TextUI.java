@@ -762,17 +762,20 @@ public class TextUI {
             String nomecampeonato = scanner.nextLine();
             Campeonato campeonato = iRacingManagerLN.getCampeonato(nomecampeonato);
             System.out.println("CARROS DISPONÍVEIS:");
+            System.out.println("-----------------------------------------------");
             iRacingManagerLN.getCarros().forEach(x -> {
-                System.out.println("-----------------------------------------------");
-                System.out.println("ID: "+x.getIdCarro() + " Marca-> " + x.getMarca() + "  Modelo-> " + x.getModelo()+"\n* +INFO  *\n Categoria:"+x.getCategoria()+"\n Potência:"+x.getPotenciaCombustao()+"cv"+"\n Cilindrada:"+x.getCilindrada()+" cm3");
+                System.out.println("ID: "+x.getIdCarro() + "| Marca-> " + x.getMarca() + " |  Modelo-> " + x.getModelo()+" |\n***** +INFO  *****\n Categoria:"+x.getCategoria()+"\n Potência:"+x.getPotenciaCombustao()+"cv"+"\n Cilindrada:"+x.getCilindrada()+" cm3");
                 System.out.println("-----------------------------------------------");
             });
             System.out.println("Digite o ID do carro com que pretende jogar:");
             String carroid = scanner.nextLine();
             Carro carro = iRacingManagerLN.getCarro(carroid);
-            iRacingManagerLN.getPilotos().forEach(x -> {
-                System.out.println("--------------------------");
-                System.out.println("Piloto: ");
+            clean();
+            System.out.println("--------------------------");
+            iRacingManagerLN.getAllPilotos().forEach(x -> {
+                System.out.println("Piloto: "+x.getNome());
+                System.out.println("Habilidades chuva/tempo seco: "+x.getCTS());
+                System.out.println("Característica conservadora/agressiva: "+x.getSVA());
                 System.out.println("--------------------------");
             });
             System.out.println("Digite o piloto com que pretende jogar:");
@@ -821,5 +824,12 @@ public class TextUI {
             }
         }
         System.out.println("---------------------------------------");
+    }
+
+    public void clean(){
+        int i;
+        for(i=0;i<40;i++){
+            System.out.print("\n");
+        }
     }
 }
