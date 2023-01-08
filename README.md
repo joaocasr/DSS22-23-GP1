@@ -16,8 +16,69 @@ When all participants are registered for the championship, the championship can 
 
 After introducing the settings, the simulation of the race itself will start. One of the commentators will report all the events of the race, namely overtaking, accidents, etc. After the end of each of the races, the commentator will present the final positions in which each of the players managed to reach. On the other hand, the scores of each player for the given championship are being counted.
 
-Duarte Serrão - A83630 <br />
-Tomás Dias - A89486 <br />
-João Castro - A97223 <br />
-Renato Gomes - A84696 <br />
-Henrique Paz - A84372 <br />
+<i>This project was done by:
+
+[João Paulo Peixoto Castro](https://github.com/joaocasr) - A97223 <br />
+[Duarte Serrão](https://github.com/DuarteSerrao) - A83630 <br />
+[Tomás Dias](https://github.com/TrueEoM) - A89486 <br />
+[Renato Gomes](https://github.com/Reinas2899) - A84696 <br />
+</i>
+***
+
+Application Overview
+------
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/dsssim1.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 1. authentication system. </b>
+</p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/dsssim2.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 2. championship selection. </b>
+</p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/dsssim3.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 3. car selection. </b>
+</p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/dsssim4.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 4. driver system. </b>
+</p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/siu1.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 5. race conditions. </b>
+</p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/siu2.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 6. car boxes. </b>
+</p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/corrida.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 7. race simulation. </b>
+</p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/corridafinal.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 8. simulation's ending. </b>
+</p> 
