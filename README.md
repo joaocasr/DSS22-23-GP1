@@ -82,3 +82,11 @@ Application Overview
 <p align="center">
   <b>Fig 8. simulation's ending. </b>
 </p> 
+
+<p align="center">
+  <img src="fase3/DSS-G1-FASE3/images/rank.JPG"/>
+</p>
+<p align="center">
+  <b>Fig 9. rank's view. </b>
+</p> 
+
