@@ -83,9 +83,11 @@ public class SubGestaoUsersFacade implements ISubGestaoUsersFacade {
         for(Map.Entry<String,Integer> m : aJogadoresOrdenados){
             if(i<pontuacoes.size()){
                 User u = this.allUsers.get(m.getKey());
-                u.setScore(pontuacoes.get(i) + u.getScore());
-                this.allUsers.put(u.getUsername(), u.clone());
-                i++;
+                if(u!=null) {
+                    u.setScore(pontuacoes.get(i) + u.getScore());
+                    this.allUsers.put(u.getUsername(), u.clone());
+                    i++;
+                }
             }
         }
     }

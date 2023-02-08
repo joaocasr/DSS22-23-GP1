@@ -168,7 +168,7 @@ public class CampDAO implements Map<String, Campeonato> {
 
         try(Connection con = DriverManager.getConnection(DAOconfig.URL,DAOconfig.USERNAME,DAOconfig.PASSWORD);
             Statement st = con.createStatement()) {
-            String sql = "INSERT INTO campeonato  VALUES('"+ value.getNomeCampeonato() + "', '" + value.getParticipantes()+"');";
+            String sql = "INSERT INTO campeonato  VALUES('"+ value.getNomeCampeonato() + "', '" + value.getParticipantes()+"') ON DUPLICATE KEY UPDATE participantes='"+value.getParticipantes() +"';";
 
             st.executeUpdate(sql);
             for(String circuito: cirs.stream().map(Circuito::getNomeCircuito).toList()){

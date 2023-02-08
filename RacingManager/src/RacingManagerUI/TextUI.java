@@ -108,7 +108,7 @@ public class TextUI {
         menu.setOptions(opcoes);
         menu.setHandlers(1,this::trataConsultarRanking);
         menu.setHandlers(2,this::trataConsultarRankingJogador);
-        menu.setHandlers(3,this::menuPrincipal2);
+        menu.setHandlers(3,this::menuPrincipal);
     }
 
     public void menuCampeonatos(){
@@ -774,8 +774,10 @@ public class TextUI {
 
     public void trataJogar(){
         try {
+            User u=null;
             String userAtual = this.iRacingManagerLN.getCurrentUser();
-            User u = this.iRacingManagerLN.getUser(userAtual);
+            if(userAtual!=null) u = this.iRacingManagerLN.getUser(userAtual);
+            if(u==null) u = new User("guest"+(new Random().nextInt()),null,false,0,"B");
             System.out.println("CAMPEONATOS DISPONÍVEIS:");
             List<Campeonato> l = iRacingManagerLN.getAllCampeonatos();
             l.forEach(System.out::println);
